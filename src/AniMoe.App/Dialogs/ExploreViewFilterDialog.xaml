@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="AniMoe.App.Dialogs.ExploreViewFilterDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AniMoe.App.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    PrimaryButtonText="Apply"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    CornerRadius="10"
+    xmlns:converters="using:AniMoe.App.Converters"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:MasterModel="using:AniMoe.App.Models.MasterModel"
+    xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
+    Closing="ContentDialog_Closing"
+    CloseButtonClick="ContentDialog_CloseButtonClick"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    xmlns:TagsGenres="using:AniMoe.App.Helpers" 
+    xmlns:media="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Width="600"
+    SecondaryButtonText="Reset"
+    CloseButtonText="Close"
+    Loaded="ContentDialog_Loaded"
+    mc:Ignorable="d"
+    Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}">
+    <ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///CommunityToolkit.Labs.WinUI.SegmentedControl/Segmented/Segmented.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:StringToCategoryString x:Key="StrToStgStr"/>
+            <converters:BoolToString x:Key="BoolToString"/>
+            <converters:UpperToCultureStringConverter x:Key="UpperToCulture"/>
+            <toolkitConverters:BoolNegationConverter x:Key="BoolInverseCOnvert"/>
+        </ResourceDictionary>
+    </ContentDialog.Resources>
+    <ContentDialog.PrimaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background"
+                    Value="{ThemeResource SystemAccentColorDark1}" />
+            <Setter Property="CornerRadius"
+                    Value="3" />
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+    <ContentDialog.SecondaryButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="CornerRadius"
+                    Value="3" />
+        </Style>
+    </ContentDialog.SecondaryButtonStyle>
+    <ContentDialog.CloseButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background"
+                    Value="Red" />
+            <Setter Property="CornerRadius"
+                    Value="3" />
+        </Style>
+    </ContentDialog.CloseButtonStyle>
+    <ScrollViewer Height="400"
+                  Padding="15">
+        <Grid RowSpacing="20"
+          ColumnSpacing="20"
+           Width="350">
+            <Grid.ChildrenTransitions>
+                <EntranceThemeTransition />
+            </Grid.ChildrenTransitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                <TextBlock Text="Airing Status"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox HorizontalAlignment="Stretch"
+                      x:Name="AiringStatusTextBox"
+                      ItemsSource="{x:Bind TagsGenres:TagsGenres.StatusList}"
+                      SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="TagsGenres:Status">
+                            <TextBlock Text="{x:Bind StatusName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="0"
+                    Grid.Column="1">
+                <TextBlock Text="Sort"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox x:Name="SortComboBox"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind masterViewModel.Model.Data.MediaSortList.EnumValues}"
+                      SelectedIndex="21">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="MasterModel:EnumValue">
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="1"
+                    Grid.Column="0">
+                <TextBlock Text="Season"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox x:Name="SeasonComboBox"
+                      HorizontalAlignment="Stretch"
+                      SelectedIndex="0"
+                      ItemsSource="{x:Bind masterViewModel.Model.Data.MediaSeasonList.EnumValues}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="MasterModel:EnumValue">
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="1"
+                    Grid.Column="1">
+                <TextBlock Text="Format"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox x:Name="FormatComboBox"
+                      HorizontalAlignment="Stretch"
+                      SelectedIndex="0"
+                      ItemsSource="{x:Bind FormatList }">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="MasterModel:EnumValue">
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="2"
+                    Grid.Column="0">
+                <TextBlock Text="Country of Origin"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox x:Name="CountryComboBox"
+                      HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind TagsGenres:TagsGenres.CountryList}"
+                          SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="TagsGenres:Country">
+                            <TextBlock Text="{x:Bind CountryName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="2"
+                    Grid.Column="1">
+                <TextBlock Text="Source Material"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <ComboBox x:Name="SourceComboBox"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind masterViewModel.Model.Data.MediaSourceList.EnumValues}"
+                      PlaceholderText="Select One"
+                      SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="MasterModel:EnumValue">
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2">
+                <controls:SwitchPresenter Value="{x:Bind MediaType}">
+                    <controls:Case Value="ANIME">
+                        <TextBlock Text="Episodes"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </controls:Case>
+                    <controls:Case Value="MANGA">
+                        <TextBlock Text="Chapters"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </controls:Case>
+                </controls:SwitchPresenter>
+                <Grid ColumnSpacing="10"
+                      Margin="10, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding ElementName=EpisodeChapterRangeSelector, Path=RangeStart}"
+                               Grid.Column="0"/>
+                    <controls:RangeSelector
+                                    Minimum="0"
+                                    StepFrequency="1"
+                                    x:Name="EpisodeChapterRangeSelector"
+                                    Grid.Column="1"/>
+                    <TextBlock Text="{Binding ElementName=EpisodeChapterRangeSelector, Path=RangeEnd}"
+                               Grid.Column="2"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="4"
+                    Grid.ColumnSpan="2">
+                <controls:SwitchPresenter Value="{x:Bind MediaType}">
+                    <controls:Case Value="ANIME">
+                        <TextBlock Text="Duration Range"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </controls:Case>
+                    <controls:Case Value="MANGA">
+                        <TextBlock Text="Volume Range"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    </controls:Case>
+                </controls:SwitchPresenter>
+                <Grid ColumnSpacing="10"
+                      Margin="10, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding ElementName=DurationVolumeRangeSelector, Path=RangeStart}"
+                               Grid.Column="0"/>
+                    <controls:RangeSelector Minimum="0"
+                                    StepFrequency="1"
+                                    x:Name="DurationVolumeRangeSelector"
+                                    Grid.Column="1"/>
+                    <TextBlock Text="{Binding ElementName=DurationVolumeRangeSelector, Path=RangeEnd}"
+                               Grid.Column="2"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2">
+                <TextBlock Text="Year Range"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <Grid ColumnSpacing="10"
+                      Margin="10, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding ElementName=YearRangeSelector, Path=RangeStart}"
+                               Grid.Column="0"/>
+                    <controls:RangeSelector Minimum="1970"
+                                    Maximum="2024"
+                                    StepFrequency="1"
+                                    x:Name="YearRangeSelector"
+                                    Grid.Column="1"/>
+                    <TextBlock Text="{Binding ElementName=YearRangeSelector, Path=RangeEnd}"
+                               Grid.Column="2"/>
+                </Grid>
+            </StackPanel>
+
+            <CheckBox Grid.Row="6"
+                      Grid.Column="0"
+                      Margin="20, 0"
+                      x:Name="DoujinCheckBox">
+                <CheckBox.Content>
+                    <TextBlock Text="Doujin" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </CheckBox.Content>
+            </CheckBox>
+
+            <CheckBox Grid.Row="6"
+                      Grid.Column="1"
+                      Margin="20, 0"
+                      x:Name="AdultCheckBox">
+                <CheckBox.Content>
+                    <TextBlock Text="Adult" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </CheckBox.Content>
+            </CheckBox>
+
+            <CheckBox Grid.Row="7"
+                      Grid.Column="0"
+                      IsEnabled="{Binding ElementName=ShowListCheckBox, 
+                                    Path=IsChecked, Converter={StaticResource BoolInverseCOnvert}}"
+                      x:Name="HideListCheckBox"
+                      Margin="20, 0">
+                <CheckBox.Content>
+                    <TextBlock Text="Hide My List" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </CheckBox.Content>
+            </CheckBox>
+
+            <CheckBox Grid.Row="7"
+                      Grid.Column="1"
+                      IsEnabled="{Binding ElementName=HideListCheckBox, 
+                                    Path=IsChecked, Converter={StaticResource BoolInverseCOnvert}}"
+                      Name="ShowListCheckBox"
+                      Margin="20, 0">
+                <CheckBox.Content>
+                    <TextBlock Text="Show My List" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </CheckBox.Content>
+            </CheckBox>
+
+            <StackPanel Orientation="Vertical"
+                    Spacing="10"
+                    Grid.Row="8"
+                    Grid.ColumnSpan="2">
+                <TextBlock Text="Genres &amp; Tag Filters"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <StackPanel Orientation="Vertical"
+                            Spacing="5"
+                            Background="{ThemeResource CardBackgroundFillColorDefault}"
+                            CornerRadius="8">
+                    <ScrollViewer VerticalScrollMode="Disabled"
+                              HorizontalScrollMode="Enabled"
+                              VerticalScrollBarVisibility="Disabled"
+                              HorizontalScrollBarVisibility="Hidden"
+                              IsHorizontalScrollChainingEnabled="True"
+                              Grid.Row="7"
+                              Grid.ColumnSpan="2"
+                                  Margin="5">
+                        <labs:Segmented 
+                        x:Name="TagGenrePivot"
+                        ItemsSource="{x:Bind FilterList}"
+                        SelectedIndex="0"
+                        Style="{StaticResource PivotSegmentedStyle}"
+                        SelectionChanged="TagGenrePivot_SelectionChanged">
+                            <labs:Segmented.ItemTemplate>
+                                <DataTemplate x:DataType="local:ExploreFilterModel">
+                                    <TextBlock Text="{x:Bind CategoryName, Converter={StaticResource StrToStgStr}}"
+                                       FontSize="17"
+                                       FontWeight="SemiBold"
+                                       Padding="0"
+                                       Tag="{x:Bind CategoryName}"/>
+                                </DataTemplate>
+                            </labs:Segmented.ItemTemplate>
+                        </labs:Segmented>
+                    </ScrollViewer>
+                    <ListView x:Name="TagGenreListView"
+                              Margin="5, 0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:TagGenreObject">
+                                <CheckBox IsChecked="{x:Bind IsChecked, Mode=TwoWay, Converter={StaticResource BoolToString}}"
+                                      Content="{x:Bind Name, Mode=TwoWay}"
+                                      IsThreeState="True"
+                                      ToolTipService.ToolTip="{x:Bind Description}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</ContentDialog>

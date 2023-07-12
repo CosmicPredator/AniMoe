@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="AniMoe.App.Views.ExploreView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:AniMoe.App.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="using:AniMoe.App.Converters"
+      xmlns:MediaModel="using:AniMoe.App.Models.MediaExploreModel"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+      xmlns:CharacterModel="using:AniMoe.App.Models.CharacterExploreModel"
+      Loaded="Page_Loaded"
+      x:DefaultBindMode="OneWay"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:UpperToCultureStringConverter x:Key="UpperToCulture" />
+            <DataTemplate x:DataType="MediaModel:AnimeManga"
+                          x:Key="AnimeMangaDataTemplate">
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1"
+                      CornerRadius="8"
+                      Padding="3"
+                      x:Name="MasterGrid"
+                      Canvas.ZIndex="1"
+                      Tag="{x:Bind Id}"
+                      PointerEntered="MasterGrid_PointerEntered"
+                      PointerExited="MasterGrid_PointerExited"
+                      PointerPressed="MasterGrid_PointerPressed">
+                    <Grid.Shadow>
+                        <ThemeShadow />
+                    </Grid.Shadow>
+                    <Grid.TranslationTransition>
+                        <Vector3Transition />
+                    </Grid.TranslationTransition>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <toolkit:ImageEx Grid.Row="0"
+                                     Margin="10"
+                                     IsCacheEnabled="True"
+                                     CornerRadius="5"
+                                     Source="{x:Bind CoverImage.Large}"
+                                     Stretch="UniformToFill" />
+                    <TextBlock Text="{x:Bind Title.UserPreferred}"
+                               Grid.Row="1"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               ToolTipService.ToolTip="{x:Bind Title.UserPreferred}"
+                               Margin="10, 2"
+                               MaxLines="2"
+                               FontSize="15"
+                               FontWeight="Medium" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:DataType="CharacterModel:Character"
+                          x:Key="CharacterDataTemplate">
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1"
+                      CornerRadius="8"
+                      Padding="3"
+                      x:Name="MasterGrid"
+                      Canvas.ZIndex="1"
+                      Tag="{x:Bind Id}"
+                      PointerEntered="MasterGrid_PointerEntered"
+                      PointerExited="MasterGrid_PointerExited"
+                      PointerPressed="MasterGrid_PointerPressed">
+                    <Grid.Shadow>
+                        <ThemeShadow />
+                    </Grid.Shadow>
+                    <Grid.TranslationTransition>
+                        <Vector3Transition />
+                    </Grid.TranslationTransition>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <toolkit:ImageEx Grid.Row="0"
+                                     Margin="10"
+                                     IsCacheEnabled="True"
+                                     CornerRadius="5"
+                                     Source="{x:Bind Image.Large}"
+                                     Stretch="UniformToFill" />
+                    <TextBlock Text="{x:Bind Name.UserPreferred}"
+                               Grid.Row="1"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               ToolTipService.ToolTip="{x:Bind Name.UserPreferred}"
+                               Margin="10, 2"
+                               MaxLines="2"
+                               FontSize="15"
+                               FontWeight="Medium" />
+                </Grid>
+            </DataTemplate>
+            <converters:ExploreDataTemplateSelector x:Key="DtTemplateSelector" 
+                                                    Template1="{StaticResource AnimeMangaDataTemplate}"
+                                                    Template2="{StaticResource CharacterDataTemplate}"/>
+            <toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisiblity" />
+            <toolkitconverters:BoolNegationConverter x:Key="BoolNegationConv" />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Margin="40, 10"
+          RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Explore"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="0, 30, 0, 0" />
+        <RelativePanel Grid.Row="1">
+            <ComboBox RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignVerticalCenterWithPanel="True"
+                      Width="150"
+                      SelectionChangedTrigger="Committed"
+                      ItemsSource="{x:Bind ViewModel.ExploreTypes}"
+                      SelectionChanged="{x:Bind ViewModel.MediaTypeComboBox_SelectionChanged}"
+                      SelectedValue="{x:Bind ViewModel.SelectedType, Mode=TwoWay}"
+                      x:Name="MediaTypeComboBox">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBox Width="350"
+                            RelativePanel.RightOf="MediaTypeComboBox"
+                            PlaceholderText="Search something..."
+                            Margin="15, 0"
+                            x:Name="SearchBox"
+                            TextChanged="{x:Bind ViewModel.SearchBox_TextChanged}" />
+            <Grid RelativePanel.AlignRightWithPanel="True">
+                <Button Click="{x:Bind ViewModel.FilterButton_Click}"
+                        Visibility="{x:Bind ViewModel.IsFilterButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE71C;" />
+                    </Button.Content>
+                </Button>
+                <ToggleButton Visibility="{x:Bind ViewModel.IsBirthdayButtonEnabled, Converter={StaticResource BoolToVisiblity}}"
+                              IsChecked="{x:Bind ViewModel.IsBirthdayEnabled, Mode=TwoWay}"
+                              x:Name="BDayToggleButton"
+                              Click="{x:Bind ViewModel.BDayToggleButton_Click}">
+                    <ToggleButton.Content>
+                        <FontIcon Glyph="&#xED55;" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+            </Grid>
+        </RelativePanel>
+        <Grid Grid.Row="2">
+            <ScrollViewer x:Name="ItScrollViewer"
+                          Grid.Row="2">
+                <Grid>
+                    <ItemsRepeater x:Name="MasterItemsRepeater"
+                                   ItemTemplate="{StaticResource DtTemplateSelector}">
+                        <ItemsRepeater.Transitions>
+                            <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                        </ItemsRepeater.Transitions>
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout MinItemWidth="150"
+                                               MinItemHeight="250"
+                                               MinColumnSpacing="15"
+                                               MinRowSpacing="15"
+                                               ItemsStretch="Uniform" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+            </ScrollViewer>
+            <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading}"
+                           x:Name="Shimmer"
+                           ItemsSource="{x:Bind items}">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout MinItemWidth="150"
+                                       MinItemHeight="250"
+                                       MinColumnSpacing="15"
+                                       MinRowSpacing="15"
+                                       ItemsStretch="Uniform" />
+                </ItemsRepeater.Layout>
+                <DataTemplate>
+                    <labs:Shimmer CornerRadius="4" />
+                </DataTemplate>
+            </ItemsRepeater>
+        </Grid>
+    </Grid>
+</Page>

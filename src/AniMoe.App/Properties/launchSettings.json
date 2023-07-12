@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "AniMoe.App (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    },
+    "AniMoe.App (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

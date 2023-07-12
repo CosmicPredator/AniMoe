@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>B:\DotnetApps\AniMoe\Properties\PublishProfiles\win10-x64.pubxml</_LastSelectedProfileId>
+    <Source>B:\Download\AnimoeAssets\AppIcon.png</Source>
+    <SmallTileSource>B:\Download\AnimoeAssets\AppIcon.png</SmallTileSource>
+    <MediumTileSource>B:\Download\AnimoeAssets\AppIcon.png</MediumTileSource>
+    <WideTileSource>B:\Download\AnimoeAssets\AppIcon.png</WideTileSource>
+    <LargeTileSource>B:\Download\AnimoeAssets\AppIcon.png</LargeTileSource>
+    <AppIconSource>B:\Download\AnimoeAssets\AppIcon.png</AppIconSource>
+    <SplashScreenSource>B:\Download\AnimoeAssets\AppIcon.png</SplashScreenSource>
+    <PackageLogoSource>B:\Download\AnimoeAssets\AppIcon.png</PackageLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Dialogs\ExploreViewFilterDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ReviewListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\ExploreView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\StatsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\StaffListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\CharacterListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\MediaViewShimmer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\MediaOverviewView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\MediaSideViewControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\LayoutStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MediaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MangaListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\TextStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dialogs\MediaListFliterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AnimeListView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MasterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RootWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

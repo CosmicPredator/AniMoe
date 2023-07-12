@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:AniMoe.App.Styles">
+    <Style TargetType="StackPanel"
+           x:Key="CardStackPanelStyle">
+        <Setter Property="Background"
+                Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="CornerRadius"
+                Value="4" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ControlElevationBorderBrush}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+    </Style>
+    <Style TargetType="Grid"
+           x:Key="CardGridStyle">
+        <Setter Property="Background"
+                Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="CornerRadius"
+                Value="4" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ControlElevationBorderBrush}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+    </Style>
+    <Style TargetType="RelativePanel"
+           x:Key="CardRelativePanelStyle">
+        <Setter Property="Background"
+                Value="{StaticResource CardBackgroundFillColorDefaultBrush}" />
+        <Setter Property="CornerRadius"
+                Value="4" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ControlElevationBorderBrush}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+    </Style>
+</ResourceDictionary>
