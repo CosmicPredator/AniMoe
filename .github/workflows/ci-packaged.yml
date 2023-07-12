@@ -1,7 +1,7 @@
 # This workflow will build, sign, and package a WinUI 3 MSIX desktop application
 # built on .NET.
 
-name: Packaged MSIX App
+name: WinUI3 Packaged MSIX App
 
 on:
   push:
@@ -76,4 +76,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: MSIX Package
-        path: ${{ github.workspace }}\\Packages
+        path: ${{ env.Solution_Name }}\\Packages
