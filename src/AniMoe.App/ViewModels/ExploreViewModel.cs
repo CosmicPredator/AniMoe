@@ -181,7 +181,7 @@ namespace AniMoe.App.ViewModels
             IsLoading = true;
             if( CharacterListCollection == null )
             {
-                CharacterListCollection = new CharacterIncrementalList(new CharacterIncrementalLoader(), false, search);
+                CharacterListCollection = new CharacterIncrementalList(new CharacterIncrementalLoader(), isBirthDay, search);
                 dispatcherQueue.TryEnqueue(() =>
                 {
                     MasterItemsRepeater.ItemsSource = CharacterListCollection;
@@ -247,6 +247,7 @@ namespace AniMoe.App.ViewModels
 
         public void BDayToggleButton_Click(object sender, RoutedEventArgs e)
         {
+            Log.Information(IsBirthdayEnabled.ToString());
             InitCharacterListView(IsBirthdayEnabled);
         }
     }

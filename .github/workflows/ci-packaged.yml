@@ -5,9 +5,9 @@ name: WinUI3 Packaged MSIX App
 
 on:
   push:
-    branches: [ devel ]
+    branches: [ main ]
   pull_request:
-    branches: [ devel ]
+    branches: [ main ]
 
 jobs:
 
@@ -76,4 +76,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: MSIX Package
-        path: ${{ env.Solution_Name }}\\Packages
+        path: ${{ github.workspace }}\\Packages
