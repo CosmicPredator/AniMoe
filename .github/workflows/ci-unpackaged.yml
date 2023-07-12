@@ -5,9 +5,9 @@ name: WinUI 3 unpackaged app
 
 on:
   push:
-    branches: [ main ]
+    branches: [ devel ]
   pull_request:
-    branches: [ main ]
+    branches: [ devel ]
 
 jobs:
 
