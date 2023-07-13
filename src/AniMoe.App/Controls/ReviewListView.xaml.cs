@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,19 @@ namespace AniMoe.App.Controls
         public ReviewListView()
         {
             this.InitializeComponent();
+        }
+
+        private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Grid g = sender as Grid;
+            if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if( properties.IsLeftButtonPressed )
+                {
+                    Frame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
+                }
+            }
         }
     }
 }

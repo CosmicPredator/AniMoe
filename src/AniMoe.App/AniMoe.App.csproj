@@ -40,6 +40,7 @@
     <None Remove="Views\MangaListView.xaml" />
     <None Remove="Views\MasterView.xaml" />
     <None Remove="Views\MediaView.xaml" />
+    <None Remove="Views\ReviewView.xaml" />
     <None Remove="Views\RootWindow.xaml" />
   </ItemGroup>
 
@@ -161,6 +162,9 @@
     <None Update="Extensions\empty-list.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ReviewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ExploreView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

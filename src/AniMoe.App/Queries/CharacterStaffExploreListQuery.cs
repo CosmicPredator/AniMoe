@@ -8,18 +8,38 @@ namespace AniMoe.App.Queries
 {
     public static partial class Query
     {
-        public static string CharacterListExploreQuery = @"
+        public static string CharacterStaffListExploreQuery = @"
             query (
               $page: Int,
               $search: String,
-              $isBirthday: Boolean
+              $isBirthday: Boolean,
+              $isCharacter: Boolean!
             ){
-              Page (page: $page) {
+              Character: Page (page: $page) @include(if: $isCharacter) {
                 pageInfo{
                   currentPage
                   hasNextPage
                 }
                 characters (
+                  sort: FAVOURITES_DESC,
+                  search: $search,
+                  isBirthday: $isBirthday
+                ){
+                  id
+                  name {
+                    userPreferred
+                  }
+                  image {
+                    large
+                  }
+                }
+              }
+              Staff: Page (page: $page) @skip(if: $isCharacter) {
+                pageInfo{
+                  currentPage
+                  hasNextPage
+                }
+                staff (
                   sort: FAVOURITES_DESC,
                   search: $search,
                   isBirthday: $isBirthday

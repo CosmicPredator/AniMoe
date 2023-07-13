@@ -135,10 +135,13 @@ namespace AniMoe.App.ViewModels
                 Model = await Initialize.FetchData();
             }
             CurrentListView = new();
-            CurrentListView = Model.Data.MediaListCollection.Lists.Where(
+            if (Model.Data.MediaListCollection.Lists.Count > 0 )
+            {
+                CurrentListView = Model.Data.MediaListCollection.Lists.Where(
                     x => x.Name == SelectedStatus
-            ).FirstOrDefault().Entries;
-            ApplyFilters(filterDialog.Model);
+                ).FirstOrDefault().Entries;
+                ApplyFilters(filterDialog.Model);
+            }
             Loaded = true;
             IsLoading = !Loaded;
         }

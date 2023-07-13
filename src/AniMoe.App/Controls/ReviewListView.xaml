@@ -25,7 +25,9 @@
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="Model:ReviewsNode">
                         <Grid Margin="10"
-                              Style="{StaticResource CardGridStyle}">
+                              Style="{StaticResource CardGridStyle}"
+                              Tag="{x:Bind Id}"
+                              PointerPressed="Grid_PointerPressed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>

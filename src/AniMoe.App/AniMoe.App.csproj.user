@@ -23,6 +23,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\ReviewView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\ExploreViewFilterDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

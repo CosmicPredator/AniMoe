@@ -19,8 +19,11 @@ namespace AniMoe.App.Models.CharacterExploreModel
 
     public partial class Data
     {
-        [JsonProperty("Page")]
-        public Page Page { get; set; }
+        [JsonProperty("Character")]
+        public Page CharacterList { get; set; }
+
+        [JsonProperty("Staff")]
+        public Page StaffList { get; set; }
     }
 
     public partial class Page
@@ -30,6 +33,9 @@ namespace AniMoe.App.Models.CharacterExploreModel
 
         [JsonProperty("characters")]
         public List<Character> Characters { get; set; }
+
+        [JsonProperty("staff")]
+        public List<Character> Staffs { get; set; }
     }
 
     public partial class Character
@@ -71,7 +77,7 @@ namespace AniMoe.App.Models.CharacterExploreModel
         {
             IRequestHandler Handler = App.Current.Services.GetRequiredService<IRequestHandler>();
             CharacterExploreModel model = await Handler.RequestApi<CharacterExploreModel>(
-                Queries.Query.CharacterListExploreQuery,
+                Queries.Query.CharacterStaffListExploreQuery,
                 Filters
             );
             return model;

@@ -1,6 +1,7 @@
 ﻿using ABI.Windows.Media.Protection.PlayReady;
 using Markdig;
 using Microsoft.UI.Xaml;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,15 +18,46 @@ namespace AniMoe.Parsers
         {
             IsDarkMode = Application.Current.RequestedTheme != ApplicationTheme.Light;
         }
+
+        private Tuple<byte, byte, byte, byte> ConvertAccent()
+        {
+            var accentColorResource = Application.Current.Resources["SystemAccentColorLight2"];
+            var accentColor = (Windows.UI.Color)accentColorResource;
+            return Tuple.Create(accentColor.R, accentColor.G, accentColor.B, accentColor.A);
+        }
+
         private string PreReq => $@"
         <style>
             html {{
               font-family: ""Segoe UI"", Arial, sans-serif;
+              font-size: 1.2em;
               color: {(IsDarkMode ? "white" : "black")};
               overflow-x: hidden/clip;
+              padding-top: 50px;
+              padding-right: 100px;
+              padding-bottom: 50px;
+              padding-left: 100px;
             }}
             pre {{
                 white-space: pre-wrap;
+            }}
+
+            a:link {{
+              color: rgb({ConvertAccent().Item1}, {ConvertAccent().Item2}, {ConvertAccent().Item3}, {ConvertAccent().Item4});
+              background-color: transparent;
+              text-decoration: none;
+            }}
+
+            a:hover {{
+              color: rgb({ConvertAccent().Item1}, {ConvertAccent().Item2}, {ConvertAccent().Item3}, {ConvertAccent().Item4});
+              background-color: transparent;
+              text-decoration: underline;
+            }}
+
+            a:visited {{
+              color: rgb({ConvertAccent().Item1}, {ConvertAccent().Item2}, {ConvertAccent().Item3}, {ConvertAccent().Item4});
+              background-color: transparent;
+              text-decoration: none;
             }}
                 
             *::-webkit-scrollbar {{
@@ -84,7 +116,7 @@ namespace AniMoe.Parsers
             }}
 
             br {{
-                line-height: 0%;
+                line-height: 20px;
             }}
         </style>";
         MarkdownPipeline pipeline = new MarkdownPipelineBuilder()
@@ -93,8 +125,8 @@ namespace AniMoe.Parsers
                 .Build();
         public string convert(string rawHtml)
         {
-            rawHtml = rawHtml.Replace(@"\n\n", "")
-                        .Replace(@"\n", "")
+            rawHtml = rawHtml
+                        .Replace("\n", "<br>")
                         .Replace(@"\""", "'")
                         .ConvertSpoiler()
                         .ConvertInlineImage()

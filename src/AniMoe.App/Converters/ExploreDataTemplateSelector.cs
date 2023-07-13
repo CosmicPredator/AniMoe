@@ -1,5 +1,6 @@
 ﻿using AniMoe.App.Models.CharacterExploreModel;
 using AniMoe.App.Models.MediaExploreModel;
+using AniMoe.App.Models.ReviewExploreModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -13,17 +14,21 @@ namespace AniMoe.App.Converters
 {
     public class ExploreDataTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate Template1 { get; set; }
-        public DataTemplate Template2 { get; set; }
+        public DataTemplate MediaTemplate { get; set; }
+        public DataTemplate StaffCharTemplate { get; set; }
+        public DataTemplate ReviewTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
             if (item is AnimeManga )
             {
-                return Template1;
+                return MediaTemplate;
             } else if (item is Character )
             {
-                return Template2;
+                return StaffCharTemplate;
+            } else if (item is Review )
+            {
+                return ReviewTemplate;
             }
             return null;
         }

@@ -65,5 +65,18 @@ namespace AniMoe.App.Views
                 }
             }
         }
+
+        private void ReviewGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Grid g = sender as Grid;
+            if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if( properties.IsLeftButtonPressed )
+                {
+                    Frame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
+                }
+            }
+        }
     }
 }

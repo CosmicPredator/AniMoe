@@ -11,6 +11,7 @@
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
       xmlns:CharacterModel="using:AniMoe.App.Models.CharacterExploreModel"
+      xmlns:ReviewModel="using:AniMoe.App.Models.ReviewExploreModel"
       Loaded="Page_Loaded"
       x:DefaultBindMode="OneWay"
       mc:Ignorable="d">
@@ -97,9 +98,82 @@
                                FontWeight="Medium" />
                 </Grid>
             </DataTemplate>
+            <DataTemplate x:DataType="ReviewModel:Review"
+                          x:Key="ReviewDataTemplate">
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                          BorderThickness="1"
+                          CornerRadius="8"
+                          Padding="3"
+                          x:Name="ReviewGrid"
+                          Canvas.ZIndex="1"
+                          Tag="{x:Bind Id}"
+                          PointerEntered="MasterGrid_PointerEntered"
+                          PointerExited="MasterGrid_PointerExited"
+                          PointerPressed="ReviewGrid_PointerPressed">
+                        <Grid.Shadow>
+                            <ThemeShadow />
+                        </Grid.Shadow>
+                        <Grid.TranslationTransition>
+                            <Vector3Transition />
+                        </Grid.TranslationTransition>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <toolkit:ImageEx Grid.Row="0"
+                                         Margin="10"
+                                         IsCacheEnabled="True"
+                                         CornerRadius="5"
+                                         Source="{x:Bind Media.BannerImage}"
+                                         Stretch="UniformToFill" 
+                                         HorizontalContentAlignment="Center"
+                                         HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="1"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Margin="10, 2"
+                               FontSize="15"
+                               FontWeight="Medium">
+                        <Run Text="Review Of" />
+                        <Run Text="{x:Bind Media.Title.UserPreferred}" />
+                        <Run Text="by" />
+                        <Run Text="{x:Bind User.Name}" />
+                    </TextBlock>
+                    <Grid Grid.Row="2"
+                          Margin="10, 10"
+                          ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   TextWrapping="Wrap"
+                                   TextTrimming="CharacterEllipsis"
+                                   FontSize="14"
+                                   Text="{x:Bind Summary}"
+                                   FontStyle="Italic"
+                                   Opacity="0.7" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="5">
+                                <FontIcon Glyph="&#xE8E1;" />
+                                <TextBlock Text="{x:Bind Rating}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                </DataTemplate>
             <converters:ExploreDataTemplateSelector x:Key="DtTemplateSelector" 
-                                                    Template1="{StaticResource AnimeMangaDataTemplate}"
-                                                    Template2="{StaticResource CharacterDataTemplate}"/>
+                                                    MediaTemplate="{StaticResource AnimeMangaDataTemplate}"
+                                                    StaffCharTemplate="{StaticResource CharacterDataTemplate}"
+                                                    ReviewTemplate="{StaticResource ReviewDataTemplate}"/>
             <toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisiblity" />
             <toolkitconverters:BoolNegationConverter x:Key="BoolNegationConv" />
         </ResourceDictionary>
@@ -140,7 +214,15 @@
                 <Button Click="{x:Bind ViewModel.FilterButton_Click}"
                         Visibility="{x:Bind ViewModel.IsFilterButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
                     <Button.Content>
-                        <FontIcon Glyph="&#xE71C;" />
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Spacing="10">
+                            <FontIcon Glyph="&#xE71C;" 
+                                      VerticalAlignment="Center"/>
+                            <TextBlock Text="Filters" 
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Button.Content>
                 </Button>
                 <ToggleButton Visibility="{x:Bind ViewModel.IsBirthdayButtonEnabled, Converter={StaticResource BoolToVisiblity}}"
@@ -148,7 +230,15 @@
                               x:Name="BDayToggleButton"
                               Click="{x:Bind ViewModel.BDayToggleButton_Click}">
                     <ToggleButton.Content>
-                        <FontIcon Glyph="&#xED55;" />
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Spacing="10">
+                            <FontIcon Glyph="&#xED55;"
+                                      VerticalAlignment="Center" />
+                            <TextBlock Text="Birthday"
+                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
                     </ToggleButton.Content>
                 </ToggleButton>
             </Grid>
@@ -163,8 +253,8 @@
                             <EntranceThemeTransition IsStaggeringEnabled="True"/>
                         </ItemsRepeater.Transitions>
                         <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="150"
-                                               MinItemHeight="250"
+                            <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
+                                               MinItemHeight="{x:Bind ViewModel.ItemHeight}"
                                                MinColumnSpacing="15"
                                                MinRowSpacing="15"
                                                ItemsStretch="Uniform" />
@@ -176,8 +266,8 @@
                            x:Name="Shimmer"
                            ItemsSource="{x:Bind items}">
                 <ItemsRepeater.Layout>
-                    <UniformGridLayout MinItemWidth="150"
-                                       MinItemHeight="250"
+                    <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
+                                       MinItemHeight="{x:Bind ViewModel.ItemHeight}"
                                        MinColumnSpacing="15"
                                        MinRowSpacing="15"
                                        ItemsStretch="Uniform" />

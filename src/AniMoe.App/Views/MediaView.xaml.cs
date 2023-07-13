@@ -49,8 +49,8 @@ namespace AniMoe.App.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            GC.Collect();
             DesWebView.Close();
+            GC.Collect();
             base.OnNavigatedFrom(e);
         }
 
