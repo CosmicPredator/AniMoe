@@ -75,5 +75,5 @@ jobs:
     - name: Upload MSIX package
       uses: actions/upload-artifact@v2
       with:
-        name: MSIX Package
+        name: WinUI3 MSIX Package
         path: ${{ github.workspace }}\src\AniMoe.App\Packages

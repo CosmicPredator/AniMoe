@@ -1,7 +1,7 @@
 # This workflow will build and publish a WinUI 3 unpackaged desktop application
 # built on .NET.
 
-name: WinUI 3 unpackaged app
+name: WinUI3 Unpackaged EXE
 
 on:
   push:
@@ -61,5 +61,5 @@ jobs:
     - name: Upload app
       uses: actions/upload-artifact@v2
       with:
-        name: Upload app
+        name: WinUI3 Unpackaged EXE
         path: ${{ github.workspace }}\src\AniMoe.App\bin
