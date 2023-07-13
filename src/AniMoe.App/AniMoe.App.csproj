@@ -151,11 +151,6 @@
     <Content Remove="Assets\profile.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AniMoe.MdParser">
-      <HintPath>AniMoe.MdParser\bin\Debug\net6.0-windows10.0.19041.0\AniMoe.MdParser.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="Assets\SmallTile.scale-100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
