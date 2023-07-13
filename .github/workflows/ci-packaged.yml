@@ -70,9 +70,6 @@ jobs:
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path GitHubActionsWorkflow.pfx
-
-    - name: XDTesting Print Directory Structure
-      uses: FiorelaCiroku/XDTesting-Print-Directory-Structure@v1.0.2
   
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
@@ -80,4 +77,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: WinUI3 MSIX Package
-        path: ${{ env.Solution_Name }}\\Packages
+        path: ${{ github.workspace }}\\Packages
