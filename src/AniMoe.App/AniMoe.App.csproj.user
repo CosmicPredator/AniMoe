@@ -10,6 +10,10 @@
     <AppIconSource>B:\Download\AnimoeAssets\AppIcon.png</AppIconSource>
     <SplashScreenSource>B:\Download\AnimoeAssets\AppIcon.png</SplashScreenSource>
     <PackageLogoSource>B:\Download\AnimoeAssets\AppIcon.png</PackageLogoSource>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>True</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
