@@ -14,7 +14,8 @@ namespace AniMoe.App.Converters
         {
             if (value == null) return null;
             TextInfo textinfo = new CultureInfo("en-US", false).TextInfo;
-            return textinfo.ToTitleCase(value.ToString().ToLower().Replace("_", " "));
+            return textinfo.ToTitleCase(value.ToString()
+                .ToLower().Replace("_desc", ", Desc. Order").Replace("_", " "));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

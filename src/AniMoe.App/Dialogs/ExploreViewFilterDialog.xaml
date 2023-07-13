@@ -110,7 +110,9 @@
                       SelectedIndex="21">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="MasterModel:EnumValue">
-                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource UpperToCulture}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTipService.ToolTip="{x:Bind Name, Converter={StaticResource UpperToCulture}}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
