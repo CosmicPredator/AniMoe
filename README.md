@@ -1,7 +1,7 @@
 # AniMoe for AniList
- A Windows 10 & 11 Client for AniList.co
+ A Windows 10 & 11 Client for AniList. Track and Discover anime and manga with ease.
 
- [![WinUI 3 MSIX app](https://github.com/CosmicPredator/AniMoe-devel/actions/workflows/main.yml/badge.svg)](https://github.com/CosmicPredator/AniMoe-devel/actions/workflows/main.yml)
+ [![WinUI3 Packaged MSIX App](https://github.com/CosmicPredator/AniMoe/actions/workflows/ci-packaged.yml/badge.svg)](https://github.com/CosmicPredator/AniMoe/actions/workflows/ci-packaged.yml)
 
 > Note: This is a Work in Progress Application
 
