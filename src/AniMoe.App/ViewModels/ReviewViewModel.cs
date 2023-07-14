@@ -92,7 +92,7 @@ namespace AniMoe.App.ViewModels
             CreatedTime = EpochToString(Model.Data.Review.CreatedAt);
             dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
             {
-                Webview.NavigateToString(MdToHtmlParser.convert(Model.Data.Review.Body));
+                Webview.NavigateToString(MdToHtmlParser.Convert(Model.Data.Review.Body));
             });   
         }
     }

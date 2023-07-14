@@ -21,7 +21,7 @@ namespace AniMoe.App.Converters
                     .ToLocalTime()
                     .AddSeconds(System.Convert.ToDouble(value));
                 TimeSpan diff = ModifiedDate.Subtract(DateTime.Now);
-                return $"{(diff.Days < 1 ? "" : $"{diff.Days}d")} {(diff.Hours < 1 ? "" : $"{diff.Hours}h")} {(diff.Minutes < 1 ? "" : $"{diff.Minutes}m")}";
+                return $"{(diff.Days < 1 ? "" : $"{diff.Days}d ")}{(diff.Hours < 1 ? "" : $"{diff.Hours}h ")}{(diff.Minutes < 1 ? "" : $"{diff.Minutes}m")}";
             }
         }
 

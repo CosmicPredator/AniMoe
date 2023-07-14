@@ -42,14 +42,13 @@ namespace AniMoe.App.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             MediaId = (int)e.Parameter;
-            ViewModel = new(MediaId, dispatcherQueue, DesWebView);
+            ViewModel = new(MediaId, dispatcherQueue);
             DataContext = ViewModel;
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            DesWebView.Close();
             GC.Collect();
             base.OnNavigatedFrom(e);
         }
@@ -109,19 +108,6 @@ namespace AniMoe.App.Views
                     }, navOptions);
                     break;
             }
-        }
-
-        private async void DesWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
-        {
-            var accentColorResource = Application.Current.Resources["CardBackgroundFillColorDefaultBrush"];
-            if (accentColorResource is SolidColorBrush )
-            {
-                BgColor = (accentColorResource as SolidColorBrush).Color;
-            }
-            double contentHeight = await GetWebViewContentHeightAsync(DesWebView);
-            double dipContentHeight = contentHeight / 3;
-            DesWebView.Height = dipContentHeight;
-            Debug.WriteLine($"The Content Height is {dipContentHeight}");
         }
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)

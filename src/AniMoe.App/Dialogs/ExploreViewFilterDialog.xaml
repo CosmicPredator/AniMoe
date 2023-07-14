@@ -53,7 +53,7 @@
     <ContentDialog.CloseButtonStyle>
         <Style TargetType="Button">
             <Setter Property="Background"
-                    Value="Red" />
+                    Value="#AB0000" />
             <Setter Property="CornerRadius"
                     Value="3" />
         </Style>

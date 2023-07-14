@@ -71,10 +71,10 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="1"
-              Margin="100, 15"
-              CornerRadius="10">
+              Margin="0">
             <WebView2 x:Name="ReviewWebView"
-                      DefaultBackgroundColor="Transparent">
+                      DefaultBackgroundColor="Transparent"
+                      NavigationStarting="ReviewWebView_NavigationStarting">
                 <WebView2.Resources>
                     <SolidColorBrush x:Name="BrushForThemeBackgroundColor"
                                      Color="Transparent" />

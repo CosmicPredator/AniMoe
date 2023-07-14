@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +47,17 @@ namespace AniMoe.App.Views
         public ReviewView()
         {
             this.InitializeComponent();
+        }
+
+        private async void ReviewWebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
+        {
+            Log.Information(args.IsRedirected.ToString());
+            Log.Information(args.IsUserInitiated.ToString());
+            if( args.Uri != null && args.IsRedirected )
+            {
+                args.Cancel = true;
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(args.Uri));
+            }
         }
     }
 }

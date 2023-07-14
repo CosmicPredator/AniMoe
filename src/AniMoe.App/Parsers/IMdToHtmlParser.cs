@@ -8,6 +8,6 @@ namespace AniMoe.Parsers
 {
     public interface IMdToHtmlParser
     {
-        string convert(string rawHtml);
+        string Convert(string rawHtml);
     }
 }

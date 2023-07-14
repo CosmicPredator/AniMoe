@@ -159,10 +159,9 @@
                                         <StackPanel.ChildrenTransitions>
                                             <EntranceThemeTransition IsStaggeringEnabled="True"/>
                                         </StackPanel.ChildrenTransitions>
-                                        <TextBlock Text="{x:Bind ViewModel.Model.Data.Media.Description}"
+                                        <TextBlock Text="{x:Bind ViewModel.DescriptionText}"
                                            MaxLines="1"
-                                           FontSize="15"
-                                           TextTrimming="CharacterEllipsis"/>
+                                           FontSize="15"/>
                                         <HyperlinkButton Click="HyperlinkButton_Click"
                                                      Content="read more..."
                                                      Padding="0"/>
@@ -170,18 +169,10 @@
                                 </Grid>
                             </Expander.Header>
                             <Expander.Content>
-                                <Grid CornerRadius="10"
-                                      BorderThickness="1">
-                                    <WebView2 x:Name="DesWebView"
-                                          NavigationCompleted="DesWebView_NavigationCompleted"
-                                          DefaultBackgroundColor="Transparent">
-                                        <WebView2.Resources>
-                                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor" 
-                                                         Color="Transparent" />
-                                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" 
-                                                         Color="Transparent" />
-                                        </WebView2.Resources>
-                                    </WebView2>
+                                <Grid Margin="5">
+                                    <TextBlock Text="{x:Bind ViewModel.DescriptionText}" 
+                                               TextWrapping="Wrap"
+                                               FontSize="15"/>
                                 </Grid>
                             </Expander.Content>
                         </Expander>

@@ -84,4 +84,10 @@ public static class StringRegexes
             .Replace(htmlText, @"_(.*?)_", @"<i>$1</i>");
         return output;
     }
+
+    public static string RemoveHtmlTags(this string htmlText)
+    {
+        string plainText = Regex.Replace(htmlText, @"<[^>]+>|&nbsp;", "").Trim();
+        return plainText;
+    }
 }

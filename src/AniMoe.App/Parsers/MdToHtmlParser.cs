@@ -123,7 +123,7 @@ namespace AniMoe.Parsers
                 .UseAdvancedExtensions()
                 .UseAutoLinks()
                 .Build();
-        public string convert(string rawHtml)
+        public string Convert(string rawHtml)
         {
             rawHtml = rawHtml
                         .Replace("\n", "<br>")

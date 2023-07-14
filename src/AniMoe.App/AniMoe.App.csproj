@@ -22,6 +22,7 @@
     <Page Remove="Constants\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\like-filled.svg" />
     <None Remove="Assets\Window-Icon.ico" />
     <None Remove="Controls\CharacterListView.xaml" />
     <None Remove="Controls\MediaOverviewView.xaml" />
@@ -142,6 +143,9 @@
     <Content Remove="Assets\profile.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\like-filled.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\SmallTile.scale-100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -213,5 +217,11 @@
     <Page Update="Styles\TextStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Constants.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Resources\Constants.resw" />
   </ItemGroup>
 </Project>

@@ -41,9 +41,8 @@ namespace AniMoe.App.ViewModels
         private int MediaId;
         private DispatcherQueue dispatcherQueue;
         private bool showSummary = true;
-        private WebView2 Web;
-        private IMdToHtmlParser MdToHtmlParser 
-            = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
+        private string descriptionText;
+
         public List<int> Series
         {
             get => _series;
@@ -80,53 +79,35 @@ namespace AniMoe.App.ViewModels
             set => SetProperty(ref isLoading, value);
         }
 
+        public string DescriptionText
+        {
+            get => descriptionText;
+            set => SetProperty(ref descriptionText, value);
+        }
+
         public IAsyncRelayCommand LoadView { get; }
 
-        public MediaViewViewModel(int mediaId, DispatcherQueue queue, WebView2 web)
+        public MediaViewViewModel(int mediaId, DispatcherQueue queue)
         {
             dispatcherQueue = queue;
             LoadView = new AsyncRelayCommand(InitView);
             MediaId = mediaId;
-            Web = web;
         }
 
         public async Task InitView()
         {
-            dispatcherQueue.TryEnqueue(DispatcherQueuePriority.High, async () =>
-            {
-                await Web.EnsureCoreWebView2Async();
-                Web.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
-                Web.CoreWebView2.Settings.IsStatusBarEnabled = false;
-                Web.CoreWebView2.Settings.AreDevToolsEnabled = false;
-                Web.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-            });
-
             await dispatcherQueue.EnqueueAsync(async () =>
             {
                 Loaded = false;
                 IsLoading = !Loaded;
                 Model = await Initialize.FetchData(MediaId);
+                DescriptionText = Model.Data.Media.Description.RemoveHtmlTags();
                 Series = Model.Data.Media.Stats.ScoreDistribution.Select(
                     x => x.Amount
                 ).ToList();
                 Loaded = true;
                 IsLoading = !Loaded;
             }, DispatcherQueuePriority.Normal);
-
-            try
-            {
-                if (Web.CoreWebView2 == null )
-                {
-                    await Task.Delay(1000);
-                    Web.CoreWebView2.NavigateToString(MdToHtmlParser.convert(Model.Data.Media.Description));
-                } else
-                {
-                    Web.CoreWebView2.NavigateToString(MdToHtmlParser.convert(Model.Data.Media.Description));
-                }
-            } catch (Exception ex )
-            {
-                Log.Error("WebView2 instance failed to load - Reason: {reason}", ex.ToString());
-            }
         }
 
         public ICartesianAxis[] XAxes { get; set; } = new ICartesianAxis[]

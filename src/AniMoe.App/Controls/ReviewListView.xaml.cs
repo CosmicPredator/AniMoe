@@ -45,7 +45,7 @@ namespace AniMoe.App.Controls
                 var properties = e.GetCurrentPoint(this).Properties;
                 if( properties.IsLeftButtonPressed )
                 {
-                    Frame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
+                    NavArgs.RootFrame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
                 }
             }
         }
