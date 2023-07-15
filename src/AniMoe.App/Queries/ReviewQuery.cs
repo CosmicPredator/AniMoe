@@ -25,6 +25,8 @@ namespace AniMoe.App.Queries
                 rating
                 ratingAmount
                 createdAt
+                score
+                userRating
               }
             }";
     }

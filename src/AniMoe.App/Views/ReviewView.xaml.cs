@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -51,12 +52,32 @@ namespace AniMoe.App.Views
 
         private async void ReviewWebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
         {
-            Log.Information(args.IsRedirected.ToString());
-            Log.Information(args.IsUserInitiated.ToString());
             if( args.Uri != null && args.IsRedirected )
             {
                 args.Cancel = true;
                 await Windows.System.Launcher.LaunchUriAsync(new Uri(args.Uri));
+            }
+        }
+
+        private async void ReviewWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
+        {
+            await SetWebViewHeight();
+            ReviewWebView.SizeChanged += ReviewWebView_SizeChanged;
+        }
+
+        private async void ReviewWebView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await SetWebViewHeight();
+        }
+
+        private async Task SetWebViewHeight()
+        {
+            string js = "Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);";
+            string heightString = await ReviewWebView.ExecuteScriptAsync(js);
+
+            if( double.TryParse(heightString, out double height) )
+            {
+                WebGrid.Height = height;
             }
         }
     }

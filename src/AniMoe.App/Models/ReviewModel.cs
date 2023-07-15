@@ -40,6 +40,12 @@ namespace AniMoe.App.Models.ReviewModel
 
         [JsonProperty("createdAt")]
         public long CreatedAt { get; set; }
+
+        [JsonProperty("score")]
+        public int Score { get; set; }
+
+        [JsonProperty("userRating")]
+        public string UserRating { get; set; }
     }
 
     public partial class Media

@@ -16,25 +16,9 @@
       x:DefaultBindMode="OneWay">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="Loaded">
-            <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadView}"/>
+            <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadView}" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup>
-            <VisualState x:Name="DefLayout">
-                <Storyboard>
-                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                   Storyboard.TargetName="ContentGrid">
-                        <DiscreteObjectKeyFrame KeyTime="0">
-                            <DiscreteObjectKeyFrame.Value>
-                                <Thickness>40, 40, 40, 40</Thickness>
-                            </DiscreteObjectKeyFrame.Value>
-                        </DiscreteObjectKeyFrame>
-                    </ObjectAnimationUsingKeyFrames>
-                </Storyboard>
-            </VisualState>
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -181,6 +165,7 @@
                             <labs:Segmented SelectionMode="Single"
                                             x:Name="SegmentBox"
                                             SelectionChanged="Segmented_SelectionChanged"
+                                            Style="{StaticResource PivotSegmentedStyle}"
                                             SelectedIndex="{x:Bind ViewModel.SegmentedSelectedIndex}">
                                 <labs:SegmentedItem Content="Overview"
                                                     FontSize="20"

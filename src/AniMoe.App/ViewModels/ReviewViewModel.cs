@@ -4,17 +4,21 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace AniMoe.App.ViewModels
 {
-    public class ReviewViewModel : ObservableRecipient
+    public partial class ReviewViewModel : ObservableObject
     {
         private ReviewModel model;
         private int reviewId;
@@ -22,6 +26,12 @@ namespace AniMoe.App.ViewModels
         private IMdToHtmlParser MdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         private DispatcherQueue dispatcherQueue;
         private string createdTime;
+
+        [ObservableProperty]
+        private SolidColorBrush likeBrush;
+
+        [ObservableProperty]
+        private SolidColorBrush dislikeBrush;
 
         public ReviewModel Model
         {
