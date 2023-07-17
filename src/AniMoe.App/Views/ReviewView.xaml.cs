@@ -57,12 +57,26 @@ namespace AniMoe.App.Views
                 args.Cancel = true;
                 await Windows.System.Launcher.LaunchUriAsync(new Uri(args.Uri));
             }
+            await SetWebViewHeight();
+            ReviewWebView.SizeChanged += ReviewWebView_SizeChanged;
+            MasterScrollViewer.ViewChanged += MasterScrollViewer_ViewChanged;
         }
 
         private async void ReviewWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
         {
             await SetWebViewHeight();
             ReviewWebView.SizeChanged += ReviewWebView_SizeChanged;
+            MasterScrollViewer.ViewChanged += MasterScrollViewer_ViewChanged;
+        }
+
+        private void MasterScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var scrollViewer = (ScrollViewer)sender;
+            if( scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight)
+            {
+                ScoreGrid.Visibility = Visibility.Visible;
+                MasterScrollViewer.ViewChanged -= MasterScrollViewer_ViewChanged;
+            }
         }
 
         private async void ReviewWebView_SizeChanged(object sender, SizeChangedEventArgs e)

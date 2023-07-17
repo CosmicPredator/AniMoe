@@ -192,6 +192,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ChildrenTransitions>
+            <EntranceThemeTransition />
+        </Grid.ChildrenTransitions>
         <TextBlock Text="Explore"
                    Style="{StaticResource TitleTextBlockStyle}"
                    Margin="0, 30, 0, 0" />

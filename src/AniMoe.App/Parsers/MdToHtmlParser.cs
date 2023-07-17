@@ -33,6 +33,7 @@ namespace AniMoe.Parsers
               font-size: 1.2em;
               color: {(IsDarkMode ? "white" : "black")};
               overflow-x: hidden/clip;
+              overflow: hidden;
               padding-top: 50px;
               padding-right: 100px;
               padding-bottom: 50px;

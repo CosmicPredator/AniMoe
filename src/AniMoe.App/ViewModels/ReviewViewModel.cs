@@ -28,10 +28,7 @@ namespace AniMoe.App.ViewModels
         private string createdTime;
 
         [ObservableProperty]
-        private SolidColorBrush likeBrush;
-
-        [ObservableProperty]
-        private SolidColorBrush dislikeBrush;
+        private bool isLoading = true;
 
         public ReviewModel Model
         {
@@ -94,6 +91,7 @@ namespace AniMoe.App.ViewModels
 
         private async Task LoadView()
         {
+            IsLoading = true;
             await dispatcherQueue.EnqueueAsync(async () =>
             {
                 await Webview.EnsureCoreWebView2Async();
@@ -103,7 +101,8 @@ namespace AniMoe.App.ViewModels
             dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
             {
                 Webview.NavigateToString(MdToHtmlParser.Convert(Model.Data.Review.Body));
-            });   
+            });
+            IsLoading = false;
         }
     }
 }

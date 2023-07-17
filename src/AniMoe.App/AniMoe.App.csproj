@@ -25,6 +25,7 @@
     <None Remove="Assets\like-filled.svg" />
     <None Remove="Assets\Window-Icon.ico" />
     <None Remove="Controls\CharacterListView.xaml" />
+    <None Remove="Controls\CharacterViewControls\AnimeListControl.xaml" />
     <None Remove="Controls\MediaOverviewView.xaml" />
     <None Remove="Controls\MediaSideViewControl.xaml" />
     <None Remove="Controls\MediaViewShimmer.xaml" />
@@ -36,6 +37,7 @@
     <None Remove="Styles\LayoutStyles.xaml" />
     <None Remove="Styles\TextStyles.xaml" />
     <None Remove="Views\AnimeListView.xaml" />
+    <None Remove="Views\CharacterView.xaml" />
     <None Remove="Views\ExploreView.xaml" />
     <None Remove="Views\LoginView.xaml" />
     <None Remove="Views\MangaListView.xaml" />
@@ -163,9 +165,15 @@
     <Page Update="Dialogs\ExploreViewFilterDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Controls\CharacterViewControls\AnimeListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Extensions\empty-list.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\CharacterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ReviewView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

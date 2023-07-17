@@ -33,6 +33,7 @@ using AniMoe.App.Views;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Dispatching;
+using Serilog;
 
 namespace AniMoe.App.Controls
 {
@@ -138,6 +139,13 @@ namespace AniMoe.App.Controls
                         x => x.IsMediaSpoiler == false
                     )
                 );
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            DescriptionTextBlock.MaxLines = DescriptionTextBlock.MaxLines == 0 ? 3 : 0;
+            (sender as HyperlinkButton).Content = DescriptionTextBlock.MaxLines == 0 ?
+                "read less..." : "read more...";
         }
     }
 }

@@ -23,6 +23,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\CharacterViewControls\AnimeListControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\CharacterView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\ReviewView.xaml">
       <SubType>Designer</SubType>
     </Page>

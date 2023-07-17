@@ -24,21 +24,21 @@ public static class StringRegexes
     public static string ConvertInlineImage(this string htmlText)
     {
         string output = Regex.Replace(htmlText,
-            @"img(\d+)\((.*?)\)", "<img src=\"$2\" width=\"$1\">");
+            @"img(\d+)\((.*?)\)", "<img src=\"$2\" width=\"$1\"> <br>");
         return output;
     }
 
     public static string ConvertInlineImageWo(this string htmlText)
     {
         string output = Regex.Replace(htmlText,
-            @"img\((.+?)\)", "<img src=\"$1\" width=\"100%\">");
+            @"img\((.+?)\)", "<img src=\"$1\" width=\"100%\"> <br>");
         return output;
     }
 
     public static string ConvertInlineImagePercentage(this string htmlText)
     {
         string output = Regex.Replace(htmlText,
-            @"img(\d+)%\((.+?)\)", "<img src=\"$2\" width=\"$1%\">");
+            @"img(\d+)%\((.+?)\)", "<img src=\"$2\" width=\"$1%\"> <br>");
         return output;
     }
 
@@ -67,7 +67,7 @@ public static class StringRegexes
     {
         string output = Regex
             .Replace(htmlText, @"\[!\[.*?\]\((.*?)\)\]\((.*?)\)", 
-            "<a href=\"$2\" rel=\"noopener noreferrer\" target=\"_blank\"><img src=\"$1\"></a>");
+            "<a href=\"$2\" rel=\"noopener noreferrer\" target=\"_blank\"><img src=\"$1\"></a> <br>");
         return output;
     }
 

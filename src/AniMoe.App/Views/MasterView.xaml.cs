@@ -47,7 +47,7 @@ namespace AniMoe.App.Views
             }
             else if( (string)selected.Content == "Home" )
             {
-                PrimaryFrame.Navigate(typeof(ReviewView), null, NavAnimation);
+                PrimaryFrame.Navigate(typeof(CharacterView), null, NavAnimation);
             }
         }
 

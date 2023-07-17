@@ -13,7 +13,7 @@
              xmlns:ext="using:AniMoe.App.Extensions"
              Margin="0, 20, 0, 0"
              Background="Transparent"
-             x:DefaultBindMode="OneTime"
+             x:DefaultBindMode="OneWay"
       Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
@@ -190,13 +190,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition IsStaggeringEnabled="True"/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
-        <Grid Grid.Row="0">
+
+        <Grid Style="{StaticResource CardGridStyle}"
+              Grid.Row="0"
+              x:Name="DescriptionGrid">
+            <StackPanel Orientation="Vertical"
+                        Margin="10, 20"
+                        x:Name="SummarytextBlock">
+                <TextBlock Text="{x:Bind ViewModel.DescriptionText}"
+                           MaxLines="3"
+                           FontSize="15"
+                           x:Name="DescriptionTextBlock"
+                           TextWrapping="Wrap">
+                </TextBlock>
+                <HyperlinkButton Content="read more..."
+                                 Padding="0"
+                                 Click="HyperlinkButton_Click" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1"
+              Margin="0, 20, 0, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -219,7 +234,7 @@
                 </ItemsRepeater>
             </ScrollViewer>
         </Grid>
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               ColumnSpacing="20"
               Height="300">
             <Grid.ColumnDefinitions>
@@ -235,7 +250,7 @@
                 <TextBlock Text="Following"
                            Style="{ThemeResource SubtitleTextBlockStyle}"
                            Grid.Row="0"
-                           Margin="0, 10, 10, 10" />
+                           Margin="0, 0, 10, 10" />
                 <Grid Style="{StaticResource CardGridStyle}"
                       Grid.Row="1"
                       x:Name="ItGrid">
@@ -270,7 +285,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               ColumnSpacing="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />

@@ -87,10 +87,13 @@
                                     <ComboBoxItem Content="Item 1" />
                                     <ComboBoxItem Content="Item 1" />
                                 </ComboBox>
-                                <Button Background="{ThemeResource ControlOnImageFillColorDefaultBrush}">
+                                <Button>
                                     <Button.Content>
-                                        <FontIcon Glyph="&#xEB51;"
-                                                  Foreground="Red" />
+                                        <Grid>
+                                            <FontIcon Glyph="&#xEB52;"
+                                                      Foreground="Red" />
+                                            <FontIcon Glyph="&#xEB51;" />
+                                        </Grid>
                                     </Button.Content>
                                 </Button>
                             </StackPanel>
@@ -113,20 +116,20 @@
                                                      Model="{x:Bind ViewModel.Model}"/>
                     </StackPanel>
                     <Grid Grid.Column="1"
-                          Margin="0, 20, 20, 20"
-                          RowSpacing="20">
+                          Margin="0, 20, 20, 20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Expander CornerRadius="8"
+                        <!--<Expander CornerRadius="8"
                                   x:Name="DesExpander"
+                                  Grid.Row="0"
                                   HorizontalAlignment="Stretch"
                                   HorizontalContentAlignment="Stretch"
                                   Expanding="{x:Bind ViewModel.Expander_Expanding}"
                                   Collapsed="{x:Bind ViewModel.Expander_Collapsed}">
                             <Expander.Header>
-                                <Grid Grid.Row="0">
+                                <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
@@ -159,14 +162,19 @@
                                                FontSize="15"/>
                                 </Grid>
                             </Expander.Content>
-                        </Expander>
-                        <StackPanel Grid.Row="1"
-                                    VerticalAlignment="Top">
+                        </Expander>-->
+                        <Grid Grid.Row="1"
+                              VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
                             <labs:Segmented SelectionMode="Single"
                                             x:Name="SegmentBox"
                                             SelectionChanged="Segmented_SelectionChanged"
                                             Style="{StaticResource PivotSegmentedStyle}"
-                                            SelectedIndex="{x:Bind ViewModel.SegmentedSelectedIndex}">
+                                            SelectedIndex="{x:Bind ViewModel.SegmentedSelectedIndex}"
+                                            Grid.Row="0">
                                 <labs:SegmentedItem Content="Overview"
                                                     FontSize="20"
                                                     FontWeight="Medium"
@@ -189,9 +197,11 @@
                                                     x:Name="ReviewsPage" />
                             </labs:Segmented>
                             <Frame x:Name="MediaFrame"
-                                   Background="Transparent">
+                                   Background="Transparent"
+                                   Grid.Row="1"
+                                   Margin="10, 0">
                             </Frame>
-                        </StackPanel>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

@@ -36,7 +36,7 @@
                   x:Load="{x:Bind ViewModel.Model.Data.Media.Type, 
                                 Converter={StaticResource TypeToBoolConv}, Mode=OneWay}">
         </ComboBox>
-        <ScrollViewer Height="650"
+        <ScrollViewer Height="750"
                       Grid.Row="1"
                       x:Name="ItScrollViewer">
             <ItemsRepeater x:Name="CharacterListItRepeater">
