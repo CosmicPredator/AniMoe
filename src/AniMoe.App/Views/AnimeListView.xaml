@@ -138,13 +138,12 @@
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
-                            <toolkit:ImageEx 
-                                Grid.Row="0"
-                                Margin="10"
-                                IsCacheEnabled="True" 
-                                CornerRadius="5"
-                                Source="{x:Bind Media.CoverImage.Large}"
-                                Stretch="UniformToFill" />
+                            <toolkit:ImageEx Grid.Row="0"
+                                             Margin="10"
+                                             IsCacheEnabled="True"
+                                             CornerRadius="5"
+                                             Source="{x:Bind Media.CoverImage.Large}"
+                                             Stretch="UniformToFill" />
                             <TextBlock Text="{x:Bind Media.Title.UserPreferred}"
                                        Grid.Row="1"
                                        TextWrapping="Wrap"
@@ -205,14 +204,13 @@
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </ScrollViewer>
-        <!--<ProgressRing IsActive="{x:Bind ViewModel.IsLoading}"
-                      IsIndeterminate="True"
-                      Grid.RowSpan="3"
-                      Grid.ColumnSpan="3" />-->
         <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
                        x:Name="Shimmer"
                        ItemsSource="{x:Bind items}"
                        Grid.Row="3">
+            <ItemsRepeater.Transitions>
+                <EntranceThemeTransition />
+            </ItemsRepeater.Transitions>
             <ItemsRepeater.Layout>
                 <UniformGridLayout MinItemWidth="150"
                                    MinItemHeight="250"

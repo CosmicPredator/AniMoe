@@ -87,6 +87,7 @@ public static class StringRegexes
 
     public static string RemoveHtmlTags(this string htmlText)
     {
+        if( htmlText == null ) return htmlText;
         string plainText = Regex.Replace(htmlText, @"<[^>]+>|&nbsp;", "").Trim();
         return plainText;
     }

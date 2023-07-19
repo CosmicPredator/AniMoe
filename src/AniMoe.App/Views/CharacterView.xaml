@@ -33,7 +33,7 @@
         <ScrollViewer x:Name="MasterScrollViewer"
                       x:Load="{x:Bind ViewModel.LoadView.ExecutionTask.IsCompleted}"
                       Loaded="MasterScrollViewer_Loaded">
-            <Grid Margin="40"
+            <Grid Margin="20"
                   RowSpacing="20">
                 <Grid.ChildrenTransitions>
                     <EntranceThemeTransition />
@@ -130,9 +130,8 @@
                     </Grid.RowDefinitions>
                     <labs:Segmented SelectionMode="Single"
                                     x:Name="SegmentedBox"
-                                    SelectionChanged="SegmentedBox_SelectionChanged"
+                                    ItemClick="SegmentedBox_ItemClick"
                                     Style="{StaticResource PivotSegmentedStyle}"
-                                    SelectedIndex="0"
                                     Grid.Row="0">
                         <labs:SegmentedItem Content="Anime"
                                             FontSize="20"
@@ -143,10 +142,12 @@
                                             FontWeight="Medium"
                                             x:Name="MangaPage" />
                     </labs:Segmented>
+                    <Frame x:Name="ChildFrame" 
+                           Grid.Row="1"/>
                 </Grid>
             </Grid>
         </ScrollViewer>
-        <Grid Margin="40"
+        <Grid Margin="20"
               RowSpacing="20"
               x:Name="LoadGrid"
               x:Load="{x:Bind ViewModel.LoadView.IsRunning}">

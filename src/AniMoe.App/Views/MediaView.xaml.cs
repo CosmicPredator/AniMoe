@@ -111,7 +111,7 @@ namespace AniMoe.App.Views
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            //DesExpander.IsExpanded = !DesExpander.IsExpanded;
+            DesExpander.IsExpanded = !DesExpander.IsExpanded;
         }
 
         private async Task<double> GetWebViewContentHeightAsync(WebView2 webView)

@@ -121,7 +121,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <!--<Expander CornerRadius="8"
+                        <Expander CornerRadius="8"
                                   x:Name="DesExpander"
                                   Grid.Row="0"
                                   HorizontalAlignment="Stretch"
@@ -147,8 +147,9 @@
                                             <EntranceThemeTransition IsStaggeringEnabled="True"/>
                                         </StackPanel.ChildrenTransitions>
                                         <TextBlock Text="{x:Bind ViewModel.DescriptionText}"
-                                           MaxLines="1"
-                                           FontSize="15"/>
+                                           MaxLines="3"
+                                           FontSize="15"
+                                           TextWrapping="Wrap"/>
                                         <HyperlinkButton Click="HyperlinkButton_Click"
                                                      Content="read more..."
                                                      Padding="0"/>
@@ -162,7 +163,7 @@
                                                FontSize="15"/>
                                 </Grid>
                             </Expander.Content>
-                        </Expander>-->
+                        </Expander>
                         <Grid Grid.Row="1"
                               VerticalAlignment="Top">
                             <Grid.RowDefinitions>

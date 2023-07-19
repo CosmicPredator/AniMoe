@@ -54,7 +54,7 @@ namespace AniMoe.App.Models.CharacterModel
     public partial class Media
     {
         [JsonProperty("edges")]
-        public Edge[] Edges { get; set; }
+        public List<Edge> Edges { get; set; }
     }
 
     public partial class Edge
@@ -64,6 +64,9 @@ namespace AniMoe.App.Models.CharacterModel
 
         [JsonProperty("node")]
         public Node Node { get; set; }
+
+        [JsonIgnore]
+        public VoiceActor SelectedVoiceActor { get; set; }
     }
 
     public partial class Node

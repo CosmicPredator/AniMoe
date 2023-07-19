@@ -3,12 +3,105 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:AniMoe.App.Controls.CharacterViewControls"
+      xmlns:Model="using:AniMoe.App.Models.CharacterModel"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
-    <Grid>
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:converters="using:AniMoe.App.Converters"
+      mc:Ignorable="d"
+      Loaded="Page_Loaded">
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/LayoutStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:UpperToCultureStringConverter x:Key="UpperToCulture"/>
+            <converters:TypeToBoolConv x:Key="TypeToBoolConv"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid RowSpacing="10"
+          x:Name="MasterGrid">
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <ComboBox Grid.Row="0" 
+                  x:Name="LanguageComboBox"
+                  Width="200"
+                  SelectionChanged="LanguageComboBox_SelectionChanged"
+                  x:Load="{x:Bind IsVAComboBoxVisible}"/>
+        <ScrollViewer MaxHeight="750"
+                      Grid.Row="1"
+                      x:Name="ItScrollViewer">
+            <ItemsRepeater x:Name="CharacterListItRepeater">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout MaximumRowsOrColumns="2"
+                                       ItemsStretch="Fill"
+                                       MinColumnSpacing="20"
+                                       MinRowSpacing="20" />
+                </ItemsRepeater.Layout>
+                <DataTemplate x:DataType="Model:Edge">
+                    <Grid VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
+                        <RelativePanel Style="{StaticResource CardRelativePanelStyle}">
+                            <controls:ImageEx Source="{x:Bind Node.CoverImage.Large.OriginalString}"
+                                              Width="70"
+                                              Height="100"
+                                              IsCacheEnabled="True"
+                                              Margin="10"
+                                              Stretch="UniformToFill"
+                                              x:Name="CharacterImage"
+                                              RelativePanel.AlignLeftWithPanel="True"
+                                              CornerRadius="8" 
+                                              PointerPressed="CharacterImage_PointerPressed"
+                                              Tag="{x:Bind Node.Id}"/>
+                            <TextBlock Text="{x:Bind Node.Title.UserPreferred}"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Margin="10"
+                                       MaxLines="2"
+                                       TextTrimming="CharacterEllipsis"
+                                       RelativePanel.AlignTopWithPanel="True"
+                                       RelativePanel.RightOf="CharacterImage" />
+                            <TextBlock Text="{x:Bind Node.Type, Converter={StaticResource UpperToCulture}}"
+                                       Style="{StaticResource BodyTextBlockStyle}"
+                                       Margin="10"
+                                       MaxLines="2"
+                                       TextTrimming="CharacterEllipsis"
+                                       RelativePanel.AlignBottomWithPanel="True"
+                                       RelativePanel.RightOf="CharacterImage" />
+                            <controls:ImageEx Source="{x:Bind SelectedVoiceActor.Image.Large}"
+                                              Width="70"
+                                              Height="100"
+                                              Margin="10"
+                                              x:Load="{x:Bind Node.Type, Converter={StaticResource TypeToBoolConv}}"
+                                              Stretch="UniformToFill"
+                                              x:Name="StaffImage"
+                                              RelativePanel.AlignRightWithPanel="True"
+                                              CornerRadius="8" />
+                            <TextBlock Text="{x:Bind SelectedVoiceActor.Name.UserPreferred}"
+                                       Style="{StaticResource BodyStrongTextBlockStyle}"
+                                       Margin="10, 10, 10, 5"
+                                       RelativePanel.AlignTopWithPanel="True"
+                                       MaxLines="2"
+                                       x:Load="{x:Bind Node.Type, Converter={StaticResource TypeToBoolConv}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       RelativePanel.LeftOf="StaffImage"
+                                       x:Name="StaffNameTextBlock" />
+                            <TextBlock Text="{x:Bind SelectedVoiceActor.LanguageV2}"
+                                       Style="{StaticResource BodyTextBlockStyle}"
+                                       Margin="10"
+                                       MaxLines="2"
+                                       x:Name="StaffLang"
+                                       x:Load="{x:Bind Node.Type, Converter={StaticResource TypeToBoolConv}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       RelativePanel.AlignBottomWithPanel="True"
+                                       RelativePanel.LeftOf="StaffImage" />
+                        </RelativePanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsRepeater>
+        </ScrollViewer>
     </Grid>
 </Page>

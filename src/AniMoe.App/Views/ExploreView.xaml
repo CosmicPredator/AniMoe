@@ -271,20 +271,27 @@
                     </ItemsRepeater>
                 </Grid>
             </ScrollViewer>
-            <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading}"
-                           x:Name="Shimmer"
-                           ItemsSource="{x:Bind items}">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
-                                       MinItemHeight="{x:Bind ViewModel.ItemHeight}"
-                                       MinColumnSpacing="15"
-                                       MinRowSpacing="15"
-                                       ItemsStretch="Uniform" />
-                </ItemsRepeater.Layout>
-                <DataTemplate>
-                    <labs:Shimmer CornerRadius="4" />
-                </DataTemplate>
-            </ItemsRepeater>
+            <Grid>
+                <Grid.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition />
+                    </TransitionCollection>
+                </Grid.ChildrenTransitions>
+                <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading}"
+                               x:Name="Shimmer"
+                               ItemsSource="{x:Bind items}">
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
+                                           MinItemHeight="{x:Bind ViewModel.ItemHeight}"
+                                           MinColumnSpacing="15"
+                                           MinRowSpacing="15"
+                                           ItemsStretch="Uniform" />
+                    </ItemsRepeater.Layout>
+                    <DataTemplate>
+                        <labs:Shimmer CornerRadius="4" />
+                    </DataTemplate>
+                </ItemsRepeater>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

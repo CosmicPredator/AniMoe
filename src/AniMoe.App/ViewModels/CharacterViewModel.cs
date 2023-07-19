@@ -16,6 +16,9 @@ namespace AniMoe.App.ViewModels
         [ObservableProperty]
         private CharacterModel model;
 
+        [ObservableProperty]
+        private int selectedIndex;
+
         public IAsyncRelayCommand LoadView { get; }
 
         public CharacterViewModel(int charId)

@@ -56,7 +56,9 @@
                         <Button VerticalAlignment="Top"
                                 HorizontalAlignment="Left"
                                 Margin="15"
-                                FontSize="15">
+                                FontSize="15"
+                                x:Name="EditButton"
+                                x:Load="{x:Bind ViewModel.LoadEditButton}">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal"
                                             Spacing="10">

@@ -26,9 +26,13 @@ namespace AniMoe.App.ViewModels
         private IMdToHtmlParser MdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         private DispatcherQueue dispatcherQueue;
         private string createdTime;
+        private MasterViewModel masterViewModel = App.Current.Services.GetRequiredService<MasterViewModel>();
 
         [ObservableProperty]
         private bool isLoading = true;
+
+        [ObservableProperty]
+        private bool loadEditButton = false;
 
         public ReviewModel Model
         {
@@ -98,9 +102,10 @@ namespace AniMoe.App.ViewModels
             }, DispatcherQueuePriority.High);
             Model = await Initialize.FetchData(reviewId);
             CreatedTime = EpochToString(Model.Data.Review.CreatedAt);
+            if( Model.Data.Review.User.Id != masterViewModel.Model.Data.User.Id ) LoadEditButton = false;
             dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
             {
-                Webview.NavigateToString(MdToHtmlParser.Convert(Model.Data.Review.Body));
+                Webview.NavigateToString(MdToHtmlParser.Convert(Model.Data.Review.Body, true));
             });
             IsLoading = false;
         }

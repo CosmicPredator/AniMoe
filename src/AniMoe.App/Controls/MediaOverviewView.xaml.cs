@@ -140,12 +140,5 @@ namespace AniMoe.App.Controls
                     )
                 );
         }
-
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            DescriptionTextBlock.MaxLines = DescriptionTextBlock.MaxLines == 0 ? 3 : 0;
-            (sender as HyperlinkButton).Content = DescriptionTextBlock.MaxLines == 0 ?
-                "read less..." : "read more...";
-        }
     }
 }
