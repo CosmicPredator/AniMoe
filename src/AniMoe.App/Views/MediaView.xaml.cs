@@ -37,7 +37,6 @@ namespace AniMoe.App.Views
     {
         private MediaViewViewModel ViewModel;
         private int MediaId;
-        private Color BgColor;
         DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

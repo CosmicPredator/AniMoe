@@ -65,12 +65,12 @@
                       BorderThickness="1"
                       CornerRadius="8"
                       Padding="3"
-                      x:Name="MasterGrid"
+                      x:Name="CharacterGrid"
                       Canvas.ZIndex="1"
                       Tag="{x:Bind Id}"
                       PointerEntered="MasterGrid_PointerEntered"
                       PointerExited="MasterGrid_PointerExited"
-                      PointerPressed="MasterGrid_PointerPressed">
+                      PointerPressed="CharacterGrid_PointerPressed">
                     <Grid.Shadow>
                         <ThemeShadow />
                     </Grid.Shadow>

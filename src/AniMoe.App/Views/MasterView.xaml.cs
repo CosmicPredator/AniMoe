@@ -45,10 +45,6 @@ namespace AniMoe.App.Views
             {
                 PrimaryFrame.Navigate(typeof(ExploreView), null, NavAnimation);
             }
-            else if( (string)selected.Content == "Home" )
-            {
-                PrimaryFrame.Navigate(typeof(CharacterView), null, NavAnimation);
-            }
         }
 
         private void PrimaryFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -76,7 +72,16 @@ namespace AniMoe.App.Views
 
         private void MasterNavView_Loaded(object sender, RoutedEventArgs e)
         {
+            RootGrid.SizeChanged += RootGrid_SizeChanged;
             PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if( RootGrid.ActualWidth > 1200 )
+                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+            else
+                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,6 +76,19 @@ namespace AniMoe.App.Views
                 if( properties.IsLeftButtonPressed )
                 {
                     Frame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
+                }
+            }
+        }
+
+        private void CharacterGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if( properties.IsLeftButtonPressed )
+                {
+                    Frame.Navigate(typeof(CharacterView), 
+                        Convert.ToInt32((sender as Grid).Tag), new DrillInNavigationTransitionInfo());
                 }
             }
         }

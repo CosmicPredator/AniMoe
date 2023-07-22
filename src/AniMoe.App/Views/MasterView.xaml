@@ -9,6 +9,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:conv="using:AniMoe.App.Controls"
+      x:Name="MasterPage"
       mc:Ignorable="d"
       x:DefaultBindMode="OneWay">
     <Interactivity:Interaction.Behaviors>
@@ -22,6 +23,7 @@
                     OpenPaneLength="200"
                     ItemInvoked="MasterNavView_ItemInvoked"
                     IsBackEnabled="True"
+                    PaneDisplayMode="LeftCompact"
                     BackRequested="MasterNavView_BackRequested"
                     x:Load="{x:Bind ViewModel.IsVisible}"
                     Loaded="MasterNavView_Loaded">
