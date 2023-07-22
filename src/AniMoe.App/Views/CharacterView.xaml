@@ -33,7 +33,7 @@
         <ScrollViewer x:Name="MasterScrollViewer"
                       x:Load="{x:Bind ViewModel.LoadView.ExecutionTask.IsCompleted}"
                       Loaded="MasterScrollViewer_Loaded">
-            <Grid Margin="40"
+            <Grid Margin="20"
                   RowSpacing="20">
                 <Grid.ChildrenTransitions>
                     <EntranceThemeTransition />
@@ -109,16 +109,15 @@
                     <Grid Grid.Row="1"
                           CornerRadius="10"
                           BorderThickness="1"
-                          x:Name="WebGrid"
-                          MaxHeight="400">
+                          x:Name="WebGrid">
                         <WebView2 x:Name="DescriptionWebView"
                                   DefaultBackgroundColor="Transparent"
                                   NavigationCompleted="DescriptionWebView_NavigationCompleted">
                             <WebView2.Resources>
                                 <SolidColorBrush x:Name="BrushForThemeBackgroundColor"
-                                                 Color="Transparent"/>
+                                                 Color="Transparent" />
                                 <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC"
-                                                 Color="Transparent"/>
+                                                 Color="Transparent" />
                             </WebView2.Resources>
                         </WebView2>
                     </Grid>

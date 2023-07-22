@@ -32,7 +32,7 @@ namespace AniMoe.App.ViewModels
         private bool isLoading = true;
 
         [ObservableProperty]
-        private bool loadEditButton = true;
+        private bool loadEditButton = false;
 
         public ReviewModel Model
         {

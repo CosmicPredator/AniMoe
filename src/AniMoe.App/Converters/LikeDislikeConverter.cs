@@ -16,7 +16,7 @@ namespace AniMoe.App.Converters
         {
             if ( value.ToString() == "UP_VOTE" )
             {
-                return new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColorLight2"]);
+                return (SolidColorBrush)Application.Current.Resources["SystemAccentColorLight2"];
             } else
             {
                 return (SolidColorBrush)Application.Current.Resources["TextFillColorPrimaryBrush"];

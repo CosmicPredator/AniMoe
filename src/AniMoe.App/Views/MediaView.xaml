@@ -33,8 +33,7 @@
     <Grid DataContext="{x:Bind ViewModel}">
         <ScrollViewer>
             <Grid Visibility="{x:Bind ViewModel.Loaded, Converter={StaticResource BtV}}"
-                  RowDefinitions="Auto, *"
-                  Margin="20">
+                  RowDefinitions="Auto, *">
                 <Grid.ChildrenTransitions>
                     <EntranceThemeTransition />
                 </Grid.ChildrenTransitions>
