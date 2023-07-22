@@ -56,7 +56,7 @@ namespace AniMoe.App
 
         public new static App Current => (App)Application.Current;
 
-        private Window m_window;
+        public Window m_window;
 
         public static IServiceProvider ConfigureServices()
         {

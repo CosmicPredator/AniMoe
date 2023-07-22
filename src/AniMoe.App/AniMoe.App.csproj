@@ -41,7 +41,6 @@
     <None Remove="Views\ExploreView.xaml" />
     <None Remove="Views\LoginView.xaml" />
     <None Remove="Views\MangaListView.xaml" />
-    <None Remove="Views\MasterView.xaml" />
     <None Remove="Views\MediaView.xaml" />
     <None Remove="Views\ReviewView.xaml" />
     <None Remove="Views\RootWindow.xaml" />
@@ -93,11 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\AnimeListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\MasterView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

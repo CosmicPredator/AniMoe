@@ -23,8 +23,10 @@
                     ItemInvoked="MasterNavView_ItemInvoked"
                     IsBackEnabled="True"
                     BackRequested="MasterNavView_BackRequested"
+                    PaneDisplayMode="LeftMinimal"
                     x:Load="{x:Bind ViewModel.IsVisible}"
-                    Loaded="MasterNavView_Loaded">
+                    Loaded="MasterNavView_Loaded"
+                    DisplayModeChanged="MasterNavView_DisplayModeChanged">
             <NavigationView.Transitions>
                 <TransitionCollection>
                     <EntranceThemeTransition />

@@ -76,7 +76,34 @@ namespace AniMoe.App.Views
 
         private void MasterNavView_Loaded(object sender, RoutedEventArgs e)
         {
+            RootGrid.SizeChanged += RootGrid_SizeChanged;
             PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+        }
+
+        private void MasterNavView_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            var window = (Application.Current as App)?.m_window as RootWindow;
+            Thickness thick = new Thickness()
+            {
+                Left = MasterNavView.CompactPaneLength * (MasterNavView.DisplayMode == NavigationViewDisplayMode.Minimal ? 2 : 1),
+                Top = 5
+            };
+            PrimaryFrame.Margin = new Thickness()
+            {
+                Top = MasterNavView.DisplayMode == NavigationViewDisplayMode.Minimal ? 30 : 0
+            };
+            window.ChangeTitleBarThickness(thick);
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (RootGrid.ActualWidth < 1200 )
+            {
+                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
+            } else
+            {
+                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+            }
         }
     }
 }

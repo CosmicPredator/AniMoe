@@ -1,4 +1,5 @@
 using AniMoe.App.ViewModels;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -75,6 +76,19 @@ namespace AniMoe.App.Views
                 if( properties.IsLeftButtonPressed )
                 {
                     Frame.Navigate(typeof(ReviewView), Convert.ToInt32(g.Tag), new DrillInNavigationTransitionInfo());
+                }
+            }
+        }
+
+        private void CharacterGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if( properties.IsLeftButtonPressed )
+                {
+                    Frame.Navigate(typeof(CharacterView), Convert.ToInt32((sender as Grid).Tag),
+                        new DrillInNavigationTransitionInfo());
                 }
             }
         }

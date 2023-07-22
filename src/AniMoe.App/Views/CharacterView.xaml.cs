@@ -36,8 +36,7 @@ namespace AniMoe.App.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            CharId = 172759;
-            ViewModel = new(CharId);
+            ViewModel = new((int)e.Parameter);
             DataContext = ViewModel;
             base.OnNavigatedTo(e);
         }

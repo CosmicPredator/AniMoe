@@ -12,27 +12,41 @@ using Microsoft.UI.Xaml.Media;
 using System.Diagnostics;
 using AniMoe.App.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Dispatching;
+using AniMoe.App.ViewModels;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.VoiceCommands;
 
 namespace AniMoe.App.Views
 { 
     public sealed partial class RootWindow : Window
     {
         private ILocalSettings _localSettings;
+
+        public Thickness TitleBarThickness = new()
+        {
+            Left = 20,
+            Top = 5
+        };
+
         public RootWindow()
         {
             this.InitializeComponent();
             LoadIcon("Assets/Window-Icon.ico");
             _localSettings = App.Current.Services.GetService<ILocalSettings>();
+            AppTitleBar.Margin = TitleBarThickness;
             SetTitle();
             SetView();
+            RootGrid.DataContext = this;
         }
 
         private void SetView()
         {
-            if( _localSettings.IsSettingExists("accessToken") ) 
-                RootFrame.Navigate(typeof(MasterView));
-            else 
-                RootFrame.Navigate(typeof(LoginView));
+            if( _localSettings.IsSettingExists("accessToken") )
+                PrimaryFrame.Navigate(typeof(MasterView));
+            else
+                PrimaryFrame.Navigate(typeof(LoginView));
         }
 
         private void SetTitle()
@@ -47,6 +61,11 @@ namespace AniMoe.App.Views
                       PInvoke.User32.ImageType.IMAGE_ICON, 16, 16, PInvoke.User32.LoadImageFlags.LR_LOADFROMFILE);
 
             PInvoke.User32.SendMessage(hwnd, PInvoke.User32.WindowMessage.WM_SETICON, (IntPtr)0, hIcon);
+        }
+
+        public void ChangeTitleBarThickness(Thickness thickness)
+        {
+            AppTitleBar.Margin = thickness;
         }
 
         [ComImport]

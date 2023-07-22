@@ -24,7 +24,7 @@
         <converters:UntilEpochConverter x:Key="UntilConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
     </Page.Resources>
-    <Grid Margin="40, 10"
+    <Grid Margin="30, 10"
           RowSpacing="20"
           DataContext="{x:Bind ViewModel}"
           x:Name="RootGrid">

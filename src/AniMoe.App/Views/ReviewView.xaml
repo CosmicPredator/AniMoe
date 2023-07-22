@@ -30,7 +30,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="0, 10">
         <ScrollViewer x:Name="MasterScrollViewer"
                       Visibility="{x:Bind ViewModel.LoadCommand.ExecutionTask.IsCompleted, 
                                 Converter={StaticResource BoolToVisiblity}}">

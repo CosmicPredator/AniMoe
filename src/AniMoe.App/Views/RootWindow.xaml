@@ -5,22 +5,24 @@
         Title="AniMoe PREVIEW"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d">
+        xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+        xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+        mc:Ignorable="d"
+        x:DefaultBindMode="OneWay">
     <Window.SystemBackdrop>
         <MicaBackdrop Kind="BaseAlt" />
     </Window.SystemBackdrop>
-    <Grid Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Grid Background="Transparent"
+          x:Name="RootGrid">
         <Grid x:Name="AppTitleBar"
               IsHitTestVisible="True"
               VerticalAlignment="Top"
+              Canvas.ZIndex="0"
               Height="40">
-            <Image Margin="10, 0, 0, 0"
+            <Image Margin="0, 0, 0, 0"
                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-24_altform-unplated.png"
                    HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
                    Width="18"
                    Height="18" />
             <TextBlock x:Name="AppTitleBarText"
@@ -28,12 +30,12 @@
                        TextWrapping="NoWrap"
                        Style="{StaticResource CaptionTextBlockStyle}"
                        Opacity="0.4"
-                       Margin="40,0,0,0">
+                       Margin="30,0,0,0">
                 <Run Text="AniMoe"/>
                 <Run Text="PREVIEW" CharacterSpacing="10"/>
             </TextBlock>
         </Grid>
-        <Frame x:Name="RootFrame"
-               Grid.Row="1" />
+        <Frame x:Name="PrimaryFrame" 
+               Canvas.ZIndex="1"/>
     </Grid>
 </Window>

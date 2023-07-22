@@ -59,7 +59,9 @@
                                 Stretch="UniformToFill"
                                 x:Name="CharacterImage"
                                 RelativePanel.AlignLeftWithPanel="True"
-                                CornerRadius="8"/>
+                                CornerRadius="8"
+                                Tag="{x:Bind Node.Id}"
+                                PointerPressed="CharacterImage_PointerPressed"/>
                             <TextBlock Text="{x:Bind Node.Name.UserPreferred}"
                                    Style="{StaticResource BodyStrongTextBlockStyle}"
                                    Margin="10"

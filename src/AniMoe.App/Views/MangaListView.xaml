@@ -20,7 +20,7 @@
         <converters:NullToQuestionMark x:Key="NullConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
     </Page.Resources>
-    <Grid Margin="40, 10"
+    <Grid Margin="30, 10"
           RowSpacing="20"
           DataContext="{x:Bind ViewModel}"
           x:Name="RootGrid">

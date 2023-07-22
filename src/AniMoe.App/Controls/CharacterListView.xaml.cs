@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading;
 using CommunityToolkit.Common.Collections;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Animation;
+using CommunityToolkit.WinUI.UI.Controls;
 
 namespace AniMoe.App.Controls
 {
@@ -89,6 +91,19 @@ namespace AniMoe.App.Controls
                 if (!collection.IsLoading)
                 {
                     await collection.LoadMoreItemsAsync(25);
+                }
+            }
+        }
+
+        private void CharacterImage_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if( properties.IsLeftButtonPressed )
+                {
+                    NavArgs.RootFrame.Navigate(typeof(CharacterView), Convert.ToInt32((sender as ImageEx).Tag), 
+                        new DrillInNavigationTransitionInfo());
                 }
             }
         }
