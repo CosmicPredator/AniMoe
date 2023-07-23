@@ -100,7 +100,8 @@
                     <WebView2 x:Name="ReviewWebView"
                               DefaultBackgroundColor="Transparent"
                               NavigationStarting="ReviewWebView_NavigationStarting"
-                              NavigationCompleted="ReviewWebView_NavigationCompleted">
+                              NavigationCompleted="ReviewWebView_NavigationCompleted"
+                              PointerWheelChanged="ReviewWebView_PointerWheelChanged">
                         <WebView2.Resources>
                             <SolidColorBrush x:Name="BrushForThemeBackgroundColor"
                                              Color="Transparent" />

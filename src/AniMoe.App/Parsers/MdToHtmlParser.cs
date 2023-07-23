@@ -76,7 +76,7 @@ namespace AniMoe.Parsers
                     }}
                 
                     *::-webkit-scrollbar {{
-                        width: 4px;
+                        width: 8px;
                     }}
 
                     *::-webkit-scrollbar-thumb {{
@@ -148,7 +148,7 @@ namespace AniMoe.Parsers
                         .ConvertInlineImageWLinkAttr()
                         .ConvertInlineLinks()
                         .ConvertItalic();
-            return $"{PreReq}{Markdown.ToHtml(rawHtml, pipeline)}";
+            return $@"{PreReq}<div id='mainDiv'> {(Markdown.ToHtml(rawHtml, pipeline))} </div>";
         }
     }
 }

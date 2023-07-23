@@ -109,10 +109,14 @@
                     <Grid Grid.Row="1"
                           CornerRadius="10"
                           BorderThickness="1"
-                          x:Name="WebGrid">
+                          x:Name="WebGrid"
+                          Canvas.ZIndex="1">
                         <WebView2 x:Name="DescriptionWebView"
+                                  AllowFocusOnInteraction="False"
                                   DefaultBackgroundColor="Transparent"
-                                  NavigationCompleted="DescriptionWebView_NavigationCompleted">
+                                  NavigationCompleted="DescriptionWebView_NavigationCompleted"
+                                  Canvas.ZIndex="0"
+                                  PointerWheelChanged="DescriptionWebView_PointerWheelChanged">
                             <WebView2.Resources>
                                 <SolidColorBrush x:Name="BrushForThemeBackgroundColor"
                                                  Color="Transparent" />
@@ -131,7 +135,6 @@
                     </Grid.RowDefinitions>
                     <labs:Segmented SelectionMode="Single"
                                     x:Name="SegmentedBox"
-                                    ItemClick="SegmentedBox_ItemClick"
                                     Style="{StaticResource PivotSegmentedStyle}"
                                     Grid.Row="0">
                         <labs:SegmentedItem Content="Anime"

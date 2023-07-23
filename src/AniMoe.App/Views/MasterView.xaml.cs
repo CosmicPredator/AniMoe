@@ -77,6 +77,7 @@ namespace AniMoe.App.Views
         private void MasterNavView_Loaded(object sender, RoutedEventArgs e)
         {
             RootGrid.SizeChanged += RootGrid_SizeChanged;
+            RepositionTitleBar();
             PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
         }
 
@@ -96,11 +97,15 @@ namespace AniMoe.App.Views
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+            => RepositionTitleBar();
+
+        private void RepositionTitleBar()
         {
-            if (RootGrid.ActualWidth < 1200 )
+            if( RootGrid.ActualWidth < 1200 )
             {
                 MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
-            } else
+            }
+            else
             {
                 MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
             }

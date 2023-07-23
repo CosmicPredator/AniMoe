@@ -24,6 +24,8 @@ using Microsoft.UI.Xaml.Media.Animation;
 using AniMoe.App.Controls;
 using Windows.Media;
 using AniMoe.App.Controls.CharacterViewControls;
+using CommunityToolkit.WinUI.UI;
+using System.Diagnostics;
 
 namespace AniMoe.App.Views
 {
@@ -33,6 +35,8 @@ namespace AniMoe.App.Views
         public CharacterViewModel ViewModel;
         public int CharId;
         public IMdToHtmlParser mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
+        private bool webViewHasFocus = false;
+        DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -90,18 +94,71 @@ namespace AniMoe.App.Views
 
         private async void DescriptionWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
         {
-            string js = "document.body.offsetHeight";
-            string heightString = await DescriptionWebView.ExecuteScriptAsync(js);
-
-            Log.Information(heightString);
+            string jsx = "document.body.offsetHeight";
+            string heightString = await DescriptionWebView.ExecuteScriptAsync(jsx);
+            Debug.WriteLine(heightString);
             if( double.TryParse(heightString, out double height) )
             {
-                WebGrid.Height = height / 3.5;
+                WebGrid.Height = height == 816 ? height : height / 3.5;
+            }
+
+            string js = @"
+                var summaryTags = document.getElementsByTagName('summary');
+                for (var i = 0; i < summaryTags.length; i++) {
+                    summaryTags[i].addEventListener('click', function() {
+                        window.chrome.webview.postMessage('summaryClicked');
+                    });
+                }
+                function calculateContentHeight() {
+                    var body = document.body;
+                    var html = document.documentElement;
+                    var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+                    window.chrome.webview.postMessage(height.toString());
+                }
+                calculateContentHeight();
+            ";
+            await DescriptionWebView.ExecuteScriptAsync(js);
+            DescriptionWebView.WebMessageReceived += DescriptionWebView_WebMessageReceived;
+        }
+
+        private void DescriptionWebView_WebMessageReceived(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
+        {
+            string message = args.TryGetWebMessageAsString();
+            if( !string.IsNullOrEmpty(message) )
+            {
+                if( message == "summaryClicked" )
+                {
+                    // Update WebView2 height when summary tag is clicked
+                    UpdateWebViewHeight();
+                }
+                else if( double.TryParse(message, out double contentHeight) )
+                {
+                    // Use the content height value
+                    WebGrid.Height = contentHeight;
+                }
             }
         }
 
-        private void SegmentedBox_ItemClick(object sender, ItemClickEventArgs e)
+        private async void UpdateWebViewHeight()
         {
+            // Inject JavaScript code to recalculate content height after summary tag is clicked
+            string js = "calculateContentHeight();";
+            await DescriptionWebView.ExecuteScriptAsync(js);
+        }
+
+        private void DescriptionWebView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                DescriptionWebView.IsHitTestVisible = false;
+                timer.Debounce(() => {
+                    DescriptionWebView.IsHitTestVisible = true;
+                }, TimeSpan.FromMilliseconds(500));
+            }
+            catch( Exception ex )
+            {
+                Log.Error(ex, "Some Error Occured");
+            }
         }
     }
 }

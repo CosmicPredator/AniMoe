@@ -32,8 +32,7 @@
                   Width="200"
                   SelectionChanged="LanguageComboBox_SelectionChanged"
                   x:Load="{x:Bind IsVAComboBoxVisible}"/>
-        <ScrollViewer MaxHeight="750"
-                      Grid.Row="1"
+        <ScrollViewer Grid.Row="1"
                       x:Name="ItScrollViewer">
             <ItemsRepeater x:Name="CharacterListItRepeater">
                 <ItemsRepeater.Layout>

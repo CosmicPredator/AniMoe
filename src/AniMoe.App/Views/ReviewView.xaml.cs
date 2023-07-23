@@ -1,6 +1,7 @@
 using AniMoe.App.ViewModels;
 using AniMoe.Parsers;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -27,7 +28,8 @@ namespace AniMoe.App.Views
     {
         public DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         private ReviewViewModel ViewModel;
-        
+        DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+
         private int ReviewId;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -86,13 +88,63 @@ namespace AniMoe.App.Views
 
         private async Task SetWebViewHeight()
         {
-            string js = "Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);";
-            string heightString = await ReviewWebView.ExecuteScriptAsync(js);
+            string jsx = "Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);";
+            string heightString = await ReviewWebView.ExecuteScriptAsync(jsx);
 
             if( double.TryParse(heightString, out double height) )
             {
                 WebGrid.Height = height;
             }
+            string js = @"
+                var summaryTags = document.getElementsByTagName('summary');
+                for (var i = 0; i < summaryTags.length; i++) {
+                    summaryTags[i].addEventListener('click', function() {
+                        window.chrome.webview.postMessage('summaryClicked');
+                    });
+                }
+                function calculateContentHeight() {
+                    var body = document.body;
+                    var html = document.documentElement;
+                    var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+                    window.chrome.webview.postMessage(height.toString());
+                }
+                calculateContentHeight();
+            ";
+            await ReviewWebView.ExecuteScriptAsync(js);
+            ReviewWebView.WebMessageReceived += ReviewWebView_WebMessageReceived;
+        }
+
+        private void ReviewWebView_WebMessageReceived(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
+        {
+            string message = args.TryGetWebMessageAsString();
+            if( !string.IsNullOrEmpty(message) )
+            {
+                if( message == "summaryClicked" )
+                {
+                    // Update WebView2 height when summary tag is clicked
+                    UpdateWebViewHeight();
+                }
+                else if( double.TryParse(message, out double contentHeight) )
+                {
+                    // Use the content height value
+                    WebGrid.Height = contentHeight;
+                }
+            }
+        }
+
+        private async void UpdateWebViewHeight()
+        {
+            // Inject JavaScript code to recalculate content height after summary tag is clicked
+            string js = "calculateContentHeight();";
+            await ReviewWebView.ExecuteScriptAsync(js);
+        }
+
+        private void ReviewWebView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            ReviewWebView.IsHitTestVisible = false;
+            timer.Debounce(() => {
+                ReviewWebView.IsHitTestVisible = true;
+            }, TimeSpan.FromMilliseconds(500));
         }
     }
 }

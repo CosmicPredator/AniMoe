@@ -19,6 +19,11 @@
               VerticalAlignment="Top"
               Canvas.ZIndex="0"
               Height="40">
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </Grid.Transitions>
             <Image Margin="0, 0, 0, 0"
                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-24_altform-unplated.png"
                    HorizontalAlignment="Left"
