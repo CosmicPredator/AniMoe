@@ -21,18 +21,22 @@ using System.ComponentModel.Design;
 
 namespace AniMoe.App.ViewModels
 {
-    public class AnimeListViewModel : ObservableObject
+    public partial class AnimeListViewModel : ObservableObject
     {
         private AnimeListModel model;
         private MasterViewModel StatusModel;
         private bool loaded = false;
         private bool isLoading = true;
-        private IEnumerable<string> statusLists;
+        private bool isEmpty = false;
+        private ObservableCollection<string> statusLists;
         private ObservableCollection<Entry> currentListView;
         private string selectedStatus;
         private MediaListFliterView filterDialog;
         private bool emptyCollection = false;
         private Brush buttonColor = (Brush)App.Current.Resources["CardBackgroundFillColorDefaultBrush"];
+
+        [ObservableProperty]
+        private bool loadStatusBar;
 
         public AnimeListModel Model
         {
@@ -52,6 +56,12 @@ namespace AniMoe.App.ViewModels
             set => SetProperty(ref isLoading, value);
         }
 
+        public bool IsEmpty
+        {
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value);
+        }
+
         public Brush ButtonColor
         {
             get => buttonColor;
@@ -67,7 +77,7 @@ namespace AniMoe.App.ViewModels
         public IAsyncRelayCommand LoadView { get; }
         public IAsyncRelayCommand ReloadCollection { get; }
 
-        public IEnumerable<string> StatusLists
+        public ObservableCollection<string> StatusLists
         {
             get => statusLists;
             set => SetProperty(ref statusLists, value);
@@ -88,7 +98,7 @@ namespace AniMoe.App.ViewModels
         public void StatusChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox box = sender as ComboBox;
-            if( CurrentListView != null && Model != null )
+            if( CurrentListView != null && Model != null && StatusLists != null)
             {
                 Loaded = false;
                 CurrentListView = Model.Data.MediaListCollection.Lists.Where(
@@ -97,35 +107,31 @@ namespace AniMoe.App.ViewModels
                 ApplyFilters(filterDialog.Model);
                 Loaded = true;
             }
-        }
-
-        private void CheckEmptyList()
-        {
-            EmptyCollection = CurrentListView.Count < 0;
         }
 
         public void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox box = sender as TextBox;
-            if( box.Text != "" )
+            if (CurrentListView.Count > 0 )
             {
-                Loaded = false;
-                ApplyFilters(filterDialog.Model);
-                CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
-                    x => x.Name == SelectedStatus
-                ).First().Entries.Where(
-                    y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
-                ));
-                Loaded = true;
-                CheckEmptyList();
-            }
-            else
-            {
-                CurrentListView = Model.Data.MediaListCollection.Lists.Where(
-                    x => x.Name == SelectedStatus
-                ).First().Entries;
-                ApplyFilters(filterDialog.Model);
-                CheckEmptyList();
+                TextBox box = sender as TextBox;
+                if( box.Text != "" )
+                {
+                    Loaded = false;
+                    ApplyFilters(filterDialog.Model);
+                    CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
+                        x => x.Name == SelectedStatus
+                    ).First().Entries.Where(
+                        y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
+                    ));
+                    Loaded = true;
+                }
+                else
+                {
+                    CurrentListView = Model.Data.MediaListCollection.Lists.Where(
+                        x => x.Name == SelectedStatus
+                    ).First().Entries;
+                    ApplyFilters(filterDialog.Model);
+                }
             }
         }
 
@@ -142,24 +148,39 @@ namespace AniMoe.App.ViewModels
 
         public async Task InitView(bool isReload = false)
         {
-            Loaded = false;
-            IsLoading = !Loaded;
-            if( SelectedStatus == null )
+            if( !isReload )
             {
-                StatusLists = StatusModel.mediaListStatusModel.Data.AnimeStatusList.Lists.Select(x => x.Name);
+                Loaded = false;
+                IsLoading = !Loaded;
+                LoadStatusBar = false;
+            }
+            if( StatusLists == null )
+            {
+                StatusLists = new(
+                    StatusModel.mediaListStatusModel.Data.AnimeStatusList
+                        .Lists.Select(x => x.Name).ToList()
+                );
             }
             if ( Model == null || isReload)
             {
                 Model = await Initialize.FetchData();
             }
-            CurrentListView = new();
-            CurrentListView = Model.Data.MediaListCollection.Lists.Where(
+            LoadStatusBar = true;
+            if( Model.Data.MediaListCollection.Lists.Count > 0 )
+            {
+                CurrentListView = Model.Data.MediaListCollection.Lists.Where(
                     x => x.Name == SelectedStatus
-            ).First().Entries;
-            ApplyFilters(filterDialog.Model);
+                ).FirstOrDefault().Entries;
+                ApplyFilters(filterDialog.Model);
+                IsEmpty = false;
+            }
+            else
+            {
+                CurrentListView = null;
+                IsEmpty = true;
+            }
             Loaded = true;
             IsLoading = !Loaded;
-            CheckEmptyList();
         }
 
         public async void FilterButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -170,16 +191,19 @@ namespace AniMoe.App.ViewModels
             if( result == ContentDialogResult.Primary)
             {
                 ApplyFilters(filterDialog.Model);
-                CheckEmptyList();
             } else if ( result == ContentDialogResult.Secondary )
             {
                 ApplyFilters(filterDialog.Model);
-                CheckEmptyList();
             }
         }
 
         private async Task reloadCollection()
         {
+            Loaded = false;
+            IsLoading = !Loaded;
+            LoadStatusBar = false;
+            StatusLists = null;
+            await StatusModel.LoadFromApi();
             await InitView(true);
         }
 

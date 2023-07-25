@@ -13,7 +13,8 @@
       xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       mc:Ignorable="d"
-      x:Name="AnimeListPage">
+      x:Name="AnimeListPage"
+      x:DefaultBindMode="OneWay">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="Loaded">
             <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadView}" />
@@ -41,12 +42,15 @@
             <TextBox PlaceholderText="Search anime"
                      Width="350"
                      RelativePanel.AlignLeftWithPanel="True"
+                     IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
                      TextChanged="{x:Bind ViewModel.SearchTextChanged}"
                      x:Name="AnimeListSearchBox" />
             <ComboBox PlaceholderText="Status"
                       MinWidth="150"
                       RelativePanel.LeftOf="FilterButton"
                       Margin="10, 0"
+                      x:Name="StatusComboBox"
+                      x:Load="{x:Bind ViewModel.LoadStatusBar}"
                       ItemsSource="{x:Bind ViewModel.StatusLists, Mode=OneWay}"
                       SelectionChanged="{x:Bind ViewModel.StatusChanged}"
                       SelectedItem="{x:Bind ViewModel.SelectedStatus, Mode=TwoWay}"
@@ -63,6 +67,7 @@
             <Button RelativePanel.LeftOf="ReloadButton"
                     x:Name="FilterButton"
                     Click="{x:Bind ViewModel.FilterButton_Click}"
+                    IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
                     Background="{x:Bind ViewModel.ButtonColor, Mode=OneWay}">
                 <Button.Content>
                     <FontIcon Glyph="&#xe16e;" />

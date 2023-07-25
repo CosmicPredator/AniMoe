@@ -47,19 +47,24 @@ namespace AniMoe.App.ViewModels
             LoadData = new AsyncRelayCommand(LoadModel);
         }
 
-        private async Task LoadModel()
+        public async Task LoadModel()
         {
             IsVisible = false;
             NavItemsEnable = true;
+            await LoadFromApi();
+            NavItemsEnable = false;
+            IsVisible = true;
+        }
+
+        public async Task LoadFromApi()
+        {
             Model = await Models.MasterModel.Initialize.FetchData();
-            mediaListStatusModel 
+            mediaListStatusModel
                 = await Models.MediaListStatusModel.Initialize.FetchData(Model.Data.User.Id);
             EnumValue defaultValue = new EnumValue { Name = "Select One" };
             Model.Data.MediaSourceList.EnumValues.Insert(0, defaultValue);
             Model.Data.MediaSeasonList.EnumValues.Insert(0, defaultValue);
             Model.Data.MediaFormatList.EnumValues.Insert(0, defaultValue);
-            NavItemsEnable = false;
-            IsVisible = true;
         }
     }
 }

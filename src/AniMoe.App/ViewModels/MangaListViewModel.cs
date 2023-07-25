@@ -13,21 +13,24 @@ using System.Threading.Tasks;
 using AniMoe.App.Models;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AniMoe.App.ViewModels
 {
-    public class MangaListViewModel : ObservableRecipient
+    public partial class MangaListViewModel : ObservableObject
     {
         private MangaListModel model;
         private MasterViewModel StatusModel;
         private bool loaded = false;
         private bool isLoading = true;
-        private IEnumerable<string> statusLists;
+        private bool isEmpty = false;
+        private ObservableCollection<string> statusLists;
         private ObservableCollection<Entry> currentListView;
         private string selectedStatus;
         private MediaListFliterView filterDialog;
         private Brush buttonColor = (Brush)App.Current.Resources["CardBackgroundFillColorDefaultBrush"];
+
+        [ObservableProperty]
+        private bool loadStatusBar;
 
         public MangaListModel Model
         {
@@ -47,6 +50,12 @@ namespace AniMoe.App.ViewModels
             set => SetProperty(ref isLoading, value);
         }
 
+        public bool IsEmpty
+        {
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value);
+        }
+
         public Brush ButtonColor
         {
             get => buttonColor;
@@ -57,7 +66,7 @@ namespace AniMoe.App.ViewModels
         public IRelayCommand SaveImage { get; }
         public IAsyncRelayCommand ReloadCollection { get; }
 
-        public IEnumerable<string> StatusLists
+        public ObservableCollection<string> StatusLists
         {
             get => statusLists;
             set => SetProperty(ref statusLists, value);
@@ -77,7 +86,7 @@ namespace AniMoe.App.ViewModels
 
         public void StatusChanged(object sender, SelectionChangedEventArgs e)
         {
-            if( CurrentListView != null && Model != null )
+            if( CurrentListView != null && Model != null && SelectedStatus != null )
             {
                 Loaded = false;
                 CurrentListView = Model.Data.MediaListCollection.Lists.Where(
@@ -90,24 +99,27 @@ namespace AniMoe.App.ViewModels
 
         public void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox box = sender as TextBox;
-            if( box.Text != "" )
+            if (CurrentListView != null )
             {
-                Loaded = false;
-                ApplyFilters(filterDialog.Model);
-                CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
-                    x => x.Name == SelectedStatus
-                ).First().Entries.Where(
-                    y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
-                ));
-                Loaded = true;
-            }
-            else
-            {
-                CurrentListView = Model.Data.MediaListCollection.Lists.Where(
-                    x => x.Name == SelectedStatus
-                ).First().Entries;
-                ApplyFilters(filterDialog.Model);
+                TextBox box = sender as TextBox;
+                if( box.Text != "" )
+                {
+                    Loaded = false;
+                    ApplyFilters(filterDialog.Model);
+                    CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
+                        x => x.Name == SelectedStatus
+                    ).First().Entries.Where(
+                        y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
+                    ));
+                    Loaded = true;
+                }
+                else
+                {
+                    CurrentListView = Model.Data.MediaListCollection.Lists.Where(
+                        x => x.Name == SelectedStatus
+                    ).First().Entries;
+                    ApplyFilters(filterDialog.Model);
+                }
             }
         }
 
@@ -124,23 +136,35 @@ namespace AniMoe.App.ViewModels
 
         public async Task InitView(bool isReload = false)
         {
-            Loaded = false;
-            IsLoading = !Loaded;
+            if( !isReload )
+            {
+                Loaded = false;
+                IsLoading = !Loaded;
+                LoadStatusBar = false;
+            }
             if( StatusLists == null )
             {
-                StatusLists = StatusModel.mediaListStatusModel.Data.MangaStatusList.Lists.Select(x => x.Name);
+                StatusLists = new(
+                    StatusModel.mediaListStatusModel.Data.MangaStatusList
+                        .Lists.Select(x => x.Name).ToList()
+                );
             }
             if( Model == null || isReload )
             {
                 Model = await Initialize.FetchData();
             }
-            CurrentListView = new();
-            if (Model.Data.MediaListCollection.Lists.Count > 0 )
+            LoadStatusBar = true;
+            if( Model.Data.MediaListCollection.Lists.Count > 0 )
             {
                 CurrentListView = Model.Data.MediaListCollection.Lists.Where(
                     x => x.Name == SelectedStatus
                 ).FirstOrDefault().Entries;
                 ApplyFilters(filterDialog.Model);
+                IsEmpty = false;
+            } else
+            {
+                CurrentListView = null;
+                IsEmpty = true;
             }
             Loaded = true;
             IsLoading = !Loaded;
@@ -163,6 +187,12 @@ namespace AniMoe.App.ViewModels
 
         private async Task reloadCollection()
         {
+            Loaded = false;
+            IsLoading = !Loaded;
+            LoadStatusBar = false;
+            IsEmpty = false;
+            StatusLists = null;
+            await StatusModel.LoadFromApi();
             await InitView(true);
         }
 

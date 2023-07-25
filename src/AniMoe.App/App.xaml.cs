@@ -46,7 +46,7 @@ namespace AniMoe.App
         public App()
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
+                .MinimumLevel.Debug()
                 .WriteTo.Debug()
                 .CreateLogger();
             Log.Information("Logging Services Started");

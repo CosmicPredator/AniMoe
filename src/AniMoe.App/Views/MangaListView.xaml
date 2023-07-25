@@ -8,6 +8,8 @@
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:converters="using:AniMoe.App.Converters"
       xmlns:data="using:AniMoe.App.Models.MangaListModel"
+      xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
+      xmlns:lottie="using:AniMoe.App.AnimatedVisuals"
       xmlns:labs="using:CommunityToolkit.Labs.WinUI"
       mc:Ignorable="d"
       x:DefaultBindMode="OneWay">
@@ -19,6 +21,8 @@
     <Page.Resources>
         <converters:NullToQuestionMark x:Key="NullConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
+        <converters:NullToBoolConverter x:Key="NullToBool" />
+        <toolkitConverters:BoolNegationConverter x:Key="InverseBool"/>
     </Page.Resources>
     <Grid Margin="30, 10"
           RowSpacing="20"
@@ -34,24 +38,32 @@
                    Style="{StaticResource TitleTextBlockStyle}"
                    Margin="0, 30, 0, 0" />
         <RelativePanel Grid.Row="1">
-            <TextBox PlaceholderText="Search anime"
+            <TextBox PlaceholderText="Search manga"
                      Width="350"
                      RelativePanel.AlignLeftWithPanel="True"
+                     IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
                      TextChanged="{x:Bind ViewModel.SearchTextChanged}"
-                     x:Name="AnimeListSearchBox" />
+                     x:Name="AnimeListSearchBox"/>
             <ComboBox PlaceholderText="Status"
                       MinWidth="150"
+                      x:Load="{x:Bind ViewModel.LoadStatusBar, Mode=OneWay}"
+                      x:Name="StatusComboBox"
                       RelativePanel.LeftOf="FilterButton"
                       Margin="10, 0"
-                      ItemsSource="{x:Bind ViewModel.StatusLists}"
+                      ItemsSource="{x:Bind ViewModel.StatusLists, Mode=OneWay}"
                       SelectionChanged="{x:Bind ViewModel.StatusChanged}"
-                      SelectedItem="{x:Bind ViewModel.SelectedStatus, Mode=TwoWay}"
-                      SelectedIndex="0" />
+                      SelectedValue="{x:Bind ViewModel.SelectedStatus, Mode=TwoWay}"
+                      SelectedIndex="0">
+                <ComboBox.Transitions>
+                    <EntranceThemeTransition />
+                </ComboBox.Transitions>
+            </ComboBox>
             <Button RelativePanel.AlignRightWithPanel="True"
                     HorizontalAlignment="Right"
                     x:Name="ReloadButton"
+                    IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
                     Margin="10, 0"
-                    Click="ReloadButton_Click">
+                    Command="{x:Bind ViewModel.ReloadCollection}">
                 <Button.Content>
                     <SymbolIcon Symbol="Refresh" />
                 </Button.Content>
@@ -59,6 +71,7 @@
             <Button RelativePanel.LeftOf="ReloadButton"
                     x:Name="FilterButton"
                     Click="{x:Bind ViewModel.FilterButton_Click}"
+                    IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
                     Background="{x:Bind ViewModel.ButtonColor}">
                 <Button.Content>
                     <FontIcon Glyph="&#xe16e;" />
@@ -66,7 +79,7 @@
             </Button>
         </RelativePanel>
         <ScrollViewer Grid.Row="2">
-            <ItemsRepeater ItemsSource="{x:Bind ViewModel.CurrentListView}"
+            <ItemsRepeater ItemsSource="{x:Bind ViewModel.CurrentListView, Mode=OneWay}"
                            x:Name="MangaListElement"
                            x:Load="{x:Bind ViewModel.Loaded}">
                 <ItemsRepeater.Transitions>
@@ -165,7 +178,6 @@
                                            Margin="10, 5, 10, 10">
                                 <Button RelativePanel.AlignLeftWithPanel="True"
                                         Padding="4"
-                                        Command="{Binding DataContext.SaveImage, ElementName=AnimeListElement}"
                                         x:DefaultBindMode="OneWay">
                                     <Button.Content>
                                         <TextBlock FontSize="12"
@@ -180,11 +192,25 @@
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
         </ScrollViewer>
-        <!--<ProgressRing IsActive="{x:Bind ViewModel.IsLoading}"
-                      IsIndeterminate="True"
-                      Grid.RowSpan="3"
-                      Grid.ColumnSpan="3" />-->
-        <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading}"
+        <Grid RowDefinitions="Auto, Auto"
+              Grid.RowSpan="3"
+              Grid.ColumnSpan="3"
+              x:Load="{x:Bind ViewModel.IsEmpty, Mode=OneWay}"
+              x:Name="EmptyListVisual"
+              RowSpacing="10"
+              VerticalAlignment="Center">
+            <AnimatedVisualPlayer Width="200"
+                                  Height="200"
+                                  Grid.Row="0"
+                                  HorizontalAlignment="Center">
+                <lottie:EmptyList />
+            </AnimatedVisualPlayer>
+            <TextBlock Text="Your list is empty, Go add some...!" 
+                       Style="{ThemeResource BodyTextBlockStyle}"
+                       HorizontalAlignment="Center"
+                       Grid.Row="1"/>
+        </Grid>
+        <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
                        x:Name="Shimmer"
                        ItemsSource="{x:Bind items}"
                        Grid.Row="3">

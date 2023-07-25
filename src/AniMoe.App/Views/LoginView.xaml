@@ -5,11 +5,25 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ViewModels="using:AniMoe.App.ViewModels"
+      xmlns:lottie="using:AniMoe.App.AnimatedVisuals"
       d:DataContext="{d:DesignInstance Type=ViewModels:LoginViewModel}"
       mc:Ignorable="d">
     <Grid VerticalAlignment="Center"
-          HorizontalAlignment="Center">
+          HorizontalAlignment="Center"
+          RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <AnimatedVisualPlayer x:Name="LottiePlayer"
+                              Grid.Row="0"
+                              Width="200"
+                              Height="200">
+            <lottie:EmptyList />
+        </AnimatedVisualPlayer>
         <Button Content="Login"
-                Command="{x:Bind ViewModel.LoginCommand}" />
+                Command="{x:Bind ViewModel.LoginCommand}" 
+                Grid.Row="1"
+                HorizontalAlignment="Center"/>
     </Grid>
 </Page>
