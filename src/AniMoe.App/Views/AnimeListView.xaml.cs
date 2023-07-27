@@ -25,9 +25,7 @@ namespace AniMoe.App.Views
         public AnimeListView()
         {
             this.InitializeComponent();
-            //ViewModel = new AnimeListViewModel();
             DataContext = ViewModel;
-            TitleText.Text = Environment.Version.ToString();
         }
 
         public void CardOnHover(object sender, PointerRoutedEventArgs e)

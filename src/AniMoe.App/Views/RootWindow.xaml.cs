@@ -22,6 +22,7 @@ namespace AniMoe.App.Views
 { 
     public sealed partial class RootWindow : Window
     {
+        #region Properties
         private ILocalSettings _localSettings;
 
         public Thickness TitleBarThickness = new()
@@ -29,17 +30,17 @@ namespace AniMoe.App.Views
             Left = 20,
             Top = 5
         };
+        #endregion
 
+        #region Constructor
         public RootWindow()
         {
             this.InitializeComponent();
-            if (Environment.OSVersion.Version.Build > 22000 )
-            {
-                this.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
-            } else
-            {
-                this.SystemBackdrop = new DesktopAcrylicBackdrop();
-            }
+#if WINDOWS10_0_22000_0_OR_GREATER
+            this.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
+#else
+            this.SystemBackdrop = new DesktopAcrylicBackdrop();
+#endif
             LoadIcon("Assets/Window-Icon.ico");
             _localSettings = App.Current.Services.GetService<ILocalSettings>();
             AppTitleBar.Margin = TitleBarThickness;
@@ -47,6 +48,7 @@ namespace AniMoe.App.Views
             SetView();
             RootGrid.DataContext = this;
         }
+        #endregion
 
         private void SetView()
         {
