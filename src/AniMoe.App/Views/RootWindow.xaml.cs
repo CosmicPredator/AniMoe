@@ -33,6 +33,13 @@ namespace AniMoe.App.Views
         public RootWindow()
         {
             this.InitializeComponent();
+            if (Environment.OSVersion.Version.Build > 22000 )
+            {
+                this.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
+            } else
+            {
+                this.SystemBackdrop = new DesktopAcrylicBackdrop();
+            }
             LoadIcon("Assets/Window-Icon.ico");
             _localSettings = App.Current.Services.GetService<ILocalSettings>();
             AppTitleBar.Margin = TitleBarThickness;

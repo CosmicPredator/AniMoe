@@ -9,9 +9,9 @@
         xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
         mc:Ignorable="d"
         x:DefaultBindMode="OneWay">
-    <Window.SystemBackdrop>
+    <!--<Window.SystemBackdrop>
         <MicaBackdrop Kind="BaseAlt" />
-    </Window.SystemBackdrop>
+    </Window.SystemBackdrop>-->
     <Grid Background="Transparent"
           x:Name="RootGrid">
         <Grid x:Name="AppTitleBar"
