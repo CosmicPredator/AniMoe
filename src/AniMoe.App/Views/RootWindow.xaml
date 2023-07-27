@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         x:DefaultBindMode="OneWay">
     <!--<Window.SystemBackdrop>
-        <MicaBackdrop Kind="BaseAlt" />
+        <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>-->
     <Grid Background="Transparent"
           x:Name="RootGrid">

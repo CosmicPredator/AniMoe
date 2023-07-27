@@ -62,29 +62,39 @@ namespace AniMoe.App.Helpers
                 Encoding.UTF8,
                 "application/json"
             );
-            var request = await _client.PostAsync(
-                _locator.GetBaseUrl(),
-                jsonString,
-                cancellationTokenSource.Token
-            );
-            Log.Information($"Request <{typeof(T)}> to API was successful with code \"{request.StatusCode}\"");
-            Log.Debug(await request.Content.ReadAsStringAsync());
-            cancellationTokenSource.Cancel();
-            if( request.IsSuccessStatusCode )
+            while( !cancellationTokenSource.IsCancellationRequested )
             {
-                _client.Dispose();
-                cancellationTokenSource.Dispose();
-                return JsonConvert.DeserializeObject<T>(
-                    await request.Content.ReadAsStringAsync(),
-                    new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore
-                    }
+                var request = await _client.PostAsync(
+                    _locator.GetBaseUrl(),
+                    jsonString,
+                    cancellationTokenSource.Token
                 );
-            } else
-            {
-                return default;
+                Log.Information($"Request <{typeof(T)}> to API was successful with code \"{request.StatusCode}\"");
+                Log.Debug(await request.Content.ReadAsStringAsync());
+                cancellationTokenSource.Cancel();
+                if( request.IsSuccessStatusCode )
+                {
+                    _client.Dispose();
+                    cancellationTokenSource.Dispose();
+                    return JsonConvert.DeserializeObject<T>(
+                        await request.Content.ReadAsStringAsync(),
+                        new JsonSerializerSettings
+                        {
+                            NullValueHandling = NullValueHandling.Ignore
+                        }
+                    );
+                }
+                else
+                {
+                    return default;
+                }
             }
+            if( cancellationTokenSource.IsCancellationRequested )
+            {
+                Log.Debug($"Request <{typeof(T)}> was Cancelled");
+                cancellationTokenSource.Cancel();
+            }
+            return default;
         }
     }
 }
