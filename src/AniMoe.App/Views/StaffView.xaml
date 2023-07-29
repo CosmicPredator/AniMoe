@@ -1,11 +1,273 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Page x:Class="AniMoe.App.Views.StaffView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:AniMoe.App.Views"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
-    <Grid>
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AniMoe.App.Views.StaffView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Model="using:AniMoe.App.Models.StaffCharListModel"
+    xmlns:converters="using:AniMoe.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:AniMoe.App.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolktiConverters="using:CommunityToolkit.WinUI.UI.Converters"
+    x:DefaultBindMode="OneWay"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/LayoutStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <toolktiConverters:BoolToVisibilityConverter x:Key="BoolToVisiblity" />
+            <converters:ListToCommaSeperatedString x:Key="ListToString" />
+            <converters:StaffYearsActiveConverter x:Key="StaffActiveYearsConv" />
+            <converters:UpperToCultureStringConverter x:Key="UpperToCulture" />
+            <DataTemplate x:Key="CharacterListTemplate" x:DataType="Model:Edge">
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Style="{StaticResource CardGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <RelativePanel Grid.Column="0" HorizontalAlignment="Left">
+                        <toolkit:ImageEx
+                            x:Name="CharImage"
+                            Width="70"
+                            Height="100"
+                            Margin="10"
+                            CornerRadius="8"
+                            IsCacheEnabled="True"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            Source="{x:Bind SelectedCharacter.Image.Large}"
+                            Stretch="UniformToFill"
+                            Tag="{x:Bind SelectedCharacter.Id}" />
+                        <TextBlock
+                            Margin="10"
+                            MaxLines="2"
+                            RelativePanel.AlignTopWithPanel="True"
+                            RelativePanel.RightOf="CharImage"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind SelectedCharacter.Name.UserPreferred}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Margin="10"
+                            MaxLines="2"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.RightOf="CharImage"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind CharacterRole, Converter={StaticResource UpperToCulture}}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="WrapWholeWords" />
+                    </RelativePanel>
+                    <RelativePanel Grid.Column="1" HorizontalAlignment="Right">
+                        <toolkit:ImageEx
+                            x:Name="MediaImage"
+                            Width="70"
+                            Height="100"
+                            Margin="10"
+                            CornerRadius="8"
+                            IsCacheEnabled="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            Source="{x:Bind Node.CoverImage.Large}"
+                            Stretch="UniformToFill"
+                            Tag="{x:Bind Node.Id}" />
+                        <TextBlock
+                            Margin="10"
+                            MaxLines="2"
+                            RelativePanel.AlignTopWithPanel="True"
+                            RelativePanel.LeftOf="MediaImage"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind Node.Title.UserPreferred}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Margin="10"
+                            MaxLines="2"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.LeftOf="MediaImage"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind Node.Type, Converter={StaticResource UpperToCulture}}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="WrapWholeWords" />
+                    </RelativePanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Interactivity:Interaction.Behaviors>
+        <Core:EventTriggerBehavior EventName="Loaded">
+            <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadData}" />
+        </Core:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
+
+    <Grid Margin="0,10">
+        <ScrollViewer
+            x:Name="MasterScrollViewer"
+            x:Load="{x:Bind ViewModel.LoadData.ExecutionTask.IsCompletedSuccessfully}"
+            Canvas.ZIndex="0"
+            Loaded="MasterScrollViewer_Loaded">
+            <Grid Margin="40,20" RowSpacing="20">
+                <Grid.ChildrenTransitions>
+                    <EntranceThemeTransition />
+                </Grid.ChildrenTransitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0"
+                    ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <toolkit:ImageEx
+                        Width="180"
+                        Height="270"
+                        HorizontalAlignment="Left"
+                        CornerRadius="8"
+                        Source="{x:Bind ViewModel.Model.Data.Staff.Image.Large}"
+                        Stretch="UniformToFill" />
+                    <Grid
+                        Grid.Column="1"
+                        CornerRadius="8"
+                        Style="{StaticResource CardGridStyle}">
+                        <StackPanel
+                            Margin="30,10"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+                            <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind ViewModel.Model.Data.Staff.Name.UserPreferred}" />
+                            <TextBlock FontSize="17">
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Name.Native}" /><Run Text="," />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Name.Alternative, Converter={StaticResource ListToString}}" />
+                            </TextBlock>
+                            <TextBlock Margin="0,15,0,0" FontSize="15">
+                                <Run FontWeight="SemiBold" Text="Age:" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Age}" />
+                            </TextBlock>
+                            <TextBlock FontSize="15">
+                                <Run FontWeight="SemiBold" Text="Gender:" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Gender}" />
+                            </TextBlock>
+                            <TextBlock FontSize="15">
+                                <Run FontWeight="SemiBold" Text="Years Active:" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.YearsActive, Converter={StaticResource StaffActiveYearsConv}}" />
+                            </TextBlock>
+                            <TextBlock FontSize="15">
+                                <Run FontWeight="SemiBold" Text="Hometown:" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.HomeTown}" />
+                            </TextBlock>
+
+                            <Button Margin="0,20,0,0">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Grid>
+                                        <FontIcon Glyph="&#xEB51;" />
+                                        <FontIcon
+                                            x:Name="LikeButton"
+                                            Foreground="{ThemeResource SystemAccentColorLight2}"
+                                            Glyph="&#xEB52;"
+                                            Visibility="{x:Bind ViewModel.Model.Data.Staff.IsFavourite, Converter={StaticResource BoolToVisiblity}}" />
+                                    </Grid>
+                                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{x:Bind ViewModel.Model.Data.Staff.Favourites}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <Grid
+                    Grid.Row="1"
+                    Padding="10"
+                    Style="{StaticResource CardGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="5,0,0,10"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="About" />
+                    <Grid
+                        x:Name="WebGrid"
+                        Grid.Row="1"
+                        BorderThickness="1"
+                        Canvas.ZIndex="1"
+                        CornerRadius="10">
+                        <WebView2
+                            x:Name="DescriptionWebView"
+                            AllowFocusOnInteraction="False"
+                            Canvas.ZIndex="0"
+                            DefaultBackgroundColor="Transparent"
+                            NavigationCompleted="DescriptionWebView_NavigationCompleted"
+                            PointerWheelChanged="DescriptionWebView_PointerWheelChanged">
+                            <WebView2.Resources>
+                                <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
+                                <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
+                            </WebView2.Resources>
+                        </WebView2>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2" RowSpacing="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Stretch">
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                                   Text="Characters" 
+                                   HorizontalAlignment="Left"/>
+                        <CheckBox Content="On My List" 
+                                  HorizontalAlignment="Right"
+                                  Checked="CheckBox_Checked"
+                                  Unchecked="CheckBox_Checked"/>
+                    </Grid>
+                    <ItemsRepeater
+                        x:Name="CharItemsRepeater"
+                        Grid.Row="1"
+                        ItemTemplate="{StaticResource CharacterListTemplate}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MaximumRowsOrColumns="2"
+                                MinColumnSpacing="20"
+                                MinRowSpacing="20" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <Grid
+            x:Name="LoadGrid"
+            Margin="20"
+            x:Load="{x:Bind ViewModel.LoadData.IsRunning}"
+            RowSpacing="20">
+            <Grid.ChildrenTransitions>
+                <EntranceThemeTransition />
+            </Grid.ChildrenTransitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <labs:Shimmer
+                    Grid.Column="0"
+                    Width="180"
+                    CornerRadius="8" />
+                <labs:Shimmer Grid.Column="1" CornerRadius="9" />
+            </Grid>
+            <labs:Shimmer Grid.Row="1" CornerRadius="8" />
+            <labs:Shimmer Grid.Row="2" CornerRadius="8" />
+        </Grid>
     </Grid>
 </Page>

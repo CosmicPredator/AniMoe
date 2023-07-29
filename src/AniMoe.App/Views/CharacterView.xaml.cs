@@ -35,7 +35,6 @@ namespace AniMoe.App.Views
         public CharacterViewModel ViewModel;
         public int CharId;
         public IMdToHtmlParser mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
-        private bool webViewHasFocus = false;
         DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -50,41 +49,8 @@ namespace AniMoe.App.Views
             this.InitializeComponent();
         }
 
-        private void SegmentedBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Log.Information("Hello");
-            Segmented nv = sender as Segmented;
-            SegmentedItem item = nv.SelectedValue as SegmentedItem;
-            var navOptions = new FrameNavigationOptions
-            {
-                IsNavigationStackEnabled = false,
-                TransitionInfoOverride = new EntranceNavigationTransitionInfo()
-            };
-
-            switch( item.Name )
-            {
-                case "AnimePage":
-                    Dictionary<string, dynamic> keyValuePairs = new Dictionary<string, dynamic>();
-                    keyValuePairs["ViewModel"] = ViewModel.Model.Data.Character.Media;
-                    keyValuePairs["Type"] = "ANIME";
-                    keyValuePairs["RootFrame"] = Frame;
-                    ChildFrame.NavigateToType(typeof(AnimeListControl), keyValuePairs, navOptions);
-                    break;
-
-                case "MangaPage":
-                    Dictionary<string, dynamic> keyValuePairsManga = new Dictionary<string, dynamic>();
-                    keyValuePairsManga["ViewModel"] = ViewModel.Model.Data.Character.Media;
-                    keyValuePairsManga["Type"] = "MANGA";
-                    keyValuePairsManga["RootFrame"] = Frame;
-                    ChildFrame.NavigateToType(typeof(AnimeListControl), keyValuePairsManga, navOptions);
-                    break;
-            }
-        }
-
         private async void MasterScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
-            SegmentedBox.SelectionChanged += SegmentedBox_SelectionChanged;
-            SegmentedBox.SelectedIndex = 0;
             await DescriptionWebView.EnsureCoreWebView2Async();
             await Task.Delay(500);
             DescriptionWebView.NavigateToString(
@@ -99,7 +65,7 @@ namespace AniMoe.App.Views
             Debug.WriteLine(heightString);
             if( double.TryParse(heightString, out double height) )
             {
-                WebGrid.Height = height == 816 ? height : height / 3.5;
+                WebGrid.Height = height;
             }
 
             string js = @"

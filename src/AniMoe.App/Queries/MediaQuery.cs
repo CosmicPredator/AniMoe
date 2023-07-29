@@ -11,8 +11,8 @@ namespace AniMoe.App.Queries
         public static string MediaQuery = @"
             query ($mediaId: Int){
             Page{
-    	          mediaList(isFollowing: true, mediaId: $mediaId){
-    	            score(format: POINT_10_DECIMAL)
+                mediaList(isFollowing: true, mediaId: $mediaId){
+                    score(format: POINT_10_DECIMAL)
                     status
                   user {
                     name
@@ -20,7 +20,7 @@ namespace AniMoe.App.Queries
                       medium
                     }
                   }
-  	            }
+                }
               }
               Media(id: $mediaId){
                 ...MediaInfo
@@ -191,6 +191,7 @@ namespace AniMoe.App.Queries
               popularity
               favourites
               siteUrl
-            }";
+            }
+            ";
     }
 }

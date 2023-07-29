@@ -1,36 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Page x:Class="AniMoe.App.Views.ExploreView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:AniMoe.App.Views"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:converters="using:AniMoe.App.Converters"
-      xmlns:MediaModel="using:AniMoe.App.Models.MediaExploreModel"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-      xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
-      xmlns:CharacterModel="using:AniMoe.App.Models.CharacterExploreModel"
-      xmlns:ReviewModel="using:AniMoe.App.Models.ReviewExploreModel"
-      Loaded="Page_Loaded"
-      x:DefaultBindMode="OneWay"
-      mc:Ignorable="d">
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AniMoe.App.Views.ExploreView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CharacterModel="using:AniMoe.App.Models.CharacterExploreModel"
+    xmlns:MediaModel="using:AniMoe.App.Models.MediaExploreModel"
+    xmlns:ReviewModel="using:AniMoe.App.Models.ReviewExploreModel"
+    xmlns:converters="using:AniMoe.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:AniMoe.App.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+    x:DefaultBindMode="OneWay"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <converters:UpperToCultureStringConverter x:Key="UpperToCulture" />
-            <DataTemplate x:DataType="MediaModel:AnimeManga"
-                          x:Key="AnimeMangaDataTemplate">
-                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                      BorderThickness="1"
-                      CornerRadius="8"
-                      Padding="3"
-                      x:Name="MasterGrid"
-                      Canvas.ZIndex="1"
-                      Tag="{x:Bind Id}"
-                      PointerEntered="MasterGrid_PointerEntered"
-                      PointerExited="MasterGrid_PointerExited"
-                      PointerPressed="MasterGrid_PointerPressed">
+            <DataTemplate x:Key="AnimeMangaDataTemplate" x:DataType="MediaModel:AnimeManga">
+                <Grid
+                    x:Name="MasterGrid"
+                    Padding="3"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    Canvas.ZIndex="1"
+                    CornerRadius="8"
+                    PointerEntered="MasterGrid_PointerEntered"
+                    PointerExited="MasterGrid_PointerExited"
+                    PointerPressed="MasterGrid_PointerPressed"
+                    Tag="{x:Bind Id}">
                     <Grid.Shadow>
                         <ThemeShadow />
                     </Grid.Shadow>
@@ -41,36 +42,38 @@
                         <RowDefinition Height="6*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <toolkit:ImageEx Grid.Row="0"
-                                     Margin="10"
-                                     IsCacheEnabled="True"
-                                     CornerRadius="5"
-                                     Source="{x:Bind CoverImage.Large}"
-                                     Stretch="UniformToFill" />
-                    <TextBlock Text="{x:Bind Title.UserPreferred}"
-                               Grid.Row="1"
-                               TextWrapping="Wrap"
-                               TextTrimming="CharacterEllipsis"
-                               ToolTipService.ToolTip="{x:Bind Title.UserPreferred}"
-                               Margin="10, 2"
-                               MaxLines="2"
-                               FontSize="15"
-                               FontWeight="Medium" />
+                    <toolkit:ImageEx
+                        Grid.Row="0"
+                        Margin="10"
+                        CornerRadius="5"
+                        IsCacheEnabled="True"
+                        Source="{x:Bind CoverImage.Large}"
+                        Stretch="UniformToFill" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="10,2"
+                        FontSize="15"
+                        FontWeight="Medium"
+                        MaxLines="2"
+                        Text="{x:Bind Title.UserPreferred}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap"
+                        ToolTipService.ToolTip="{x:Bind Title.UserPreferred}" />
                 </Grid>
             </DataTemplate>
-            <DataTemplate x:DataType="CharacterModel:Character"
-                          x:Key="CharacterDataTemplate">
-                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                      BorderThickness="1"
-                      CornerRadius="8"
-                      Padding="3"
-                      x:Name="CharacterGrid"
-                      Canvas.ZIndex="1"
-                      Tag="{x:Bind Id}"
-                      PointerEntered="MasterGrid_PointerEntered"
-                      PointerExited="MasterGrid_PointerExited"
-                      PointerPressed="CharacterGrid_PointerPressed">
+            <DataTemplate x:Key="CharacterDataTemplate" x:DataType="CharacterModel:Character">
+                <Grid
+                    x:Name="CharacterGrid"
+                    Padding="3"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    Canvas.ZIndex="1"
+                    CornerRadius="8"
+                    PointerEntered="MasterGrid_PointerEntered"
+                    PointerExited="MasterGrid_PointerExited"
+                    PointerPressed="CharacterGrid_PointerPressed"
+                    Tag="{x:Bind Id}">
                     <Grid.Shadow>
                         <ThemeShadow />
                     </Grid.Shadow>
@@ -81,112 +84,115 @@
                         <RowDefinition Height="6*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <toolkit:ImageEx Grid.Row="0"
-                                     Margin="10"
-                                     IsCacheEnabled="True"
-                                     CornerRadius="5"
-                                     Source="{x:Bind Image.Large}"
-                                     Stretch="UniformToFill" />
-                    <TextBlock Text="{x:Bind Name.UserPreferred}"
-                               Grid.Row="1"
-                               TextWrapping="Wrap"
-                               TextTrimming="CharacterEllipsis"
-                               ToolTipService.ToolTip="{x:Bind Name.UserPreferred}"
-                               Margin="10, 2"
-                               MaxLines="2"
-                               FontSize="15"
-                               FontWeight="Medium" />
+                    <toolkit:ImageEx
+                        Grid.Row="0"
+                        Margin="10"
+                        CornerRadius="5"
+                        IsCacheEnabled="True"
+                        Source="{x:Bind Image.Large}"
+                        Stretch="UniformToFill" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="10,2"
+                        FontSize="15"
+                        FontWeight="Medium"
+                        MaxLines="2"
+                        Text="{x:Bind Name.UserPreferred}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap"
+                        ToolTipService.ToolTip="{x:Bind Name.UserPreferred}" />
                 </Grid>
             </DataTemplate>
-            <DataTemplate x:DataType="ReviewModel:Review"
-                          x:Key="ReviewDataTemplate">
-                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                          BorderThickness="1"
-                          CornerRadius="8"
-                          Padding="3"
-                          x:Name="ReviewGrid"
-                          Canvas.ZIndex="1"
-                          Tag="{x:Bind Id}"
-                          PointerEntered="MasterGrid_PointerEntered"
-                          PointerExited="MasterGrid_PointerExited"
-                          PointerPressed="ReviewGrid_PointerPressed">
-                        <Grid.Shadow>
-                            <ThemeShadow />
-                        </Grid.Shadow>
-                        <Grid.TranslationTransition>
-                            <Vector3Transition />
-                        </Grid.TranslationTransition>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <toolkit:ImageEx Grid.Row="0"
-                                         Margin="10"
-                                         IsCacheEnabled="True"
-                                         CornerRadius="5"
-                                         Source="{x:Bind Media.BannerImage}"
-                                         Stretch="UniformToFill" 
-                                         HorizontalContentAlignment="Center"
-                                         HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Row="1"
-                               TextWrapping="Wrap"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="10, 2"
-                               FontSize="15"
-                               FontWeight="Medium">
+            <DataTemplate x:Key="ReviewDataTemplate" x:DataType="ReviewModel:Review">
+                <Grid
+                    x:Name="ReviewGrid"
+                    Padding="3"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    Canvas.ZIndex="1"
+                    CornerRadius="8"
+                    PointerEntered="MasterGrid_PointerEntered"
+                    PointerExited="MasterGrid_PointerExited"
+                    PointerPressed="ReviewGrid_PointerPressed"
+                    Tag="{x:Bind Id}">
+                    <Grid.Shadow>
+                        <ThemeShadow />
+                    </Grid.Shadow>
+                    <Grid.TranslationTransition>
+                        <Vector3Transition />
+                    </Grid.TranslationTransition>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <toolkit:ImageEx
+                        Grid.Row="0"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        CornerRadius="5"
+                        IsCacheEnabled="True"
+                        Source="{x:Bind Media.BannerImage}"
+                        Stretch="UniformToFill" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="10,2"
+                        FontSize="15"
+                        FontWeight="Medium"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap">
                         <Run Text="Review Of" />
                         <Run Text="{x:Bind Media.Title.UserPreferred}" />
                         <Run Text="by" />
                         <Run Text="{x:Bind User.Name}" />
                     </TextBlock>
-                    <Grid Grid.Row="2"
-                          Margin="10, 10"
-                          ColumnSpacing="10">
+                    <Grid
+                        Grid.Row="2"
+                        Margin="10,10"
+                        ColumnSpacing="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
-                                   TextWrapping="Wrap"
-                                   TextTrimming="CharacterEllipsis"
-                                   FontSize="14"
-                                   Text="{x:Bind Summary}"
-                                   FontStyle="Italic"
-                                   Opacity="0.7" 
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"/>
-                        <StackPanel Grid.Column="1"
-                                    Orientation="Horizontal">
-                            <StackPanel Orientation="Horizontal"
-                                        Spacing="5">
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontStyle="Italic"
+                            Opacity="0.7"
+                            Text="{x:Bind Summary}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
                                 <Viewbox Stretch="Uniform">
-                                    <Canvas Height="24"
-                                            Width="24">
-                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z"
-                                              Fill="{ThemeResource TextFillColorPrimaryBrush}" />
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z" Fill="{ThemeResource TextFillColorPrimaryBrush}" />
                                     </Canvas>
                                 </Viewbox>
-                                <TextBlock Text="{x:Bind Rating}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Right" />
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Rating}" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                 </Grid>
-                </DataTemplate>
-            <converters:ExploreDataTemplateSelector x:Key="DtTemplateSelector" 
-                                                    MediaTemplate="{StaticResource AnimeMangaDataTemplate}"
-                                                    StaffCharTemplate="{StaticResource CharacterDataTemplate}"
-                                                    ReviewTemplate="{StaticResource ReviewDataTemplate}"/>
+            </DataTemplate>
+            <converters:ExploreDataTemplateSelector
+                x:Key="DtTemplateSelector"
+                MediaTemplate="{StaticResource AnimeMangaDataTemplate}"
+                ReviewTemplate="{StaticResource ReviewDataTemplate}"
+                StaffCharTemplate="{StaticResource CharacterDataTemplate}" />
             <toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisiblity" />
             <toolkitconverters:BoolNegationConverter x:Key="BoolNegationConv" />
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="30, 10"
-          RowSpacing="20">
+    <Grid Margin="30,10" RowSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -195,78 +201,82 @@
         <Grid.ChildrenTransitions>
             <EntranceThemeTransition />
         </Grid.ChildrenTransitions>
-        <TextBlock Text="Explore"
-                   Style="{StaticResource TitleTextBlockStyle}"
-                   Margin="0, 30, 0, 0" />
+        <TextBlock
+            Margin="0,30,0,0"
+            Style="{StaticResource TitleTextBlockStyle}"
+            Text="Explore" />
         <RelativePanel Grid.Row="1">
-            <ComboBox RelativePanel.AlignLeftWithPanel="True"
-                      RelativePanel.AlignVerticalCenterWithPanel="True"
-                      Width="150"
-                      SelectionChangedTrigger="Committed"
-                      ItemsSource="{x:Bind ViewModel.ExploreTypes}"
-                      SelectionChanged="{x:Bind ViewModel.MediaTypeComboBox_SelectionChanged}"
-                      SelectedValue="{x:Bind ViewModel.SelectedType, Mode=TwoWay}"
-                      x:Name="MediaTypeComboBox">
+            <ComboBox
+                x:Name="MediaTypeComboBox"
+                Width="150"
+                ItemsSource="{x:Bind ViewModel.ExploreTypes}"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                SelectedValue="{x:Bind ViewModel.SelectedType, Mode=TwoWay}"
+                SelectionChanged="{x:Bind ViewModel.MediaTypeComboBox_SelectionChanged}"
+                SelectionChangedTrigger="Committed">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <TextBlock Text="{Binding}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Width="350"
-                            RelativePanel.RightOf="MediaTypeComboBox"
-                            PlaceholderText="Search something..."
-                            Margin="15, 0"
-                            x:Name="SearchBox"
-                            TextChanged="{x:Bind ViewModel.SearchBox_TextChanged}" />
+            <TextBox
+                x:Name="SearchBox"
+                Width="350"
+                Margin="15,0"
+                PlaceholderText="Search something..."
+                RelativePanel.RightOf="MediaTypeComboBox"
+                TextChanged="{x:Bind ViewModel.SearchBox_TextChanged}" />
             <Grid RelativePanel.AlignRightWithPanel="True">
-                <Button Click="{x:Bind ViewModel.FilterButton_Click}"
-                        Visibility="{x:Bind ViewModel.IsFilterButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
+                <Button Click="{x:Bind ViewModel.FilterButton_Click}" Visibility="{x:Bind ViewModel.IsFilterButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    Spacing="10">
-                            <FontIcon Glyph="&#xE71C;" 
-                                      VerticalAlignment="Center"/>
-                            <TextBlock Text="Filters" 
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       VerticalAlignment="Center"/>
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="10">
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xE71C;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Filters" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <ToggleButton Visibility="{x:Bind ViewModel.IsBirthdayButtonEnabled, Converter={StaticResource BoolToVisiblity}}"
-                              IsChecked="{x:Bind ViewModel.IsBirthdayEnabled, Mode=TwoWay}"
-                              x:Name="BDayToggleButton"
-                              Click="{x:Bind ViewModel.BDayToggleButton_Click}">
+                <ToggleButton
+                    x:Name="BDayToggleButton"
+                    Click="{x:Bind ViewModel.BDayToggleButton_Click}"
+                    IsChecked="{x:Bind ViewModel.IsBirthdayEnabled, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.IsBirthdayButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
                     <ToggleButton.Content>
-                        <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    Spacing="10">
-                            <FontIcon Glyph="&#xED55;"
-                                      VerticalAlignment="Center" />
-                            <TextBlock Text="Birthday"
-                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                       VerticalAlignment="Center" />
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="10">
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xED55;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Text="Birthday" />
                         </StackPanel>
                     </ToggleButton.Content>
                 </ToggleButton>
             </Grid>
         </RelativePanel>
         <Grid Grid.Row="2">
-            <ScrollViewer x:Name="ItScrollViewer"
-                          Grid.Row="2">
+            <ScrollViewer x:Name="ItScrollViewer" Grid.Row="2">
                 <Grid>
-                    <ItemsRepeater x:Name="MasterItemsRepeater"
-                                   ItemTemplate="{StaticResource DtTemplateSelector}">
+                    <ItemsRepeater x:Name="MasterItemsRepeater" ItemTemplate="{StaticResource DtTemplateSelector}">
                         <ItemsRepeater.Transitions>
-                            <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                            <EntranceThemeTransition IsStaggeringEnabled="True" />
                         </ItemsRepeater.Transitions>
                         <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
-                                               MinItemHeight="{x:Bind ViewModel.ItemHeight}"
-                                               MinColumnSpacing="15"
-                                               MinRowSpacing="15"
-                                               ItemsStretch="Uniform" />
+                            <UniformGridLayout
+                                ItemsStretch="Uniform"
+                                MinColumnSpacing="15"
+                                MinItemHeight="{x:Bind ViewModel.ItemHeight}"
+                                MinItemWidth="{x:Bind ViewModel.ItemWidth}"
+                                MinRowSpacing="15" />
                         </ItemsRepeater.Layout>
                     </ItemsRepeater>
                 </Grid>
@@ -277,15 +287,17 @@
                         <EntranceThemeTransition />
                     </TransitionCollection>
                 </Grid.ChildrenTransitions>
-                <ItemsRepeater x:Load="{x:Bind ViewModel.IsLoading}"
-                               x:Name="Shimmer"
-                               ItemsSource="{x:Bind items}">
+                <ItemsRepeater
+                    x:Name="Shimmer"
+                    x:Load="{x:Bind ViewModel.IsLoading}"
+                    ItemsSource="{x:Bind items}">
                     <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemWidth="{x:Bind ViewModel.ItemWidth}"
-                                           MinItemHeight="{x:Bind ViewModel.ItemHeight}"
-                                           MinColumnSpacing="15"
-                                           MinRowSpacing="15"
-                                           ItemsStretch="Uniform" />
+                        <UniformGridLayout
+                            ItemsStretch="Uniform"
+                            MinColumnSpacing="15"
+                            MinItemHeight="{x:Bind ViewModel.ItemHeight}"
+                            MinItemWidth="{x:Bind ViewModel.ItemWidth}"
+                            MinRowSpacing="15" />
                     </ItemsRepeater.Layout>
                     <DataTemplate>
                         <labs:Shimmer CornerRadius="4" />

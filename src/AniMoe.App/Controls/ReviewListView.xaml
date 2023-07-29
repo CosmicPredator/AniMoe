@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="AniMoe.App.Controls.ReviewListView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:AniMoe.App.Controls"
     xmlns:Model="using:AniMoe.App.Models.MediaModel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="using:AniMoe.App.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
@@ -17,50 +17,49 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
-    <Grid Margin="0, 20, 0, 0">
-        <ScrollViewer Height="650"
-                      VerticalScrollMode="Auto">
+
+    <Grid Margin="0,20,0,0">
+        <ScrollViewer Height="650" VerticalScrollMode="Auto">
             <ItemsRepeater ItemsSource="{x:Bind ViewModel.Model.Data.Media.Reviews.Nodes}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="Model:ReviewsNode">
-                        <Grid Margin="10"
-                              Style="{StaticResource CardGridStyle}"
-                              Tag="{x:Bind Id}"
-                              PointerPressed="Grid_PointerPressed">
+                        <Grid
+                            Margin="10"
+                            PointerPressed="Grid_PointerPressed"
+                            Style="{StaticResource CardGridStyle}"
+                            Tag="{x:Bind Id}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <toolkit:ImageEx 
-                                Source="{x:Bind User.Avatar.Large.OriginalString}"
-                                Width="50"
+                            <toolkit:ImageEx
                                 Grid.Column="0"
+                                Width="50"
                                 Height="50"
                                 Margin="10"
+                                Source="{x:Bind User.Avatar.Large.OriginalString}"
                                 Stretch="UniformToFill"
-                                ToolTipService.ToolTip="{x:Bind User.Name}"/>
-                            <TextBlock Text="{x:Bind Summary}"
-                                       Grid.Column="1"
-                                       FontStyle="Italic"
-                                       TextTrimming="CharacterEllipsis"
-                                       TextWrapping="WrapWholeWords"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"/>
-                            <StackPanel Margin="10"
-                                        Grid.Column="2"
-                                        Spacing="5"
-                                        Orientation="Horizontal">
+                                ToolTipService.ToolTip="{x:Bind User.Name}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontStyle="Italic"
+                                Text="{x:Bind Summary}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="WrapWholeWords" />
+                            <StackPanel
+                                Grid.Column="2"
+                                Margin="10"
+                                Orientation="Horizontal"
+                                Spacing="5">
                                 <Viewbox Stretch="Uniform">
-                                    <Canvas Height="24"
-                                            Width="24">
-                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z"
-                                              Fill="{ThemeResource TextFillColorPrimaryBrush}" />
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z" Fill="{ThemeResource TextFillColorPrimaryBrush}" />
                                     </Canvas>
                                 </Viewbox>
-                                <TextBlock Text="{x:Bind Rating}"
-                                           VerticalAlignment="Center"/>
+                                <TextBlock VerticalAlignment="Center" Text="{x:Bind Rating}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

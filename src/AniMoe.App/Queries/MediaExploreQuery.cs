@@ -86,6 +86,7 @@ namespace AniMoe.App.Queries
               title {
                 userPreferred
               }
-            }";
+            }
+            ";
     }
 }

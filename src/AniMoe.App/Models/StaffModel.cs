@@ -41,6 +41,9 @@ namespace AniMoe.App.Models.StaffModel
         [JsonProperty("homeTown")]
         public string HomeTown { get; set; }
 
+        [JsonProperty("isFavourite")]
+        public bool IsFavourite { get; set; }
+
         [JsonProperty("id")]
         public long Id { get; set; }
 
@@ -51,7 +54,7 @@ namespace AniMoe.App.Models.StaffModel
         public Name Name { get; set; }
 
         [JsonProperty("yearsActive")]
-        public long[] YearsActive { get; set; }
+        public List<int> YearsActive { get; set; }
     }
 
     public partial class DateOfBirth

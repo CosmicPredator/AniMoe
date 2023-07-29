@@ -21,6 +21,7 @@ namespace AniMoe.App.Queries
                 favourites
                 gender
                 homeTown
+                isFavourite
                 id
                 image{
                   large
@@ -32,6 +33,7 @@ namespace AniMoe.App.Queries
                 }
                 yearsActive
               }
-            }";
+            }
+            ";
     }
 }

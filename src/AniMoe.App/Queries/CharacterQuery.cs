@@ -52,6 +52,7 @@ namespace AniMoe.App.Queries
                   }
                 }
               }
-            }";
+            }
+            ";
     }
 }

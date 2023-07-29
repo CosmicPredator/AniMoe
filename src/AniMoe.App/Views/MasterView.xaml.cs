@@ -45,7 +45,11 @@ namespace AniMoe.App.Views
             {
                 PrimaryFrame.Navigate(typeof(ExploreView), null, NavAnimation);
             }
-           
+            else if( (string)selected.Content == "Home" )
+            {
+                PrimaryFrame.Navigate(typeof(StaffView), null, NavAnimation);
+            }
+
         }
 
         private void PrimaryFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)

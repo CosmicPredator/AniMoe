@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<UserControl x:Class="AniMoe.App.Controls.MediaSideViewControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:AniMoe.App.Controls"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="using:AniMoe.App.Converters"
-             xmlns:toolkitconv="using:CommunityToolkit.WinUI.UI.Converters"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-             x:DefaultBindMode="OneTime">
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="AniMoe.App.Controls.MediaSideViewControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:AniMoe.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AniMoe.App.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolkitconv="using:CommunityToolkit.WinUI.UI.Converters"
+    x:DefaultBindMode="OneTime"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <converters:NullToBoolConverter x:Key="NullToBoolConv" />
         <converters:UntilEpochConverter x:Key="EpochUntilConv" />
@@ -22,38 +23,35 @@
         <converters:NullToQuestionMark x:Key="NullToQMark" />
         <converters:ListToStringConverter x:Key="ListToString" />
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical"
-                Spacing="15"
-                VerticalAlignment="Top">
-        <StackPanel x:Load="{x:Bind Model.Data.Media.NextAiringEpisode, Converter={StaticResource NullToBoolConv}}"
-                    x:Name="AiringPanel">
-            <TextBlock Text="Airing"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" 
-                       Foreground="{ThemeResource SystemAccentColorLight1}"/>
+    <StackPanel
+        VerticalAlignment="Top"
+        Orientation="Vertical"
+        Spacing="15">
+        <StackPanel x:Name="AiringPanel" x:Load="{x:Bind Model.Data.Media.NextAiringEpisode, Converter={StaticResource NullToBoolConv}}">
+            <TextBlock
+                Foreground="{ThemeResource SystemAccentColorLight1}"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="Airing" />
             <TextBlock Foreground="{ThemeResource SystemAccentColorLight1}">
-                <Run Text="Ep "/>
+                <Run Text="Ep " />
                 <Run Text="{x:Bind Model.Data.Media.NextAiringEpisode.Episode}" />
                 <Run Text=": " />
                 <Run Text="{x:Bind Model.Data.Media.NextAiringEpisode.AiringAt, Converter={StaticResource EpochUntilConv}}" />
             </TextBlock>
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Format"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock 
-                Text="{x:Bind Model.Data.Media.Format, Converter={StaticResource FormatNormalizer}, TargetNullValue='?'}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Format" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Format, Converter={StaticResource FormatNormalizer}, TargetNullValue='?'}" />
         </StackPanel>
         <toolkit:SwitchPresenter Value="{x:Bind Model.Data.Media.Type}">
             <toolkit:Case Value="ANIME">
                 <StackPanel Spacing="15">
                     <StackPanel>
-                        <TextBlock Text="Episodes"
-                                   Style="{StaticResource BodyStrongTextBlockStyle}" />
-                        <TextBlock Text="{x:Bind Model.Data.Media.Episodes, TargetNullValue='?'}"/>
+                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Episodes" />
+                        <TextBlock Text="{x:Bind Model.Data.Media.Episodes, TargetNullValue='?'}" />
                     </StackPanel>
                     <StackPanel>
-                        <TextBlock Text="Episode Duration"
-                                   Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Episode Duration" />
                         <TextBlock>
                             <Run Text="{x:Bind Model.Data.Media.Duration, TargetNullValue='?'}" />
                             <Run Text="mins" />
@@ -64,105 +62,82 @@
             <toolkit:Case Value="MANGA">
                 <StackPanel Spacing="15">
                     <StackPanel>
-                        <TextBlock Text="Volumes"
-                                   Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Volumes" />
                         <TextBlock Text="{x:Bind Model.Data.Media.Volumes, Converter={StaticResource NullToQMark}}" />
                     </StackPanel>
                     <StackPanel>
-                        <TextBlock Text="Chapters"
-                                   Style="{StaticResource BodyStrongTextBlockStyle}" />
-                        <TextBlock Text="{x:Bind Model.Data.Media.Chapters, Converter={StaticResource NullToQMark}}"/>
+                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Chapters" />
+                        <TextBlock Text="{x:Bind Model.Data.Media.Chapters, Converter={StaticResource NullToQMark}}" />
                     </StackPanel>
                 </StackPanel>
             </toolkit:Case>
         </toolkit:SwitchPresenter>
         <StackPanel>
-            <TextBlock Text="Status"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Status" />
             <TextBlock Text="{x:Bind Model.Data.Media.Status, Converter={StaticResource StatusNormalizer}}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Start Date"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Start Date" />
             <TextBlock Text="{x:Bind Model.Data.Media.StartDate, Converter={StaticResource DateConv}, TargetNullValue='?'}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="End Date"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="End Date" />
             <TextBlock Text="{x:Bind Model.Data.Media.EndDate, Converter={StaticResource DateConv}, TargetNullValue='?'}" />
         </StackPanel>
-        <StackPanel x:Load="{x:Bind Model.Data.Media.Season, Converter={StaticResource NullToBoolConv}}"
-                    x:Name="SeasonPanel">
-            <TextBlock Text="Season"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+        <StackPanel x:Name="SeasonPanel" x:Load="{x:Bind Model.Data.Media.Season, Converter={StaticResource NullToBoolConv}}">
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Season" />
             <TextBlock>
                 <Run Text="{x:Bind Model.Data.Media.Season, Converter={StaticResource LowerToCultureConv}, TargetNullValue='?'}" />
                 <Run Text="{x:Bind Model.Data.Media.SeasonYear}" />
             </TextBlock>
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Average Score"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock >
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Average Score" />
+            <TextBlock>
                 <Run Text="{x:Bind Model.Data.Media.AverageScore, TargetNullValue='?'}" /><Run Text="%" />
             </TextBlock>
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Mean Score"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Mean Score" />
             <TextBlock>
                 <Run Text="{x:Bind Model.Data.Media.MeanScore, TargetNullValue='?'}" /><Run Text="%" />
             </TextBlock>
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Popularity"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Popularity" />
             <TextBlock Text="{x:Bind Model.Data.Media.Popularity, TargetNullValue='?'}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Favourites"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Favourites" />
             <TextBlock Text="{x:Bind Model.Data.Media.Popularity, TargetNullValue='?'}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Studios"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="{x:Bind Model.Data.Media.Studios.Nodes, Converter={StaticResource ListToString}, TargetNullValue='?'}" 
-                       TextWrapping="WrapWholeWords"/>
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Studios" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Studios.Nodes, Converter={StaticResource ListToString}, TargetNullValue='?'}" TextWrapping="WrapWholeWords" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Source"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Source" />
             <TextBlock Text="{x:Bind Model.Data.Media.Source, Converter={StaticResource LowerToCultureConv}, TargetNullValue='?'}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Hashtag"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Hashtag" />
             <TextBlock Text="{x:Bind Model.Data.Media.Hashtag, TargetNullValue='?'}" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Genres"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="{x:Bind Model.Data.Media.Genres, Converter={StaticResource ListToString},TargetNullValue='?'}" 
-                       TextWrapping="WrapWholeWords"/>
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Genres" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Genres, Converter={StaticResource ListToString}, TargetNullValue='?'}" TextWrapping="WrapWholeWords" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Romaji"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="{x:Bind Model.Data.Media.Title.Romaji, TargetNullValue='?'}" 
-                       TextWrapping="WrapWholeWords"/>
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Romaji" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Title.Romaji, TargetNullValue='?'}" TextWrapping="WrapWholeWords" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="English"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="{x:Bind Model.Data.Media.Title.English, TargetNullValue='?'}"
-                       TextWrapping="WrapWholeWords" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="English" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Title.English, TargetNullValue='?'}" TextWrapping="WrapWholeWords" />
         </StackPanel>
         <StackPanel>
-            <TextBlock Text="Native"
-                       Style="{StaticResource BodyStrongTextBlockStyle}" />
-            <TextBlock Text="{x:Bind Model.Data.Media.Title.Native, TargetNullValue='?'}"
-                       TextWrapping="WrapWholeWords" />
+            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Native" />
+            <TextBlock Text="{x:Bind Model.Data.Media.Title.Native, TargetNullValue='?'}" TextWrapping="WrapWholeWords" />
         </StackPanel>
     </StackPanel>
 </UserControl>

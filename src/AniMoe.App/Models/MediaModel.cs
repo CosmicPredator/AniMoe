@@ -470,7 +470,7 @@ namespace AniMoe.App.Models.MediaModel
 
     public static partial class Initialize
     {
-        public static async Task<MediaModel> FetchData(int MediaId)
+        public static async Task<MediaModel> FetchData(int mediaId)
         {
             
             IRequestHandler Handler = App.Current
@@ -479,7 +479,7 @@ namespace AniMoe.App.Models.MediaModel
                 Queries.Query.MediaQuery,
                 new
                 {
-                    mediaId = MediaId
+                    mediaId
                 }
             );
             return Model;

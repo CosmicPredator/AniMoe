@@ -28,6 +28,7 @@ namespace AniMoe.App.Queries
                 score
                 userRating
               }
-            }";
+            }
+            ";
     }
 }

@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Page x:Class="AniMoe.App.Views.ReviewView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:AniMoe.App.Views"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-      xmlns:converters="using:AniMoe.App.Converters"
-      xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
-      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-      mc:Ignorable="d"
-      x:DefaultBindMode="OneWay">
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AniMoe.App.Views.ReviewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:converters="using:AniMoe.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:AniMoe.App.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
+    x:DefaultBindMode="OneWay"
+    mc:Ignorable="d">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="Loaded">
             <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
@@ -30,93 +31,92 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="0, 10">
-        <ScrollViewer x:Name="MasterScrollViewer"
-                      Visibility="{x:Bind ViewModel.LoadCommand.ExecutionTask.IsCompleted, 
-                                Converter={StaticResource BoolToVisiblity}}">
+    <Grid Margin="0,10">
+        <ScrollViewer x:Name="MasterScrollViewer" Visibility="{x:Bind ViewModel.LoadCommand.ExecutionTask.IsCompleted, Converter={StaticResource BoolToVisiblity}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      Height="250">
-                    <toolkit:ImageEx Source="{x:Bind ViewModel.Model.Data.Review.Media.BannerImage.OriginalString}"
-                                     Stretch="UniformToFill"
-                                     VerticalAlignment="Stretch"
-                                     HorizontalAlignment="Stretch"
-                                     IsCacheEnabled="True" />
-                    <Grid VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch">
+                <Grid Grid.Row="0" Height="250">
+                    <toolkit:ImageEx
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        IsCacheEnabled="True"
+                        Source="{x:Bind ViewModel.Model.Data.Review.Media.BannerImage.OriginalString}"
+                        Stretch="UniformToFill" />
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.Background>
-                            <SolidColorBrush Color="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}"
-                                             Opacity="0.75" />
+                            <SolidColorBrush Opacity="0.75" Color="{ThemeResource LayerOnMicaBaseAltFillColorTertiary}" />
                         </Grid.Background>
-                        <Button VerticalAlignment="Top"
-                                HorizontalAlignment="Left"
-                                Margin="15"
-                                FontSize="15"
-                                x:Name="EditButton"
-                                x:Load="{x:Bind ViewModel.LoadEditButton}">
+                        <Button
+                            x:Name="EditButton"
+                            Margin="15"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            x:Load="{x:Bind ViewModel.LoadEditButton}"
+                            FontSize="15">
                             <Button.Content>
-                                <StackPanel Orientation="Horizontal"
-                                            Spacing="10">
-                                    <FontIcon Glyph="&#xE70F;"
-                                              VerticalAlignment="Center" />
-                                    <TextBlock Text="Edit"
-                                               VerticalAlignment="Center" />
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon VerticalAlignment="Center" Glyph="&#xE70F;" />
+                                    <TextBlock VerticalAlignment="Center" Text="Edit" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <TextBlock Text="{x:Bind ViewModel.CreatedTime}"
-                                   VerticalAlignment="Top"
-                                   HorizontalAlignment="Right"
-                                   Margin="15"
-                                   FontSize="17" />
-                        <StackPanel Orientation="Vertical"
-                                    Spacing="10"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
-                            <TextBlock Text="{x:Bind ViewModel.Model.Data.Review.Media.Title.UserPreferred}"
-                                       Style="{ThemeResource TitleLargeTextBlockStyle}"
-                                       VerticalAlignment="Center"
-                                       TextAlignment="Center" />
-                            <TextBlock FontStyle="Italic"
-                                       FontSize="20"
-                                       VerticalAlignment="Center"
-                                       TextAlignment="Center">
-                        <Run Text="a review by" />
-                        <Run Text="{x:Bind ViewModel.Model.Data.Review.User.Name}" />
+                        <TextBlock
+                            Margin="15"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            FontSize="17"
+                            Text="{x:Bind ViewModel.CreatedTime}" />
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical"
+                            Spacing="10">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                Text="{x:Bind ViewModel.Model.Data.Review.Media.Title.UserPreferred}"
+                                TextAlignment="Center" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                FontStyle="Italic"
+                                TextAlignment="Center">
+                                <Run Text="a review by" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Review.User.Name}" />
                             </TextBlock>
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1"
-                      Margin="100, 10"
-                      CornerRadius="8"
-                      BorderThickness="1"
-                      x:Name="WebGrid">
-                    <WebView2 x:Name="ReviewWebView"
-                              DefaultBackgroundColor="Transparent"
-                              NavigationStarting="ReviewWebView_NavigationStarting"
-                              NavigationCompleted="ReviewWebView_NavigationCompleted"
-                              PointerWheelChanged="ReviewWebView_PointerWheelChanged">
+                <Grid
+                    x:Name="WebGrid"
+                    Grid.Row="1"
+                    Margin="100,10"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <WebView2
+                        x:Name="ReviewWebView"
+                        DefaultBackgroundColor="Transparent"
+                        NavigationCompleted="ReviewWebView_NavigationCompleted"
+                        NavigationStarting="ReviewWebView_NavigationStarting"
+                        PointerWheelChanged="ReviewWebView_PointerWheelChanged">
                         <WebView2.Resources>
-                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor"
-                                             Color="Transparent" />
-                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC"
-                                             Color="Transparent" />
+                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
+                            <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
                         </WebView2.Resources>
                     </WebView2>
                 </Grid>
-                <Grid Grid.Row="2"
-                      Style="{StaticResource CardGridStyle}"
-                      Width="300"
-                      Margin="20"
-                      RowSpacing="5"
-                      x:Name="ScoreGrid"
-                      Visibility="Collapsed">
+                <Grid
+                    x:Name="ScoreGrid"
+                    Grid.Row="2"
+                    Width="300"
+                    Margin="20"
+                    RowSpacing="5"
+                    Style="{StaticResource CardGridStyle}"
+                    Visibility="Collapsed">
                     <Grid.Transitions>
                         <EntranceThemeTransition IsStaggeringEnabled="True" />
                     </Grid.Transitions>
@@ -125,87 +125,87 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}"
-                               FontWeight="SemiLight"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Grid.Row="0">
-                    <Run Text="{x:Bind ViewModel.Model.Data.Review.Score}" /><Run Text="/" /><Run Text="100" />
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiLight"
+                        Style="{ThemeResource TitleLargeTextBlockStyle}">
+                        <Run Text="{x:Bind ViewModel.Model.Data.Review.Score}" /><Run Text="/" /><Run Text="100" />
                     </TextBlock>
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Spacing="20"
-                                Grid.Row="1"
-                                Margin="0, 20, 0, 0">
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="20">
                         <Button>
                             <Button.Content>
-                                <Viewbox Stretch="Uniform"
-                                         x:Name="LikeSymbol">
-                                    <Canvas Height="24"
-                                            Width="24">
-                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z"
-                                              Fill="{x:Bind ViewModel.Model.Data.Review.UserRating, 
-                                                    Converter={StaticResource LikeConv}}"
-                                              x:Name="LikeButton" />
+                                <Viewbox x:Name="LikeSymbol" Stretch="Uniform">
+                                    <Canvas Width="24" Height="24">
+                                        <Path
+                                            x:Name="LikeButton"
+                                            Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z"
+                                            Fill="{x:Bind ViewModel.Model.Data.Review.UserRating, Converter={StaticResource LikeConv}}" />
                                     </Canvas>
                                 </Viewbox>
                             </Button.Content>
                         </Button>
                         <Button>
                             <Button.Content>
-                                <Viewbox Stretch="Uniform"
-                                         x:Name="DislikeSymbol">
-                                    <Canvas Height="24"
-                                            Width="24">
-                                        <Path Data="M15.057 14.183c.46 1.427.693 2.676.693 3.753 0 2.399-.939 4.248-2.5 4.248-.8 0-1.078-.45-1.383-1.547l-.27-1.021c-.1-.359-.276-.97-.526-1.831a.246.246 0 0 0-.03-.065l-2.866-4.486a5.886 5.886 0 0 0-2.855-2.327l-1.257-.48A1.75 1.75 0 0 1 2.97 8.458l.686-3.539A2.25 2.25 0 0 1 5.33 3.163l8.25-2.022a4.75 4.75 0 0 1 5.733 3.44l1.574 6.173a2.75 2.75 0 0 1-2.665 3.429h-3.165Z"
-                                              Fill="{x:Bind ViewModel.Model.Data.Review.UserRating, 
-                                                    Converter={StaticResource DislikeConv}}"
-                                              x:Name="DislikeButton">
-                                        </Path>
+                                <Viewbox x:Name="DislikeSymbol" Stretch="Uniform">
+                                    <Canvas Width="24" Height="24">
+                                        <Path
+                                            x:Name="DislikeButton"
+                                            Data="M15.057 14.183c.46 1.427.693 2.676.693 3.753 0 2.399-.939 4.248-2.5 4.248-.8 0-1.078-.45-1.383-1.547l-.27-1.021c-.1-.359-.276-.97-.526-1.831a.246.246 0 0 0-.03-.065l-2.866-4.486a5.886 5.886 0 0 0-2.855-2.327l-1.257-.48A1.75 1.75 0 0 1 2.97 8.458l.686-3.539A2.25 2.25 0 0 1 5.33 3.163l8.25-2.022a4.75 4.75 0 0 1 5.733 3.44l1.574 6.173a2.75 2.75 0 0 1-2.665 3.429h-3.165Z"
+                                            Fill="{x:Bind ViewModel.Model.Data.Review.UserRating, Converter={StaticResource DislikeConv}}" />
                                     </Canvas>
                                 </Viewbox>
                             </Button.Content>
                         </Button>
                     </StackPanel>
-                    <TextBlock Grid.Row="3"
-                               FontSize="15"
-                               VerticalAlignment="Center"
-                               TextAlignment="Center"
-                               Margin="0, 10">
-                    <Run Text="{x:Bind ViewModel.Model.Data.Review.Rating}"
-                         FontWeight="SemiBold" />
-                    <Run Text="out of" />
-                    <Run Text="{x:Bind ViewModel.Model.Data.Review.RatingAmount}"
-                         FontWeight="SemiBold" />
-                    <Run Text="users liked this review" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="0,10"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        TextAlignment="Center">
+                        <Run FontWeight="SemiBold" Text="{x:Bind ViewModel.Model.Data.Review.Rating}" />
+                        <Run Text="out of" />
+                        <Run FontWeight="SemiBold" Text="{x:Bind ViewModel.Model.Data.Review.RatingAmount}" />
+                        <Run Text="users liked this review" />
                     </TextBlock>
                 </Grid>
             </Grid>
         </ScrollViewer>
-        <Grid RowSpacing="10"
-              x:Name="LoadShimmer"
-              x:Load="{x:Bind ViewModel.IsLoading}">
+        <Grid
+            x:Name="LoadShimmer"
+            x:Load="{x:Bind ViewModel.IsLoading}"
+            RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="3*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <labs:Shimmer Grid.Row="0"
-                          CornerRadius="4"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"/>
-            <labs:Shimmer Grid.Row="1"
-                          CornerRadius="4"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch" 
-                          Margin="100, 0"/>
-            <labs:Shimmer VerticalAlignment="Center"
-                          HorizontalAlignment="Center"
-                          Width="300"
-                          Height="100" 
-                          Grid.Row="2"/>
+            <labs:Shimmer
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CornerRadius="4" />
+            <labs:Shimmer
+                Grid.Row="1"
+                Margin="100,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CornerRadius="4" />
+            <labs:Shimmer
+                Grid.Row="2"
+                Width="300"
+                Height="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
         </Grid>
     </Grid>
-    
+
 </Page>

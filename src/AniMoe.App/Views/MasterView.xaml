@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
-      x:Class="AniMoe.App.Views.MasterView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:AniMoe.App.Views"
-      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:conv="using:AniMoe.App.Controls"
-      mc:Ignorable="d"
-      x:DefaultBindMode="OneWay">
+    x:Class="AniMoe.App.Views.MasterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:conv="using:AniMoe.App.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AniMoe.App.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:DefaultBindMode="OneWay"
+    mc:Ignorable="d">
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="Loaded">
             <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadData}" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
     <Grid x:Name="RootGrid">
-        <NavigationView x:Name="MasterNavView"
-                    IsTitleBarAutoPaddingEnabled="True"
-                    OpenPaneLength="200"
-                    ItemInvoked="MasterNavView_ItemInvoked"
-                    IsBackEnabled="True"
-                    BackRequested="MasterNavView_BackRequested"
-                    PaneDisplayMode="LeftMinimal"
-                    x:Load="{x:Bind ViewModel.IsVisible}"
-                    Loaded="MasterNavView_Loaded"
-                    DisplayModeChanged="MasterNavView_DisplayModeChanged">
+        <NavigationView
+            x:Name="MasterNavView"
+            x:Load="{x:Bind ViewModel.IsVisible}"
+            BackRequested="MasterNavView_BackRequested"
+            DisplayModeChanged="MasterNavView_DisplayModeChanged"
+            IsBackEnabled="True"
+            IsTitleBarAutoPaddingEnabled="True"
+            ItemInvoked="MasterNavView_ItemInvoked"
+            Loaded="MasterNavView_Loaded"
+            OpenPaneLength="200"
+            PaneDisplayMode="LeftMinimal">
             <NavigationView.Transitions>
                 <TransitionCollection>
                     <EntranceThemeTransition />
@@ -62,9 +63,10 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem>
                     <NavigationViewItem.Content>
-                        <TextBlock Text="{x:Bind ViewModel.Model.Data.User.Name}"
-                               TextTrimming="CharacterEllipsis"
-                               ToolTipService.ToolTip="{x:Bind ViewModel.Model.Data.User.Name}" />
+                        <TextBlock
+                            Text="{x:Bind ViewModel.Model.Data.User.Name}"
+                            TextTrimming="CharacterEllipsis"
+                            ToolTipService.ToolTip="{x:Bind ViewModel.Model.Data.User.Name}" />
                     </NavigationViewItem.Content>
                     <NavigationViewItem.Icon>
                         <ImageIcon Source="{x:Bind ViewModel.Model.Data.User.Avatar.Medium.OriginalString}" />
@@ -72,15 +74,15 @@
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
             <NavigationView.Content>
-                <Frame x:Name="PrimaryFrame"
-                       Navigated="PrimaryFrame_Navigated"/>
+                <Frame x:Name="PrimaryFrame" Navigated="PrimaryFrame_Navigated" />
             </NavigationView.Content>
         </NavigationView>
-        <ProgressRing x:Name="Spinner"
-                      IsActive="True"
-                      IsIndeterminate="True"
-                      x:Load="{x:Bind ViewModel.NavItemsEnable}"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"/>
+        <ProgressRing
+            x:Name="Spinner"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind ViewModel.NavItemsEnable}"
+            IsActive="True"
+            IsIndeterminate="True" />
     </Grid>
 </Page>
