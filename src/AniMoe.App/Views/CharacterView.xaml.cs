@@ -51,6 +51,8 @@ namespace AniMoe.App.Views
 
         private async void MasterScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
+            SegmentedBox.SelectionChanged += SegmentedBox_SelectionChanged;
+            SegmentedBox.SelectedIndex = 0;
             await DescriptionWebView.EnsureCoreWebView2Async();
             await Task.Delay(500);
             DescriptionWebView.NavigateToString(
@@ -60,12 +62,13 @@ namespace AniMoe.App.Views
 
         private async void DescriptionWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
         {
-            string jsx = "document.body.offsetHeight";
+            string jsx = @"document.body.offsetHeight";
             string heightString = await DescriptionWebView.ExecuteScriptAsync(jsx);
             Debug.WriteLine(heightString);
+
             if( double.TryParse(heightString, out double height) )
             {
-                WebGrid.Height = height;
+                WebGrid.Height = height >= 800 ? height : height / 4;
             }
 
             string js = @"
@@ -124,6 +127,37 @@ namespace AniMoe.App.Views
             catch( Exception ex )
             {
                 Log.Error(ex, "Some Error Occured");
+            }
+        }
+
+        private void SegmentedBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Log.Information("Hello");
+            Segmented nv = sender as Segmented;
+            SegmentedItem item = nv.SelectedValue as SegmentedItem;
+            var navOptions = new FrameNavigationOptions
+            {
+                IsNavigationStackEnabled = false,
+                TransitionInfoOverride = new EntranceNavigationTransitionInfo()
+            };
+
+            switch( item.Name )
+            {
+                case "AnimePage":
+                    Dictionary<string, dynamic> keyValuePairs = new Dictionary<string, dynamic>();
+                    keyValuePairs["ViewModel"] = ViewModel.Model.Data.Character.Media;
+                    keyValuePairs["Type"] = "ANIME";
+                    keyValuePairs["RootFrame"] = Frame;
+                    ChildFrame.NavigateToType(typeof(AnimeListControl), keyValuePairs, navOptions);
+                    break;
+
+                case "MangaPage":
+                    Dictionary<string, dynamic> keyValuePairsManga = new Dictionary<string, dynamic>();
+                    keyValuePairsManga["ViewModel"] = ViewModel.Model.Data.Character.Media;
+                    keyValuePairsManga["Type"] = "MANGA";
+                    keyValuePairsManga["RootFrame"] = Frame;
+                    ChildFrame.NavigateToType(typeof(AnimeListControl), keyValuePairsManga, navOptions);
+                    break;
             }
         }
     }

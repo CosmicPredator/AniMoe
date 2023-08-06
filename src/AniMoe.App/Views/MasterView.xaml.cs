@@ -12,8 +12,7 @@ namespace AniMoe.App.Views
     public sealed partial class MasterView : Page
     {
         public MasterViewModel ViewModel;
-        private DrillInNavigationTransitionInfo NavAnimation =
-            App.Current.Services.GetRequiredService<DrillInNavigationTransitionInfo>();
+        private EntranceNavigationTransitionInfo NavAnimation = new ();
         DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MasterView()
         {

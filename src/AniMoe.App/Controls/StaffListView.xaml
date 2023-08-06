@@ -18,51 +18,45 @@
     </Page.Resources>
 
     <Grid Margin="0,20,0,0">
-        <ScrollViewer x:Name="ItScrollViewer" Height="700">
-            <ItemsRepeater
-                x:Name="StaffListItRepeater"
-                ItemsSource="{x:Bind Collection, Mode=OneWay}"
-                Loaded="StaffListItRepeater_Loaded">
-                <ItemsRepeater.Layout>
-                    <UniformGridLayout
-                        ItemsStretch="Fill"
-                        MaximumRowsOrColumns="2"
-                        MinColumnSpacing="20"
-                        MinRowSpacing="20" />
-                </ItemsRepeater.Layout>
-                <DataTemplate x:DataType="Model:Edge">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <RelativePanel Style="{StaticResource CardRelativePanelStyle}">
-                            <controls:ImageEx
-                                x:Name="StaffImage"
-                                Width="70"
-                                Height="100"
-                                Margin="10"
-                                CornerRadius="8"
-                                IsCacheEnabled="True"
-                                RelativePanel.AlignLeftWithPanel="True"
-                                Source="{x:Bind Node.Image.Large.OriginalString}"
-                                Stretch="UniformToFill" />
-                            <TextBlock
-                                Margin="10"
-                                MaxLines="2"
-                                RelativePanel.AlignTopWithPanel="True"
-                                RelativePanel.RightOf="StaffImage"
-                                Style="{StaticResource BodyStrongTextBlockStyle}"
-                                Text="{x:Bind Node.Name.UserPreferred}"
-                                TextTrimming="CharacterEllipsis" />
-                            <TextBlock
-                                Margin="10"
-                                MaxLines="2"
-                                RelativePanel.AlignBottomWithPanel="True"
-                                RelativePanel.RightOf="StaffImage"
-                                Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind Role}"
-                                TextTrimming="CharacterEllipsis" />
-                        </RelativePanel>
-                    </Grid>
-                </DataTemplate>
-            </ItemsRepeater>
-        </ScrollViewer>
+        <ItemsRepeater x:Name="StaffListItRepeater"
+                       ItemsSource="{x:Bind Collection, Mode=OneWay}"
+                       Loaded="StaffListItRepeater_Loaded">
+            <ItemsRepeater.Layout>
+                <UniformGridLayout ItemsStretch="Fill"
+                                   MaximumRowsOrColumns="2"
+                                   MinColumnSpacing="20"
+                                   MinRowSpacing="20" />
+            </ItemsRepeater.Layout>
+            <DataTemplate x:DataType="Model:Edge">
+                <Grid HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                    <RelativePanel Style="{StaticResource CardRelativePanelStyle}">
+                        <controls:ImageEx x:Name="StaffImage"
+                                          Width="70"
+                                          Height="100"
+                                          Margin="10"
+                                          CornerRadius="8"
+                                          IsCacheEnabled="True"
+                                          RelativePanel.AlignLeftWithPanel="True"
+                                          Source="{x:Bind Node.Image.Large.OriginalString}"
+                                          Stretch="UniformToFill" />
+                        <TextBlock Margin="10"
+                                   MaxLines="2"
+                                   RelativePanel.AlignTopWithPanel="True"
+                                   RelativePanel.RightOf="StaffImage"
+                                   Style="{StaticResource BodyStrongTextBlockStyle}"
+                                   Text="{x:Bind Node.Name.UserPreferred}"
+                                   TextTrimming="CharacterEllipsis" />
+                        <TextBlock Margin="10"
+                                   MaxLines="2"
+                                   RelativePanel.AlignBottomWithPanel="True"
+                                   RelativePanel.RightOf="StaffImage"
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Role}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </RelativePanel>
+                </Grid>
+            </DataTemplate>
+        </ItemsRepeater>
     </Grid>
 </Page>

@@ -69,7 +69,6 @@ namespace AniMoe.App
                 .AddSingleton<MasterViewModel>()
                 .AddSingleton<MediaListStatusModel>()
                 .AddSingleton(DispatcherQueue.GetForCurrentThread())
-                .AddSingleton<DrillInNavigationTransitionInfo>()
                 .AddSingleton<IMdToHtmlParser, MdToHtmlParser>()
                 .AddSingleton<AnimeListViewModel>()
                 .AddSingleton<MangaListViewModel>()

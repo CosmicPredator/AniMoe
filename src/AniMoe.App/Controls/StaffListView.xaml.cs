@@ -53,9 +53,9 @@ namespace AniMoe.App.Controls
             {
                 StaffListItRepeater.ItemsSource = Collection;
             });
-            if( ItScrollViewer != null )
+            if( NavArgs.ParentScrollViewer != null )
             {
-                ItScrollViewer.ViewChanged += ItScrollViewer_ViewChanged;
+                NavArgs.ParentScrollViewer.ViewChanged += ItScrollViewer_ViewChanged;
             }
             Task.Run(async () =>
             {

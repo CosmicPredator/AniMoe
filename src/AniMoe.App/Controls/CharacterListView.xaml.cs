@@ -62,9 +62,9 @@ namespace AniMoe.App.Controls
                              new CharacterListLoader(),
                              MediaType);
             CharacterListItRepeater.ItemsSource = collection;
-            if (ItScrollViewer != null)
+            if (NavArgs.ParentScrollViewer != null)
             {
-                ItScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+                NavArgs.ParentScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
             await collection.LoadMoreItemsAsync(25);
         }
@@ -76,9 +76,9 @@ namespace AniMoe.App.Controls
                     LanguageComboBox.SelectedValue.ToString(), new CharacterListLoader(),
                     MediaType);
             CharacterListItRepeater.ItemsSource = collection;
-            if (ItScrollViewer != null)
+            if (NavArgs.ParentScrollViewer != null)
             {
-                ItScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+                NavArgs.ParentScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             }
             await collection.LoadMoreItemsAsync(25);
         }

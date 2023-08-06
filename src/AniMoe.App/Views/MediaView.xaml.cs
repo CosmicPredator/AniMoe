@@ -72,7 +72,8 @@ namespace AniMoe.App.Views
                     MediaFrame.NavigateToType(typeof(MediaOverviewView), new NavObject
                     {
                         Vm = ViewModel,
-                        RootFrame = this.Frame
+                        RootFrame = this.Frame,
+                        ParentScrollViewer = parentScrollViewer
                     }, navOptions);
                     break;
 
@@ -80,7 +81,8 @@ namespace AniMoe.App.Views
                     MediaFrame.NavigateToType(typeof(CharacterListView), new NavObject
                     {
                         Vm = ViewModel,
-                        RootFrame = this.Frame
+                        RootFrame = this.Frame,
+                        ParentScrollViewer = parentScrollViewer
                     }, navOptions);
                     break;
 
@@ -88,21 +90,24 @@ namespace AniMoe.App.Views
                     MediaFrame.NavigateToType(typeof(StaffListView), new NavObject
                     {
                         Vm = ViewModel,
-                        RootFrame = this.Frame
+                        RootFrame = this.Frame,
+                        ParentScrollViewer = parentScrollViewer
                     }, navOptions);
                     break;
                 case "StatsPage":
                     MediaFrame.NavigateToType(typeof(StatsPage), new NavObject
                     {
                         Vm = ViewModel,
-                        RootFrame = this.Frame
+                        RootFrame = this.Frame,
+                        ParentScrollViewer = parentScrollViewer
                     }, navOptions);
                     break;
                 case "ReviewsPage":
                     MediaFrame.NavigateToType(typeof(ReviewListView), new NavObject
                     {
                         Vm = ViewModel,
-                        RootFrame = this.Frame
+                        RootFrame = this.Frame,
+                        ParentScrollViewer = parentScrollViewer
                     }, navOptions);
                     break;
             }
@@ -143,5 +148,6 @@ namespace AniMoe.App.Views
     {
         public MediaViewViewModel Vm { get; set; }
         public Frame RootFrame { get; set; }
+        public ScrollViewer ParentScrollViewer { get; set; }
     }
 }
