@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace AniMoe.App.Models.CharacterExploreModel
 {
-    public partial class CharacterExploreModel
+    public partial record CharacterExploreModel
     {
         [JsonProperty("data")]
         public Data Data { get; set; }
     }
 
-    public partial class Data
+    public partial record Data
     {
         [JsonProperty("Character")]
         public Page CharacterList { get; set; }
@@ -26,7 +26,7 @@ namespace AniMoe.App.Models.CharacterExploreModel
         public Page StaffList { get; set; }
     }
 
-    public partial class Page
+    public partial record Page
     {
         [JsonProperty("pageInfo")]
         public PageInfo PageInfo { get; set; }
@@ -38,7 +38,7 @@ namespace AniMoe.App.Models.CharacterExploreModel
         public List<Character> Staffs { get; set; }
     }
 
-    public partial class Character
+    public partial record Character
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -50,19 +50,19 @@ namespace AniMoe.App.Models.CharacterExploreModel
         public Image Image { get; set; }
     }
 
-    public partial class Image
+    public partial record Image
     {
         [JsonProperty("large")]
         public Uri Large { get; set; }
     }
 
-    public partial class Name
+    public partial record Name
     {
         [JsonProperty("userPreferred")]
         public string UserPreferred { get; set; }
     }
 
-    public partial class PageInfo
+    public partial record PageInfo
     {
         [JsonProperty("currentPage")]
         public int CurrentPage { get; set; }

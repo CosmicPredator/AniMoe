@@ -107,6 +107,19 @@ namespace AniMoe.App.Controls
                 }
             }
         }
+
+        private void StaffImage_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if (properties.IsLeftButtonPressed)
+                {
+                    NavArgs.RootFrame.Navigate(typeof(StaffView), Convert.ToInt32((sender as ImageEx).Tag),
+                        new DrillInNavigationTransitionInfo());
+                }
+            }
+        }
     }
 
     public class IncrementLoader: IncrementalLoadingCollection<CharacterListLoader, Edge>

@@ -62,7 +62,7 @@ namespace AniMoe.App.Views
 
         private async void DescriptionWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
         {
-            string jsx = @"document.body.offsetHeight";
+            string jsx = "document.body.offsetHeight";
             string heightString = await DescriptionWebView.ExecuteScriptAsync(jsx);
             Debug.WriteLine(heightString);
 

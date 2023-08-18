@@ -29,7 +29,9 @@
             </ItemsRepeater.Layout>
             <DataTemplate x:DataType="Model:Edge">
                 <Grid HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch">
+                      VerticalAlignment="Stretch"
+                      PointerPressed="Grid_PointerPressed"
+                      Tag="{x:Bind Node.Id}">
                     <RelativePanel Style="{StaticResource CardRelativePanelStyle}">
                         <controls:ImageEx x:Name="StaffImage"
                                           Width="70"

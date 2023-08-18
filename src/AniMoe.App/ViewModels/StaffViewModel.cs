@@ -37,11 +37,10 @@ namespace AniMoe.App.ViewModels
 
     public class CharacterListIncrementalList: IncrementalLoadingCollection<CharacterListLoader, Edge>
     {
-        private readonly CharacterListLoader Loader;
+        private readonly CharacterListLoader Loader = new();
 
         public CharacterListIncrementalList(int StaffId, bool onList = false)
         {
-            Loader = new();
             Loader.StaffId = StaffId;
             Loader.OnList = onList;
         }
@@ -65,6 +64,8 @@ namespace AniMoe.App.ViewModels
             {
                 StaffCharListModel Model =
                     await Models.StaffCharListModel.Initialize.FetchData(StaffId, OnList, PageNum);
+                HasNextPage = Model.Data.Staff.CharacterMedia.PageInfo.HasNextPage;
+                PageNum++;
                 foreach( var item in Model.Data.Staff.CharacterMedia.Edges )
                 {
                     if( item.Characters.Count() >= 1 )

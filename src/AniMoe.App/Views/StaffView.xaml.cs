@@ -28,11 +28,12 @@ namespace AniMoe.App.Views
         public StaffViewModel ViewModel;
         private DispatcherQueue dispatchQueue = DispatcherQueue.GetForCurrentThread();
         private CharacterListIncrementalList collection;
-        public int StaffId = 119331;
+        public int StaffId;
         public IMdToHtmlParser mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         DispatcherQueueTimer timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            StaffId = (int)e.Parameter;
             ViewModel = new(StaffId, MasterScrollViewer, CharItemsRepeater);
             DataContext = ViewModel;
             base.OnNavigatedTo(e);
@@ -50,7 +51,7 @@ namespace AniMoe.App.Views
             Debug.WriteLine(heightString);
             if( double.TryParse(heightString, out double height) )
             {
-                WebGrid.Height = height;
+                WebGrid.Height = height >= 800 ? height : height / 4;
             }
 
             string js = @"
@@ -114,11 +115,14 @@ namespace AniMoe.App.Views
 
         private async void MasterScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
-            await DescriptionWebView.EnsureCoreWebView2Async();
-            await Task.Delay(500);
-            DescriptionWebView.NavigateToString(
-                mdToHtmlParser.Convert(ViewModel.Model.Data.Staff.Description)
-            );
+            if (ViewModel.Model.Data.Staff.Description != null)
+            {
+                await DescriptionWebView.EnsureCoreWebView2Async();
+                await Task.Delay(500);
+                DescriptionWebView.NavigateToString(
+                    mdToHtmlParser.Convert(ViewModel.Model.Data.Staff.Description)
+                );
+            }
             LoadStaffList();
         }
 

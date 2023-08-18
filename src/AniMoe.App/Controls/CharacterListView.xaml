@@ -78,7 +78,9 @@
                                           CornerRadius="8"
                                           RelativePanel.AlignRightWithPanel="True"
                                           Source="{x:Bind SelectedVoiceActor.VoiceActor.Image.Large.OriginalString}"
-                                          Stretch="UniformToFill" />
+                                          Stretch="UniformToFill" 
+                                          Tag="{x:Bind SelectedVoiceActor.VoiceActor.Id}"
+                                          PointerPressed="StaffImage_PointerPressed"/>
                         <TextBlock x:Name="StaffNameTextBlock"
                                    Margin="10,10,10,5"
                                    x:Load="{x:Bind MediaType, Converter={StaticResource TypeToBoolConv}}"
@@ -87,7 +89,7 @@
                                    RelativePanel.LeftOf="StaffImage"
                                    Style="{StaticResource BodyStrongTextBlockStyle}"
                                    Text="{x:Bind SelectedVoiceActor.VoiceActor.Name.UserPreferred}"
-                                   TextTrimming="CharacterEllipsis" />
+                                   TextTrimming="CharacterEllipsis"/>
                         <TextBlock x:Name="StaffRoleNotes"
                                    Margin="10,0"
                                    x:Load="{x:Bind MediaType, Converter={StaticResource TypeToBoolConv}}"

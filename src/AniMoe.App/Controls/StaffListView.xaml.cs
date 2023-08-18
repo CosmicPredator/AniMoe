@@ -3,6 +3,7 @@ using AniMoe.App.ViewModels;
 using AniMoe.App.Views;
 using CommunityToolkit.Common.Collections;
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,6 +11,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -74,6 +76,19 @@ namespace AniMoe.App.Controls
                 if( !Collection.IsLoading )
                 {
                     await Collection.LoadMoreItemsAsync(25);
+                }
+            }
+        }
+
+        private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if (properties.IsLeftButtonPressed)
+                {
+                    NavArgs.RootFrame.Navigate(typeof(StaffView), Convert.ToInt32((sender as Grid).Tag),
+                        new DrillInNavigationTransitionInfo());
                 }
             }
         }

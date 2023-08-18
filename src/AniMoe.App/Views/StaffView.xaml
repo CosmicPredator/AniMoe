@@ -149,11 +149,11 @@
                             </TextBlock>
                             <TextBlock Margin="0,15,0,0" FontSize="15">
                                 <Run FontWeight="SemiBold" Text="Age:" />
-                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Age}" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Age, TargetNullValue='?'}" />
                             </TextBlock>
                             <TextBlock FontSize="15">
                                 <Run FontWeight="SemiBold" Text="Gender:" />
-                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Gender}" />
+                                <Run Text="{x:Bind ViewModel.Model.Data.Staff.Gender, TargetNullValue='?'}" />
                             </TextBlock>
                             <TextBlock FontSize="15">
                                 <Run FontWeight="SemiBold" Text="Years Active:" />
