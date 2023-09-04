@@ -13,8 +13,8 @@
 # Features
 - Anime & Manga Tracker.
 - Airing Notifictions.
-- Media Detection
-- 
+- Media Detection & Updation.
+- Custom Markdown renderer for forums (future).
 
 # Build from Source
 - Install Visual Studio 2022.
