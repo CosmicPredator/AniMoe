@@ -1,9 +1,20 @@
-# AniMoe for AniList
+<center> <h1>AniMoe for AniList</h1>
  A Windows 10 & 11 Client for AniList. Track and Discover anime and manga with ease.
 
  [![WinUI3 Packaged MSIX App](https://github.com/CosmicPredator/AniMoe/actions/workflows/ci-packaged.yml/badge.svg)](https://github.com/CosmicPredator/AniMoe/actions/workflows/ci-packaged.yml)
 
-> Note: This is a Work in Progress Application
+ ![](https://i.imgur.com/rzotm7h.jpg)
+
+</center>
+
+> [!NOTE]
+> This is a Work in Progress Application
+
+# Features
+- Anime & Manga Tracker.
+- Airing Notifictions.
+- Media Detection
+- 
 
 # Build from Source
 - Install Visual Studio 2022.
@@ -36,3 +47,8 @@ Windows App SDK C# Templates.
 - `Serilog`
 - `Serilog.Sinks.Debug`
 - `Serilog.Sinks.File`
+- `Microsoft.Extensions.Caching.Abstractions`
+- `Microsoft.Extensions.Configuration.Abstractions`
+- `Microsoft.Extensions.Http`
+- `Microsoft.Graphics.Win2D`
+- `System.Net.Http`

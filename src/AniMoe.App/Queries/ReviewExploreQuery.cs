@@ -35,7 +35,6 @@ namespace AniMoe.App.Queries
                   ratingAmount
                 }
               }
-            }
-            @";
+            }";
     }
 }

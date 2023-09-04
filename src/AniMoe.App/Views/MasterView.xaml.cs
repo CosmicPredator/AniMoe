@@ -32,23 +32,18 @@ namespace AniMoe.App.Views
         private void MasterNavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var selected = sender.SelectedItem as NavigationViewItem;
-            if( (string)selected.Content == "Anime List" )
+            switch ((string)selected.Content)
             {
-                PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+                case "Anime List":
+                    PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+                    break;
+                case "Manga List":
+                    PrimaryFrame.Navigate(typeof(MangaListView), null, NavAnimation);
+                    break;
+                case "Explore":
+                    PrimaryFrame.Navigate(typeof(ExploreView), null, NavAnimation);
+                    break;
             }
-            else if( (string)selected.Content == "Manga List" )
-            {
-                PrimaryFrame.Navigate(typeof(MangaListView), null, NavAnimation);
-            }
-            else if( (string)selected.Content == "Explore" )
-            {
-                PrimaryFrame.Navigate(typeof(ExploreView), null, NavAnimation);
-            }
-            else if( (string)selected.Content == "Home" )
-            {
-                PrimaryFrame.Navigate(typeof(StaffView), null, NavAnimation);
-            }
-
         }
 
         private void PrimaryFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)

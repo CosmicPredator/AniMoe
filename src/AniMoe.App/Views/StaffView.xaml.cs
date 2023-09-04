@@ -1,6 +1,7 @@
 using AniMoe.App.ViewModels;
 using AniMoe.Parsers;
 using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -9,6 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Serilog;
 using System;
@@ -156,6 +158,32 @@ namespace AniMoe.App.Views
             else if( (sender as CheckBox).IsChecked == false )
                 LoadStaffList();
 
+        }
+
+        private void MediaImage_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if (properties.IsLeftButtonPressed)
+                {
+                    Frame.Navigate(typeof(MediaView), Convert.ToInt32((sender as ImageEx).Tag),
+                        new DrillInNavigationTransitionInfo());
+                }
+            }
+        }
+
+        private void CharImage_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if (properties.IsLeftButtonPressed)
+                {
+                    Frame.Navigate(typeof(CharacterView), Convert.ToInt32((sender as ImageEx).Tag),
+                        new DrillInNavigationTransitionInfo());
+                }
+            }
         }
     }
 }

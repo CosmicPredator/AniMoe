@@ -25,6 +25,7 @@ namespace AniMoe.App.Queries
                   search: $search,
                   isBirthday: $isBirthday
                 ){
+                  __typename
                   id
                   name {
                     userPreferred
@@ -44,6 +45,7 @@ namespace AniMoe.App.Queries
                   search: $search,
                   isBirthday: $isBirthday
                 ){
+                  __typename
                   id
                   name {
                     userPreferred

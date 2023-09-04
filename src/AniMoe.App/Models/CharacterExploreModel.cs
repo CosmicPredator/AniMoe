@@ -40,6 +40,9 @@ namespace AniMoe.App.Models.CharacterExploreModel
 
     public partial record Character
     {
+        [JsonProperty("__typename")]
+        public string TypeName { get; set; }
+
         [JsonProperty("id")]
         public int Id { get; set; }
 

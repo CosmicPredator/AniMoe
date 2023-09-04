@@ -25,9 +25,10 @@
             <converters:StaffYearsActiveConverter x:Key="StaffActiveYearsConv" />
             <converters:UpperToCultureStringConverter x:Key="UpperToCulture" />
             <DataTemplate x:Key="CharacterListTemplate" x:DataType="Model:Edge">
-                <Grid HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch"
-                      Style="{StaticResource CardGridStyle}">
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource CardGridStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -40,6 +41,7 @@
                             Margin="10"
                             CornerRadius="8"
                             IsCacheEnabled="True"
+                            PointerPressed="CharImage_PointerPressed"
                             RelativePanel.AlignLeftWithPanel="True"
                             Source="{x:Bind SelectedCharacter.Image.Large}"
                             Stretch="UniformToFill"
@@ -71,6 +73,7 @@
                             Margin="10"
                             CornerRadius="8"
                             IsCacheEnabled="True"
+                            PointerPressed="MediaImage_PointerPressed"
                             RelativePanel.AlignRightWithPanel="True"
                             Source="{x:Bind Node.CoverImage.Large}"
                             Stretch="UniformToFill"
@@ -120,9 +123,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid
-                    Grid.Row="0"
-                    ColumnSpacing="20">
+                <Grid Grid.Row="0" ColumnSpacing="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -219,13 +220,15 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid HorizontalAlignment="Stretch">
-                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
-                                   Text="Characters" 
-                                   HorizontalAlignment="Left"/>
-                        <CheckBox Content="On My List" 
-                                  HorizontalAlignment="Right"
-                                  Checked="CheckBox_Checked"
-                                  Unchecked="CheckBox_Checked"/>
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Characters" />
+                        <CheckBox
+                            HorizontalAlignment="Right"
+                            Checked="CheckBox_Checked"
+                            Content="On My List"
+                            Unchecked="CheckBox_Checked" />
                     </Grid>
                     <ItemsRepeater
                         x:Name="CharItemsRepeater"

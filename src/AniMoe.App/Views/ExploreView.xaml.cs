@@ -85,10 +85,18 @@ namespace AniMoe.App.Views
             if( e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse )
             {
                 var properties = e.GetCurrentPoint(this).Properties;
+                Grid selectedGrid = sender as Grid;
                 if( properties.IsLeftButtonPressed )
                 {
-                    Frame.Navigate(typeof(CharacterView), Convert.ToInt32((sender as Grid).Tag),
+                    if (selectedGrid.Name == "Character")
+                    {
+                        Frame.Navigate(typeof(CharacterView), Convert.ToInt32(selectedGrid.Tag),
                         new DrillInNavigationTransitionInfo());
+                    } else
+                    {
+                        Frame.Navigate(typeof(StaffView), Convert.ToInt32(selectedGrid.Tag),
+                        new DrillInNavigationTransitionInfo());
+                    }
                 }
             }
         }

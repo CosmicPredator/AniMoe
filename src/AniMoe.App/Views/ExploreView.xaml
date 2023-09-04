@@ -63,7 +63,7 @@
             </DataTemplate>
             <DataTemplate x:Key="CharacterDataTemplate" x:DataType="CharacterModel:Character">
                 <Grid
-                    x:Name="CharacterGrid"
+                    Name="{x:Bind TypeName}"
                     Padding="3"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -141,12 +141,21 @@
                         Margin="10,2"
                         FontSize="15"
                         FontWeight="Medium"
+                        MaxLines="2"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="Wrap">
                         <Run Text="Review Of" />
                         <Run Text="{x:Bind Media.Title.UserPreferred}" />
                         <Run Text="by" />
                         <Run Text="{x:Bind User.Name}" />
+                        <ToolTipService.ToolTip>
+                            <TextBlock TextWrapping="WrapWholeWords">
+                                <Run Text="Review Of" />
+                                <Run Text="{x:Bind Media.Title.UserPreferred}" />
+                                <Run Text="by" />
+                                <Run Text="{x:Bind User.Name}" />
+                            </TextBlock>
+                        </ToolTipService.ToolTip>
                     </TextBlock>
                     <Grid
                         Grid.Row="2"
@@ -162,10 +171,12 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             FontStyle="Italic"
+                            MaxLines="2"
                             Opacity="0.7"
                             Text="{x:Bind Summary}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap" />
+                            TextWrapping="Wrap"
+                            ToolTipService.ToolTip="{x:Bind Summary}" />
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <Viewbox Stretch="Uniform">
