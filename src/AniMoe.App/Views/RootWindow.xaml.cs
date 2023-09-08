@@ -36,6 +36,7 @@ namespace AniMoe.App.Views
         public RootWindow()
         {
             this.InitializeComponent();
+            AppWindow.TitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             if (MicaController.IsSupported())
                 this.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
             else 

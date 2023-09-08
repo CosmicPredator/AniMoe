@@ -37,6 +37,7 @@ using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using AniMoe.App.Models.MediaListStatusModel;
 using Serilog;
+using Microsoft.UI.Windowing;
 
 namespace AniMoe.App
 {

@@ -47,6 +47,7 @@
     <None Remove="Views\ReviewView.xaml" />
     <None Remove="Views\RootWindow.xaml" />
     <None Remove="Views\StaffView.xaml" />
+    <None Remove="Views\UserPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -162,6 +163,9 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\UserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\StaffView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
