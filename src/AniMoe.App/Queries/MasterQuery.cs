@@ -12,6 +12,7 @@ namespace AniMoe.App.Queries
             query {
               Viewer {
                 name
+                unreadNotificationCount
                 avatar {
                   large
                   medium

@@ -111,27 +111,27 @@ namespace AniMoe.App.ViewModels
 
         public void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (CurrentListView.Count > 0 )
+            TextBox box = sender as TextBox;
+            if (!string.IsNullOrEmpty(box.Text))
             {
-                TextBox box = sender as TextBox;
-                if( box.Text != "" )
-                {
-                    Loaded = false;
-                    ApplyFilters(filterDialog.Model);
-                    CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
-                        x => x.Name == SelectedStatus
-                    ).First().Entries.Where(
-                        y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
-                    ));
-                    Loaded = true;
-                }
-                else
-                {
-                    CurrentListView = Model.Data.MediaListCollection.Lists.Where(
-                        x => x.Name == SelectedStatus
-                    ).First().Entries;
-                    ApplyFilters(filterDialog.Model);
-                }
+                Loaded = false;
+                ApplyFilters(filterDialog.Model);
+                CurrentListView = new ObservableCollection<Entry>(Model.Data.MediaListCollection.Lists.Where(
+                    x => x.Name == SelectedStatus
+                ).First().Entries.Where(
+                    y => y.Media.Title.UserPreferred.ToLower().Contains(box.Text)
+                ));
+                Loaded = true;
+            }
+            else
+            {
+                Loaded = false;
+                ApplyFilters(filterDialog.Model);
+                CurrentListView = new ObservableCollection<Entry>(
+                    Model.Data.MediaListCollection.Lists.Where(
+                    x => x.Name == SelectedStatus
+                ).First().Entries);
+                Loaded = true;
             }
         }
 

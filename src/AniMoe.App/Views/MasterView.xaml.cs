@@ -12,7 +12,6 @@ namespace AniMoe.App.Views
     public sealed partial class MasterView : Page
     {
         public MasterViewModel ViewModel;
-        private EntranceNavigationTransitionInfo NavAnimation = new ();
         DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MasterView()
         {
@@ -32,16 +31,22 @@ namespace AniMoe.App.Views
         private void MasterNavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var selected = sender.SelectedItem as NavigationViewItem;
-            switch ((string)selected.Content)
+            switch (selected.Name)
             {
-                case "Anime List":
-                    PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+                case "AnimeListSection":
+                    PrimaryFrame.Navigate(typeof(AnimeListView), null);
                     break;
-                case "Manga List":
-                    PrimaryFrame.Navigate(typeof(MangaListView), null, NavAnimation);
+                case "MangaListSection":
+                    PrimaryFrame.Navigate(typeof(MangaListView), null);
                     break;
-                case "Explore":
-                    PrimaryFrame.Navigate(typeof(ExploreView), null, NavAnimation);
+                case "ExploreSection":
+                    PrimaryFrame.Navigate(typeof(ExploreView), null);
+                    break;
+                case "NotificationSection":
+                    NotificationBadge.Opacity = 0;
+                    break;
+                case "UserSection":
+                    PrimaryFrame.Navigate(typeof(UserView), null);
                     break;
             }
         }
@@ -73,7 +78,7 @@ namespace AniMoe.App.Views
         {
             RootGrid.SizeChanged += RootGrid_SizeChanged;
             RepositionTitleBar();
-            PrimaryFrame.Navigate(typeof(AnimeListView), null, NavAnimation);
+            PrimaryFrame.Navigate(typeof(AnimeListView), null);
         }
 
         private void MasterNavView_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)

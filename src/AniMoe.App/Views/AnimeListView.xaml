@@ -13,6 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rxui="http://reactiveui.net"
     xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolkitConverters="using:CommunityToolkit.WinUI.UI.Converters"
     x:Name="AnimeListPage"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
@@ -25,6 +26,7 @@
         <converters:NullValueConverter x:Key="NullValConv" />
         <converters:UntilEpochConverter x:Key="UntilConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
+        <toolkitConverters:BoolNegationConverter x:Key="InverseBoolConverter"/>
     </Page.Resources>
     <Grid
         x:Name="RootGrid"
@@ -45,7 +47,7 @@
             <TextBox
                 x:Name="AnimeListSearchBox"
                 Width="350"
-                IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Converter={StaticResource InverseBoolConverter}}"
                 PlaceholderText="Search anime"
                 RelativePanel.AlignLeftWithPanel="True"
                 TextChanged="{x:Bind ViewModel.SearchTextChanged}" />

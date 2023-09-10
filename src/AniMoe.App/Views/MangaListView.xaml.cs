@@ -93,7 +93,14 @@ namespace AniMoe.App.Views
         private void MasterGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             Grid g = sender as Grid;
-            Frame.Navigate(typeof(MediaView), (int)g.Tag, new DrillInNavigationTransitionInfo());
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            {
+                var properties = e.GetCurrentPoint(this).Properties;
+                if (properties.IsLeftButtonPressed)
+                {
+                    Frame.Navigate(typeof(MediaView), (int)g.Tag, new DrillInNavigationTransitionInfo());
+                }
+            }
         }
     }
 }

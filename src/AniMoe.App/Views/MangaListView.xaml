@@ -23,7 +23,7 @@
         <converters:NullToQuestionMark x:Key="NullConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
         <converters:NullToBoolConverter x:Key="NullToBool" />
-        <toolkitConverters:BoolNegationConverter x:Key="InverseBool" />
+        <toolkitConverters:BoolNegationConverter x:Key="InverseBoolConverter" />
     </Page.Resources>
     <Grid
         x:Name="RootGrid"
@@ -44,7 +44,7 @@
             <TextBox
                 x:Name="AnimeListSearchBox"
                 Width="350"
-                IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Converter={StaticResource InverseBoolConverter}}"
                 PlaceholderText="Search manga"
                 RelativePanel.AlignLeftWithPanel="True"
                 TextChanged="{x:Bind ViewModel.SearchTextChanged}" />
@@ -52,6 +52,7 @@
                 x:Name="StatusComboBox"
                 MinWidth="150"
                 Margin="10,0"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Converter={StaticResource InverseBoolConverter}}"
                 x:Load="{x:Bind ViewModel.LoadStatusBar, Mode=OneWay}"
                 ItemsSource="{x:Bind ViewModel.StatusLists, Mode=OneWay}"
                 PlaceholderText="Status"
@@ -78,7 +79,7 @@
                 x:Name="FilterButton"
                 Background="{x:Bind ViewModel.ButtonColor}"
                 Click="{x:Bind ViewModel.FilterButton_Click}"
-                IsEnabled="{x:Bind ViewModel.LoadStatusBar}"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Converter={StaticResource InverseBoolConverter}}"
                 RelativePanel.LeftOf="ReloadButton">
                 <Button.Content>
                     <FontIcon Glyph="&#xe16e;" />
@@ -233,6 +234,9 @@
             Grid.Row="3"
             x:Load="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
             ItemsSource="{x:Bind items}">
+            <ItemsRepeater.Transitions>
+                <EntranceThemeTransition />
+            </ItemsRepeater.Transitions>
             <ItemsRepeater.Layout>
                 <UniformGridLayout
                     ItemsStretch="Uniform"

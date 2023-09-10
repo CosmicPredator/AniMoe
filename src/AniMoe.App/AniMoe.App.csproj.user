@@ -23,7 +23,7 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Views\UserPage.xaml">
+    <Page Update="Views\UserView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\StaffView.xaml">

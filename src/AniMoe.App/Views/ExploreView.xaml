@@ -236,9 +236,10 @@
                 x:Name="SearchBox"
                 Width="350"
                 Margin="15,0"
-                PlaceholderText="Search something..."
+                PlaceholderText="{x:Bind ViewModel.SearchBoxPlaceholder}"
                 RelativePanel.RightOf="MediaTypeComboBox"
-                TextChanged="{x:Bind ViewModel.SearchBox_TextChanged}" />
+                TextChanged="{x:Bind ViewModel.SearchBox_TextChanged}"
+                Visibility="{x:Bind ViewModel.IsSearchTextBoxEnabled, Converter={StaticResource BoolToVisiblity}}" />
             <Grid RelativePanel.AlignRightWithPanel="True">
                 <Button Click="{x:Bind ViewModel.FilterButton_Click}" Visibility="{x:Bind ViewModel.IsFilterButtonEnabled, Converter={StaticResource BoolToVisiblity}}">
                     <Button.Content>

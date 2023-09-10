@@ -34,34 +34,49 @@
                 </TransitionCollection>
             </NavigationView.Transitions>
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Home">
+                <NavigationViewItem Content="Home"
+                                    x:Name="HomeSection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe10f;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Anime List">
+                <NavigationViewItem Content="Anime List"
+                                    x:Name="AnimeListSection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe173;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Manga List">
+                <NavigationViewItem Content="Manga List"
+                                    x:Name="MangaListSection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe8f1;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Explore">
+                <NavigationViewItem Content="Explore"
+                                    x:Name="ExploreSection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe138;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Notifications">
+                <NavigationViewItem Content="Notifications"
+                                    x:Name="NotificationSection">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA8F;" />
                     </NavigationViewItem.Icon>
+                    <NavigationViewItem.InfoBadge>
+                        <InfoBadge
+                            x:Name="NotificationBadge"
+                            Opacity="{x:Bind ViewModel.Model.Data.User.UnreadNotificationCount}"
+                            Value="{x:Bind ViewModel.Model.Data.User.UnreadNotificationCount}">
+                            <InfoBadge.OpacityTransition>
+                                <ScalarTransition />
+                            </InfoBadge.OpacityTransition>
+                        </InfoBadge>
+                    </NavigationViewItem.InfoBadge>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem>
+                <NavigationViewItem x:Name="UserSection">
                     <NavigationViewItem.Content>
                         <TextBlock
                             Text="{x:Bind ViewModel.Model.Data.User.Name}"

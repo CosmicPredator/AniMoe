@@ -64,6 +64,9 @@ namespace AniMoe.App.Models.MasterModel
 
         [JsonProperty("id")]
         public int Id { get; set; }
+
+        [JsonProperty("unreadNotificationCount")]
+        public int UnreadNotificationCount { get; set; }
     }
 
     public partial class Avatar

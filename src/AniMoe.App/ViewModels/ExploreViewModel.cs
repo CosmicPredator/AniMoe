@@ -42,9 +42,17 @@ namespace AniMoe.App.ViewModels
         private bool isLoading;
         private bool isFilterButtonEnabled = true;
         private bool isBirthdayButtonEnabled = false;
+        private bool isSearchTextBoxEnabled = true;
         private bool isBirthdayEnabled;
         private int itemWidth;
         private int itemHeight;
+        private string searchBoxPlaceholder;
+
+        public string SearchBoxPlaceholder
+        {
+            get => searchBoxPlaceholder;
+            set => SetProperty(ref searchBoxPlaceholder, value);
+        }
 
         public string SelectedType
         {
@@ -56,6 +64,12 @@ namespace AniMoe.App.ViewModels
         {
             get => isLoading;
             set => SetProperty(ref isLoading, value);
+        }
+
+        public bool IsSearchTextBoxEnabled
+        {
+            get => isSearchTextBoxEnabled;
+            set => SetProperty(ref isSearchTextBoxEnabled, value);
         }
 
         public bool IsFilterButtonEnabled
@@ -297,12 +311,14 @@ namespace AniMoe.App.ViewModels
 
         public void MediaTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SearchBoxPlaceholder = $"Search {SelectedType.ToLower()}";
             filterDialog = new(SelectedType.ToUpper());
             filterObject = filterDialog.Filters;
             if( SelectedType.ToUpper() == "ANIME" || SelectedType.ToUpper() == "MANGA" )
             {
                 IsFilterButtonEnabled = true;
                 IsBirthdayButtonEnabled = !IsFilterButtonEnabled;
+                IsSearchTextBoxEnabled = true;
                 InitMediaListView(SelectedType.ToUpper());
             }
                 
@@ -311,13 +327,15 @@ namespace AniMoe.App.ViewModels
             {
                 IsFilterButtonEnabled = false;
                 IsBirthdayButtonEnabled = !IsFilterButtonEnabled;
+                IsSearchTextBoxEnabled = true;
                 InitCharacterListView(IsBirthdayEnabled);
             }
 
             if (SelectedType.ToUpper() == "REVIEWS" )
             {
                 IsFilterButtonEnabled = false;
-                isBirthdayButtonEnabled = false;
+                IsBirthdayButtonEnabled = false;
+                IsSearchTextBoxEnabled = false;
                 InitReviewListView();
             }
                 

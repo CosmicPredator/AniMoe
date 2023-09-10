@@ -307,7 +307,7 @@
                         <ItemsRepeater
                             x:Name="TagsItemRepeater"
                             VerticalAlignment="Top"
-                            ItemTemplate="{StaticResource TagsItemTemplate}" />
+                            ItemTemplate="{StaticResource TagsItemTemplate}"/>
                     </ScrollViewer>
                 </Grid>
                 <Button
