@@ -23,8 +23,10 @@
     <Page Remove="Constants\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\benner_2.jpg" />
     <None Remove="Assets\emptyList.json" />
     <None Remove="Assets\like-filled.svg" />
+    <None Remove="Assets\profile_banner.jpg" />
     <None Remove="Assets\Window-Icon.ico" />
     <None Remove="Controls\CharacterListView.xaml" />
     <None Remove="Controls\CharacterViewControls\AnimeListControl.xaml" />
@@ -149,11 +151,17 @@
     <Content Remove="Assets\profile.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\benner_2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\emptyList.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\like-filled.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\profile_banner.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\SmallTile.scale-100.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

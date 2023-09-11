@@ -26,7 +26,7 @@
         <converters:NullValueConverter x:Key="NullValConv" />
         <converters:UntilEpochConverter x:Key="UntilConv" />
         <converters:FormatEnumToNormalConverter x:Key="FormatConv" />
-        <toolkitConverters:BoolNegationConverter x:Key="InverseBoolConverter"/>
+        <toolkitConverters:BoolNegationConverter x:Key="InverseBoolConverter" />
     </Page.Resources>
     <Grid
         x:Name="RootGrid"
