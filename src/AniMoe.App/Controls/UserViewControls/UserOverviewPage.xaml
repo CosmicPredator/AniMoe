@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AniMoe.App.Controls.UserViewControls.UserOverviewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AniMoe.App.Controls.UserViewControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/LayoutStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid ColumnSpacing="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" RowSpacing="15">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Style="{StaticResource CardGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="261"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Total Anime" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="93.7"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Days Watched" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="75.3"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Mean Score" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Style="{StaticResource CardGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="60"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Total Manga" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="1899"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Chapters Read" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock
+                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="76.8"
+                        TextAlignment="Center" />
+                    <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Mean Score" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2" Style="{StaticResource CardGridStyle}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="10">
+
+                    <Border
+                        Padding="10,5"
+                        HorizontalAlignment="Center"
+                        Background="Green"
+                        CornerRadius="4">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Comedy" />
+                    </Border>
+                    <TextBlock TextAlignment="Center">
+                        <Run
+                            FontSize="17"
+                            Foreground="Green"
+                            Text="402" />
+                        <Run Text="Entries" />
+                    </TextBlock>
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="10">
+
+                    <Border
+                        Padding="10,5"
+                        HorizontalAlignment="Center"
+                        Background="DeepSkyBlue"
+                        CornerRadius="4">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Slice of Life" />
+                    </Border>
+                    <TextBlock TextAlignment="Center">
+                        <Run
+                            FontSize="17"
+                            Foreground="DeepSkyBlue"
+                            Text="305" />
+                        <Run Text="Entries" />
+                    </TextBlock>
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="10">
+
+                    <Border
+                        Padding="10,5"
+                        HorizontalAlignment="Center"
+                        Background="BlueViolet"
+                        CornerRadius="4">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Romance" />
+                    </Border>
+                    <TextBlock TextAlignment="Center">
+                        <Run
+                            FontSize="17"
+                            Foreground="BlueViolet"
+                            Text="242" />
+                        <Run Text="Entries" />
+                    </TextBlock>
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="10">
+
+                    <Border
+                        Padding="10,5"
+                        HorizontalAlignment="Center"
+                        Background="DeepPink"
+                        CornerRadius="4">
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Fantasy" />
+                    </Border>
+                    <TextBlock TextAlignment="Center">
+                        <Run
+                            FontSize="17"
+                            Foreground="DeepPink"
+                            Text="144" />
+                        <Run Text="Entries" />
+                    </TextBlock>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="Activity" />
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Button Click="Button_Click" ToolTipService.ToolTip="New Message">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Add" />
+                        </Button.Content>
+                    </Button>
+                    <Button ToolTipService.ToolTip="Filter">
+                        <SymbolIcon Symbol="Filter" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+
+</Page>

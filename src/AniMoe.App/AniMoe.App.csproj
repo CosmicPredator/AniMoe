@@ -36,6 +36,10 @@
     <None Remove="Controls\ReviewListView.xaml" />
     <None Remove="Controls\StaffListView.xaml" />
     <None Remove="Controls\StatsPage.xaml" />
+    <None Remove="Controls\UserViewControls\UserOverviewPage.xaml" />
+    <None Remove="Dialogs\ActivityEditorDialog.xaml" />
+    <None Remove="Dialogs\ActivityEditorDialogControls\EditorPage.xaml" />
+    <None Remove="Dialogs\ActivityEditorDialogControls\PreviewPage.xaml" />
     <None Remove="Dialogs\ExploreViewFilterDialog.xaml" />
     <None Remove="Dialogs\MediaListFliterView.xaml" />
     <None Remove="Styles\LayoutStyles.xaml" />
@@ -59,7 +63,9 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Window-Icon.ico" />
+    <Content Include="Window-Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -71,7 +77,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
-    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-beta.801" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.117" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1" />
     <PackageReference Include="Markdig" Version="0.33.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
@@ -171,6 +178,18 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dialogs\ActivityEditorDialogControls\EditorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dialogs\ActivityEditorDialogControls\PreviewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dialogs\ActivityEditorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\UserViewControls\UserOverviewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\UserView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,5 +268,8 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="Resources\Constants.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\MediaViewControls\" />
   </ItemGroup>
 </Project>

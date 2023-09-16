@@ -134,8 +134,10 @@ namespace AniMoe.Parsers
                         line-height: 20px;
                     }}
                 </style>";
+            //rawHtml = Markdown.ToHtml(rawHtml, pipeline);
         rawHtml = rawHtml
-                        .Replace("\n", "<br>")
+                        .Replace(@"\n", "<br>")
+                        .Replace(@"\n\n", "<br>")
                         .Replace(@"\""", "'")
                         .ConvertSpoiler()
                         .ConvertInlineImage()

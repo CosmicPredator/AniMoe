@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="AniMoe.App.Dialogs.ActivityEditorDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:AniMoe.App.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:DefaultBindMode="TwoWay"
+    CloseButtonText="Discard"
+    Closing="ContentDialog_Closing"
+    CornerRadius="8"
+    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
+    PrimaryButtonText="Post"
+    mc:Ignorable="d">
+
+    <ContentDialog.Title>
+        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="New Activity" />
+    </ContentDialog.Title>
+
+    <ContentDialog.CloseButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#AB0000" />
+            <Setter Property="CornerRadius" Value="3" />
+        </Style>
+    </ContentDialog.CloseButtonStyle>
+
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <labs:Segmented
+            x:Name="selectionSegmented"
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            SelectionChanged="Segmented_SelectionChanged"
+            SelectionMode="Single">
+            <labs:SegmentedItem x:Name="Edit" Content="Edit" />
+            <labs:SegmentedItem x:Name="Preview" Content="Preview" />
+        </labs:Segmented>
+
+        <StackPanel x:Name="ContentFrame" Grid.Row="1" />
+
+    </Grid>
+</ContentDialog>

@@ -45,14 +45,14 @@ public static class StringRegexes
     public static string ConvertYoutube(this string htmlText)
     {
         string output = Regex.Replace(htmlText,
-            @"youtube\((https:\/\/youtu.be\/)(.*?)\)", @"<iframe width=""560"" height=""315"" src=""https://www.youtube.com/embed/$2"" title=""YouTube video player"" frameborder=""0"" allow=""accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"" allowfullscreen></iframe>");
+            @"youtube\((https:\/\/youtu.be\/)(.*?)\)", @"<iframe width=""400"" height=""315"" src=""https://www.youtube.com/embed/$2"" title=""YouTube video player"" frameborder=""0"" allow=""accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"" allowfullscreen></iframe>");
         return output;
     }
 
     public static string ConvertWebm(this string htmlText)
     {
         string output = Regex.Replace(htmlText,
-            @"webm\((.*?)\)", @"<video muted loop controls><source src=""$1"" type=""video/webm"">Your browser does not support the video tag.</video>");
+            @"webm\((.*?)\)", @"<video muted loop controls autoplay><source src=""$1"" type=""video/webm"">Your browser does not support the video tag.</video>");
         return output;
     }
 

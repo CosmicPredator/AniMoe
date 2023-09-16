@@ -9,11 +9,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="AniMoe PREVIEW"
     x:DefaultBindMode="OneWay"
+    xmlns:tb="using:H.NotifyIcon"
     mc:Ignorable="d">
-    <!--<Window.SystemBackdrop>
-        <DesktopAcrylicBackdrop />
-    </Window.SystemBackdrop>-->
+
     <Grid x:Name="RootGrid" Background="Transparent">
+        <tb:TaskbarIcon
+            ToolTipText="AniMoe for AniList"
+            IconSource="ms-appx:///Window-Icon.ico"
+            MenuActivation="LeftOrRightClick"
+            PopupActivation="DoubleClick"/>
         <Grid
             x:Name="AppTitleBar"
             Height="40"

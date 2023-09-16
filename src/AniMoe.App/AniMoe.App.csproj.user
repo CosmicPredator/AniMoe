@@ -23,6 +23,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Dialogs\ActivityEditorDialogControls\EditorPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Dialogs\ActivityEditorDialogControls\PreviewPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\UserViewControls\UserOverviewPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\UserView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -41,28 +50,7 @@
     <Page Update="Dialogs\ExploreViewFilterDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\ReviewListView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Views\ExploreView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\StatsPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\StaffListView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\CharacterListView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\MediaViewShimmer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\MediaOverviewView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\MediaSideViewControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\LayoutStyles.xaml">
