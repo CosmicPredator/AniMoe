@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\benner_2.jpg" />
+    <None Remove="Assets\cover.jpg" />
     <None Remove="Assets\emptyList.json" />
     <None Remove="Assets\like-filled.svg" />
     <None Remove="Assets\profile_banner.jpg" />
@@ -159,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\benner_2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\cover.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\emptyList.json">

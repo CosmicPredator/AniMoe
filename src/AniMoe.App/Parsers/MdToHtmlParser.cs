@@ -74,16 +74,7 @@ namespace AniMoe.Parsers
                       background-color: transparent;
                       text-decoration: none;
                     }}
-                
-                    *::-webkit-scrollbar {{
-                        width: 8px;
-                    }}
 
-                    *::-webkit-scrollbar-thumb {{
-                      background-color: rgb({ConvertAccent1().Item1}, {ConvertAccent1().Item2}, {ConvertAccent1().Item3}, {ConvertAccent1().Item4});
-                      border-radius: 20px;
-                    }}
-                
                     p {{
                       white-space: pre-wrap;
                       word-wrap: break-word;

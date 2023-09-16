@@ -15,14 +15,19 @@ using Microsoft.UI.Xaml.Navigation;
 using AniMoe.App.Dialogs;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Hosting;
+using System.Threading.Tasks;
+using AniMoe.Parsers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AniMoe.App.Controls.UserViewControls
 {
     public sealed partial class UserOverviewPage : Page
     {
+        private IMdToHtmlParser mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         public UserOverviewPage()
         {
             this.InitializeComponent();
+            AcitivityWebView.EnsureCoreWebView2Async();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -30,6 +35,16 @@ namespace AniMoe.App.Controls.UserViewControls
             ActivityEditorDialog dialog = new();
             dialog.XamlRoot = this.XamlRoot;
             await dialog.ShowAsync();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(2000);
+            AcitivityWebView.NavigateToString(
+                mdToHtmlParser.Convert(
+                    @"img(https://i.imgur.com/2cFdn9a.gif)"
+                )
+            );
         }
     }
 }

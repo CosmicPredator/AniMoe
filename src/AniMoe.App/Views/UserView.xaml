@@ -88,7 +88,16 @@
                 <ColumnDefinition Width="2.7*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Style="{StaticResource CardGridStyle}" />
+            <Grid Grid.Column="0"
+                  CornerRadius="8">
+                <WebView2 DefaultBackgroundColor="Transparent"
+                          x:Name="AboutWebView">
+                    <WebView2.Resources>
+                        <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
+                        <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
+                    </WebView2.Resources>
+                </WebView2>
+            </Grid>
 
             <Grid Grid.Column="1" RowSpacing="15">
                 <Grid.RowDefinitions>
