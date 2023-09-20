@@ -29,6 +29,9 @@
     <None Remove="Assets\like-filled.svg" />
     <None Remove="Assets\profile_banner.jpg" />
     <None Remove="Assets\Window-Icon.ico" />
+    <None Remove="Controls\ActivityCards\ListActivityCard.xaml" />
+    <None Remove="Controls\ActivityCards\MessageActivityCard.xaml" />
+    <None Remove="Controls\ActivityCards\TextActivityCard.xaml" />
     <None Remove="Controls\CharacterListView.xaml" />
     <None Remove="Controls\CharacterViewControls\AnimeListControl.xaml" />
     <None Remove="Controls\MediaOverviewView.xaml" />
@@ -38,6 +41,7 @@
     <None Remove="Controls\StaffListView.xaml" />
     <None Remove="Controls\StatsPage.xaml" />
     <None Remove="Controls\UserViewControls\UserOverviewPage.xaml" />
+    <None Remove="Controls\UserViewControls\UserStatsPage.xaml" />
     <None Remove="Dialogs\ActivityEditorDialog.xaml" />
     <None Remove="Dialogs\ActivityEditorDialogControls\EditorPage.xaml" />
     <None Remove="Dialogs\ActivityEditorDialogControls\PreviewPage.xaml" />
@@ -137,7 +141,7 @@
     <NoWarn>WMC1506</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LayoutDir>E:\DotnetApps\AniMoe\src\AniMoe.App\bin\x64\Debug\net7.0-windows10.0.19041.0\win10-x64\AppX</LayoutDir>
+    <LayoutDir>E:\DotnetApps\AniMoe\src\AniMoe.App\bin\x64\Debug\net7.0-windows10.0.22621.0\win10-x64\AppX</LayoutDir>
     <NoWarn>WMC1506</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,6 +186,18 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\UserViewControls\UserStatsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ActivityCards\MessageActivityCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ActivityCards\TextActivityCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ActivityCards\ListActivityCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dialogs\ActivityEditorDialogControls\EditorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -275,5 +291,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\MediaViewControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

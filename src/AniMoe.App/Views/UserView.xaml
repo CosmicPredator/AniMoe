@@ -88,15 +88,24 @@
                 <ColumnDefinition Width="2.7*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0"
-                  CornerRadius="8">
-                <WebView2 DefaultBackgroundColor="Transparent"
+            <Grid
+                Grid.Column="0"
+                CornerRadius="8"
+                Style="{StaticResource CardGridStyle}">
+                <TextBlock
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="Webview sucks resources, that's why i hide it for now...!"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <!--<WebView2 DefaultBackgroundColor="Transparent"
                           x:Name="AboutWebView">
                     <WebView2.Resources>
                         <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
                         <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
                     </WebView2.Resources>
-                </WebView2>
+                </WebView2>-->
             </Grid>
 
             <Grid Grid.Column="1" RowSpacing="15">
@@ -123,8 +132,13 @@
                         FontSize="20"
                         FontWeight="Medium" />
                     <labs:SegmentedItem
-                        x:Name="StatsPage"
-                        Content="Stats"
+                        x:Name="AnimeStatsPage"
+                        Content="Anime Stats"
+                        FontSize="20"
+                        FontWeight="Medium" />
+                    <labs:SegmentedItem
+                        x:Name="MangaStatsPage"
+                        Content="Manga Stats"
                         FontSize="20"
                         FontWeight="Medium" />
                     <labs:SegmentedItem
@@ -141,7 +155,7 @@
                 </labs:Segmented>
 
                 <!--<Frame x:Name="UserViewFrame" Grid.Row="1"/>-->
-                <control:UserOverviewPage Grid.Row="1" />
+                <control:UserStatsPage Grid.Row="1" />
 
             </Grid>
 

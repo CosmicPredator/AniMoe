@@ -46,10 +46,17 @@ namespace AniMoe.App
         public IServiceProvider Services { get; }
         public App()
         {
+#if DEBUG
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Debug()
                 .CreateLogger();
+#elif RELEASE
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Debug()
+                .CreateLogger();
+#endif
             Log.Information("Logging Services Started");
             Services = ConfigureServices();
             Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--enable-features=OverlayScrollbar,OverlayScrollbarWinStyle,OverlayScrollbarWinStyleAnimation");

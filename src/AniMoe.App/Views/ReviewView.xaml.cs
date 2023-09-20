@@ -24,7 +24,7 @@ using Windows.Foundation.Collections;
 
 namespace AniMoe.App.Views
 {
-    public sealed partial class ReviewView : Page
+    public sealed partial class ReviewView : Page, IDisposable
     {
         public DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         private ReviewViewModel ViewModel;
@@ -40,12 +40,7 @@ namespace AniMoe.App.Views
             base.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            ReviewWebView.Close();
-            GC.Collect();
-            base.OnNavigatedFrom(e);
-        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e) => Dispose();
 
         public ReviewView()
         {
@@ -145,6 +140,12 @@ namespace AniMoe.App.Views
             timer.Debounce(() => {
                 ReviewWebView.IsHitTestVisible = true;
             }, TimeSpan.FromMilliseconds(500));
+        }
+
+        public void Dispose()
+        {
+            if (ReviewWebView is not null) ReviewWebView.Close();
+            GC.Collect();
         }
     }
 }

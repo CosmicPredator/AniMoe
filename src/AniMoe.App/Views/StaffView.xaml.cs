@@ -25,7 +25,7 @@ using Windows.Foundation.Collections;
 
 namespace AniMoe.App.Views
 {
-    public sealed partial class StaffView : Page
+    public sealed partial class StaffView : Page, IDisposable
     {
         public StaffViewModel ViewModel;
         private DispatcherQueue dispatchQueue = DispatcherQueue.GetForCurrentThread();
@@ -40,6 +40,8 @@ namespace AniMoe.App.Views
             DataContext = ViewModel;
             base.OnNavigatedTo(e);
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e) => Dispose();
 
         public StaffView()
         {
@@ -184,6 +186,12 @@ namespace AniMoe.App.Views
                         new DrillInNavigationTransitionInfo());
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (DescriptionWebView is not null) DescriptionWebView.Close();
+            GC.Collect();
         }
     }
 }

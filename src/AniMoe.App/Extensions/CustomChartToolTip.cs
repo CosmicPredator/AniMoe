@@ -46,7 +46,7 @@ namespace AniMoe.App.Extensions
 
                 var label = new LabelVisual
                 {
-                    Text = point.PrimaryValue.ToString(),
+                    Text = point.Coordinate.PrimaryValue.ToString(),
                     Paint = _fontPaint,
                     TextSize = 15,
                     Padding = new Padding(8, 0, 0, 0),

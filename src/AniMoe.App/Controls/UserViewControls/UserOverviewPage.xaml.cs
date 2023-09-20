@@ -27,7 +27,6 @@ namespace AniMoe.App.Controls.UserViewControls
         public UserOverviewPage()
         {
             this.InitializeComponent();
-            AcitivityWebView.EnsureCoreWebView2Async();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -40,11 +39,6 @@ namespace AniMoe.App.Controls.UserViewControls
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             await Task.Delay(2000);
-            AcitivityWebView.NavigateToString(
-                mdToHtmlParser.Convert(
-                    @"img(https://i.imgur.com/2cFdn9a.gif)"
-                )
-            );
         }
     }
 }

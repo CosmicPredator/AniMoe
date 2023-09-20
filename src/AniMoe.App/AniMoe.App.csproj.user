@@ -23,6 +23,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\UserViewControls\UserStatsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ActivityCards\MessageActivityCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ActivityCards\TextActivityCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ActivityCards\ListActivityCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\ActivityEditorDialogControls\EditorPage.xaml">
       <SubType>Designer</SubType>
     </Page>

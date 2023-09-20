@@ -29,7 +29,7 @@ using System.Diagnostics;
 
 namespace AniMoe.App.Views
 {
-    public sealed partial class CharacterView : Page
+    public sealed partial class CharacterView : Page, IDisposable
     {
         private DispatcherQueue dispatchQueue = DispatcherQueue.GetForCurrentThread();
         public CharacterViewModel ViewModel;
@@ -43,6 +43,8 @@ namespace AniMoe.App.Views
             DataContext = ViewModel;
             base.OnNavigatedTo(e);
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e) => Dispose();
 
         public CharacterView()
         {
@@ -159,6 +161,12 @@ namespace AniMoe.App.Views
                     ChildFrame.NavigateToType(typeof(AnimeListControl), keyValuePairsManga, navOptions);
                     break;
             }
+        }
+
+        public void Dispose()
+        {
+            if (DescriptionWebView is not null) DescriptionWebView.Close();
+            GC.Collect();
         }
     }
 }
