@@ -155,7 +155,7 @@
                 </labs:Segmented>
 
                 <!--<Frame x:Name="UserViewFrame" Grid.Row="1"/>-->
-                <control:UserOverviewPage Grid.Row="1" />
+                <control:UserStatsPage Grid.Row="1" />
 
             </Grid>
 
