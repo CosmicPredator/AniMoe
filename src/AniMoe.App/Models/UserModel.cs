@@ -151,7 +151,7 @@ namespace AniMoe.App.Models.UserModel
         public double StandardDeviation { get; set; }
 
         [JsonProperty("minutesWatched")]
-        public long MinutesWatched { get; set; }
+        public double MinutesWatched { get; set; }
 
         [JsonProperty("episodesWatched")]
         public long EpisodesWatched { get; set; }
@@ -179,6 +179,18 @@ namespace AniMoe.App.Models.UserModel
 
         [JsonProperty("startYears")]
         public Country[] StartYears { get; set; }
+
+        [JsonProperty("genres")]
+        public Genre[] Genres { get; set; }
+    }
+
+    public partial class Genre
+    {
+        [JsonProperty("genre")]
+        public string GenreName { get; set; }
+
+        [JsonProperty("count")]
+        public string GenreCount { get; set; }
     }
 
     public partial class Country

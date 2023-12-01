@@ -32,7 +32,7 @@ namespace AniMoe.App.Views
             mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //await AboutWebView.EnsureCoreWebView2Async();
             //AboutWebView.NavigateToString(mdToHtmlParser.Convert(AboutHtml));

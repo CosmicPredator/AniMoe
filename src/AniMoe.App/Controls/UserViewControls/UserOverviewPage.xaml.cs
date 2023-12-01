@@ -19,17 +19,20 @@ using System.Threading.Tasks;
 using AniMoe.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using AniMoe.App.Models.UserModel;
+using AniMoe.App.Models.UserActivityModel;
 
 namespace AniMoe.App.Controls.UserViewControls
 {
-    public sealed partial class UserOverviewPage : Page
+    public sealed partial class UserOverviewPage : Microsoft.UI.Xaml.Controls.Page
     {
+        public UserActivityModel ActivityModel;
+
         public UserModel Model
         {
             get { return (UserModel)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
-
+        private bool _loadGenreTable = false;
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof(UserModel), typeof(UserOverviewPage), new PropertyMetadata(null));
 
@@ -37,6 +40,17 @@ namespace AniMoe.App.Controls.UserViewControls
         public UserOverviewPage()
         {
             this.InitializeComponent();
+            DataContext = this;
+            RegisterPropertyChangedCallback(ModelProperty, ModelPropertyChanged);
+            
+        }
+
+        private void ModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            if (Model.Data.User.Statistics.Anime.Genres.Any())
+            {
+                _loadGenreTable = true;
+            }
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -48,7 +62,7 @@ namespace AniMoe.App.Controls.UserViewControls
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(2000);
+            ActivityModel = await AniMoe.App.Models.UserActivityModel.Initialize.FetchData(851923);
         }
     }
 }

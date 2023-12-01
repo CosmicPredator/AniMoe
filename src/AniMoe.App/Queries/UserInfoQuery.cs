@@ -108,6 +108,10 @@ namespace AniMoe.App.Queries
               startYears {
                 ...WatchYearStats
               }
+              genres {
+                genre
+                count
+              }
             }
 
             fragment ScoreStats on UserScoreStatistic {
