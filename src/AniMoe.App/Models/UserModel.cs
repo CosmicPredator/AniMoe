@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AniMoe.App.Models.UserModel
 {
+
     public partial class UserModel
     {
         [JsonProperty("data")]
@@ -61,6 +62,9 @@ namespace AniMoe.App.Models.UserModel
 
         [JsonProperty("statistics")]
         public Statistics Statistics { get; set; }
+
+        [JsonProperty("favourites")]
+        public Favourites Favourites { get; set; }
     }
 
     public partial class Avatar
@@ -69,16 +73,73 @@ namespace AniMoe.App.Models.UserModel
         public Uri Large { get; set; }
     }
 
+    public partial class Favourites
+    {
+        [JsonProperty("anime")]
+        public FavouritesAnime Anime { get; set; }
+
+        [JsonProperty("manga")]
+        public FavouritesAnime Manga { get; set; }
+
+        [JsonProperty("characters")]
+        public Characters Characters { get; set; }
+
+        [JsonProperty("staff")]
+        public Characters Staff { get; set; }
+    }
+
+    public partial class FavouritesAnime
+    {
+        [JsonProperty("nodes")]
+        public AnimeNode[] Nodes { get; set; }
+    }
+
+    public partial class AnimeNode
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("title")]
+        public Title Title { get; set; }
+
+        [JsonProperty("coverImage")]
+        public Avatar CoverImage { get; set; }
+    }
+
+    public partial class Title
+    {
+        [JsonProperty("userPreferred")]
+        public string UserPreferred { get; set; }
+    }
+
+    public partial class Characters
+    {
+        [JsonProperty("nodes")]
+        public CharactersNode[] Nodes { get; set; }
+    }
+
+    public partial class CharactersNode
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("name")]
+        public Title Name { get; set; }
+
+        [JsonProperty("image")]
+        public Avatar Image { get; set; }
+    }
+
     public partial class Statistics
     {
         [JsonProperty("anime")]
-        public Anime Anime { get; set; }
+        public StatisticsAnime Anime { get; set; }
 
         [JsonProperty("manga")]
-        public Anime Manga { get; set; }
+        public StatisticsAnime Manga { get; set; }
     }
 
-    public partial class Anime
+    public partial class StatisticsAnime
     {
         [JsonProperty("count")]
         public long Count { get; set; }
@@ -107,12 +168,6 @@ namespace AniMoe.App.Models.UserModel
         [JsonProperty("lengths")]
         public Country[] Lengths { get; set; }
 
-        [JsonProperty("genres")]
-        public Genre[] Genres { get; set; }
-
-        [JsonProperty("tags")]
-        public Genre[] Tags { get; set; }
-
         [JsonProperty("formats")]
         public Country[] Formats { get; set; }
 
@@ -134,50 +189,23 @@ namespace AniMoe.App.Models.UserModel
         [JsonProperty("meanScore")]
         public double MeanScore { get; set; }
 
+        [JsonProperty("chaptersRead")]
+        public long ChaptersRead { get; set; }
+
         [JsonProperty("minutesWatched")]
         public long MinutesWatched { get; set; }
 
-        [JsonProperty("country")]
+        [JsonProperty("country", NullValueHandling = NullValueHandling.Ignore)]
         public string CountryCountry { get; set; }
 
-        [JsonProperty("format")]
+        [JsonProperty("format", NullValueHandling = NullValueHandling.Ignore)]
         public string Format { get; set; }
 
-        [JsonProperty("releaseYear")]
+        [JsonProperty("releaseYear", NullValueHandling = NullValueHandling.Ignore)]
         public long? ReleaseYear { get; set; }
 
-        [JsonProperty("startYear")]
+        [JsonProperty("startYear", NullValueHandling = NullValueHandling.Ignore)]
         public long? StartYear { get; set; }
-    }
-
-    public partial class Genre
-    {
-        [JsonProperty("genre")]
-        public string GenreGenre { get; set; }
-
-        [JsonProperty("count")]
-        public long Count { get; set; }
-
-        [JsonProperty("meanScore")]
-        public double MeanScore { get; set; }
-
-        [JsonProperty("minutesWatched")]
-        public long MinutesWatched { get; set; }
-
-        [JsonProperty("mediaIds")]
-        public long[] MediaIds { get; set; }
-
-        [JsonProperty("tag")]
-        public Tag Tag { get; set; }
-    }
-
-    public partial class Tag
-    {
-        [JsonProperty("id")]
-        public long Id { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
     }
 
     public static partial class Initialize

@@ -8,9 +8,15 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:AniMoe.App.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls" xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
+
+    <Interactivity:Interaction.Behaviors>
+        <Core:EventTriggerBehavior EventName="Loaded">
+            <Core:InvokeCommandAction Command="{x:Bind ViewModel.GetUserDetailsCommand}" />
+        </Core:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
 
     <Page.Resources>
         <ResourceDictionary>
@@ -22,144 +28,158 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Margin="30" RowSpacing="15">
+    <Grid>
+        <Grid Margin="30" RowSpacing="15"
+              x:Name="RootGrid"
+              x:Load="{x:Bind ViewModel.GetUserDetailsCommand.ExecutionTask.IsCompletedSuccessfully, Mode=OneWay}">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="2.5*" />
-        </Grid.RowDefinitions>
+            <Grid.Transitions>
+                <EntranceThemeTransition />
+            </Grid.Transitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2.5*" />
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Style="{StaticResource CardGridStyle}">
-            <Grid.Background>
-                <ImageBrush ImageSource="ms-appx:///Assets/benner_2.jpg" Stretch="UniformToFill" />
-            </Grid.Background>
+            <Grid Grid.Row="0" Style="{StaticResource CardGridStyle}">
+                <Grid.Background>
+                    <ImageBrush ImageSource="{x:Bind ViewModel.Model.Data.User.BannerImage.OriginalString, Mode=OneWay}" Stretch="UniformToFill" />
+                </Grid.Background>
 
-            <Grid
-                Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
-                Canvas.ZIndex="0"
-                Opacity="0.85" />
+                <Grid
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
+            Canvas.ZIndex="0"
+            Opacity="0.85" />
 
-            <Grid
-                Margin="20"
-                Canvas.ZIndex="1"
-                ColumnSpacing="25">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <Grid
+            Margin="20"
+            Canvas.ZIndex="1"
+            ColumnSpacing="25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <toolkit:ImageEx
-                    Grid.Column="0"
-                    CornerRadius="8"
-                    Shadow="{StaticResource DataThemeShadow}"
-                    Source="ms-appx:///Assets/profile.jpg" />
-
-                <StackPanel
-                    Grid.Column="1"
-                    Orientation="Vertical"
-                    Spacing="10">
-
-                    <StackPanel Orientation="Horizontal" Spacing="15">
-                        <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="CosmicPredator" />
-                        <Border
-                            Padding="10,5"
-                            VerticalAlignment="Center"
-                            Background="{ThemeResource AccentAAFillColorTertiaryBrush}"
-                            CornerRadius="8">
-                            <TextBlock
-                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                Text="ぴょんぴょん"
-                                TextAlignment="Center" />
-                        </Border>
-                    </StackPanel>
-
-                    <Button Content="Following" Style="{ThemeResource AccentButtonStyle}" />
-
-                </StackPanel>
-
-            </Grid>
-
-        </Grid>
-
-
-        <Grid Grid.Row="1" ColumnSpacing="15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2.7*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid
+                    <toolkit:ImageEx
                 Grid.Column="0"
                 CornerRadius="8"
-                Style="{StaticResource CardGridStyle}">
-                <TextBlock
-                    Margin="20"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="Webview sucks resources, that's why i hide it for now...!"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-                <!--<WebView2 DefaultBackgroundColor="Transparent"
-                          x:Name="AboutWebView">
-                    <WebView2.Resources>
-                        <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
-                        <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
-                    </WebView2.Resources>
-                </WebView2>-->
+                Shadow="{StaticResource DataThemeShadow}"
+                Source="{x:Bind ViewModel.Model.Data.User.Avatar.Large, Mode=OneWay}" />
+
+                    <StackPanel
+                Grid.Column="1"
+                Orientation="Vertical"
+                Spacing="10">
+
+                        <StackPanel Orientation="Horizontal" Spacing="15">
+                            <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind ViewModel.Model.Data.User.Name, Mode=OneWay}" />
+                            <Border
+                        Padding="10,5"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource AccentAAFillColorTertiaryBrush}"
+                        CornerRadius="8">
+                                <TextBlock
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                            Text="ぴょんぴょん"
+                            TextAlignment="Center" />
+                            </Border>
+                        </StackPanel>
+
+                        <Button Content="Following" Style="{ThemeResource AccentButtonStyle}" />
+
+                    </StackPanel>
+
+                </Grid>
+
             </Grid>
 
-            <Grid Grid.Column="1" RowSpacing="15">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
 
-                <labs:Segmented
-                    Grid.Row="0"
-                    Margin="0,-10,0,0"
-                    SelectedIndex="0"
-                    SelectionMode="Single"
-                    Style="{StaticResource PivotSegmentedStyle}">
+            <Grid Grid.Row="1" ColumnSpacing="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2.7*" />
+                </Grid.ColumnDefinitions>
 
-                    <labs:SegmentedItem
-                        x:Name="OverviewPage"
-                        Content="Overview"
-                        FontSize="20"
-                        FontWeight="Medium" />
-                    <labs:SegmentedItem
-                        x:Name="FavouritesPage"
-                        Content="Favourites"
-                        FontSize="20"
-                        FontWeight="Medium" />
-                    <labs:SegmentedItem
-                        x:Name="AnimeStatsPage"
-                        Content="Anime Stats"
-                        FontSize="20"
-                        FontWeight="Medium" />
-                    <labs:SegmentedItem
-                        x:Name="MangaStatsPage"
-                        Content="Manga Stats"
-                        FontSize="20"
-                        FontWeight="Medium" />
-                    <labs:SegmentedItem
-                        x:Name="SocialPage"
-                        Content="Social"
-                        FontSize="20"
-                        FontWeight="Medium" />
-                    <labs:SegmentedItem
-                        x:Name="ReviewsPage"
-                        Content="Reviews"
-                        FontSize="20"
-                        FontWeight="Medium" />
+                <Grid
+            Grid.Column="0"
+            CornerRadius="8"
+            Style="{StaticResource CardGridStyle}">
+                    <TextBlock
+                Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="Webview sucks resources, that's why i hide it for now...!"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+                    <!--<WebView2 DefaultBackgroundColor="Transparent"
+                      x:Name="AboutWebView">
+                <WebView2.Resources>
+                    <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
+                    <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
+                </WebView2.Resources>
+            </WebView2>-->
+                </Grid>
 
-                </labs:Segmented>
+                <Grid Grid.Column="1" RowSpacing="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                <!--<Frame x:Name="UserViewFrame" Grid.Row="1"/>-->
-                <control:UserStatsPage Grid.Row="1" />
+                    <labs:Segmented
+                Grid.Row="0"
+                Margin="0,-10,0,0"
+                SelectedIndex="0"
+                SelectionMode="Single"
+                Style="{StaticResource PivotSegmentedStyle}">
+
+                        <labs:SegmentedItem
+                    x:Name="OverviewPage"
+                    Content="Overview"
+                    FontSize="20"
+                    FontWeight="Medium" />
+                        <labs:SegmentedItem
+                    x:Name="FavouritesPage"
+                    Content="Favourites"
+                    FontSize="20"
+                    FontWeight="Medium" />
+                        <labs:SegmentedItem
+                    x:Name="AnimeStatsPage"
+                    Content="Anime Stats"
+                    FontSize="20"
+                    FontWeight="Medium" />
+                        <labs:SegmentedItem
+                    x:Name="MangaStatsPage"
+                    Content="Manga Stats"
+                    FontSize="20"
+                    FontWeight="Medium" />
+                        <labs:SegmentedItem
+                    x:Name="SocialPage"
+                    Content="Social"
+                    FontSize="20"
+                    FontWeight="Medium" />
+                        <labs:SegmentedItem
+                    x:Name="ReviewsPage"
+                    Content="Reviews"
+                    FontSize="20"
+                    FontWeight="Medium" />
+
+                    </labs:Segmented>
+
+                    <!--<Frame x:Name="UserViewFrame" Grid.Row="1"/>-->
+                    <control:UserOverviewPage Grid.Row="1" />
+
+                </Grid>
 
             </Grid>
 
         </Grid>
+
+        <ProgressRing x:Name="porRing"
+                      Grid.ColumnSpan="2"
+                      Grid.RowSpan="2"
+                      x:Load="{x:Bind ViewModel.GetUserDetailsCommand.IsRunning, Mode=OneWay}"/>
 
     </Grid>
 </Page>

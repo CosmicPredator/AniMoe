@@ -51,7 +51,7 @@
                         <TextBlock
                             Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
                             Style="{ThemeResource TitleTextBlockStyle}"
-                            Text="261"
+                            Text="{x:Bind Model.Data.User.Statistics.Anime.Count}"
                             TextAlignment="Center" />
                         <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Total Anime" />
                     </StackPanel>

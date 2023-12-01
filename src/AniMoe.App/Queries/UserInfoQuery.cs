@@ -33,6 +33,52 @@ namespace AniMoe.App.Queries
                     ...UserStats
                   }
                 }
+                favourites {
+                  ...UserFavourites
+                }
+              }
+            }
+
+            fragment UserFavourites on Favourites {
+              anime {
+                ...MediaFragment
+              }
+              manga {
+                ...MediaFragment
+              }
+              characters {
+                nodes {
+                  id
+                  name{
+                    userPreferred
+                  }
+                  image {
+                    large
+                  }
+                }
+              }
+              staff {
+                nodes {
+                  id
+                  name {
+                    userPreferred
+                  }
+                  image {
+                    large
+                  }
+                }
+              }
+            }
+
+            fragment MediaFragment on MediaConnection {
+              nodes {
+                id
+                title {
+                  userPreferred
+                }
+                coverImage {
+                  large
+                }
               }
             }
 
@@ -49,12 +95,6 @@ namespace AniMoe.App.Queries
               }
               lengths {
                 ...LengthStats
-              }
-              genres {
-                ...GenreStats
-              }
-              tags {
-                ...TagStats
               }
               formats {
                 ...FormatStats
@@ -73,44 +113,29 @@ namespace AniMoe.App.Queries
             fragment ScoreStats on UserScoreStatistic {
               count
               minutesWatched
+              chaptersRead
               meanScore
             }
 
             fragment LengthStats on UserLengthStatistic {
               count
               minutesWatched
+              chaptersRead
               meanScore
-            }
-
-            fragment GenreStats on UserGenreStatistic {
-              genre
-              count
-              meanScore
-              minutesWatched
-              mediaIds
-            }
-
-            fragment TagStats on UserTagStatistic {
-              count
-              meanScore
-              minutesWatched
-              mediaIds
-              tag {
-                id
-                name
-              }
             }
 
             fragment FormatStats on UserFormatStatistic {
               count
               meanScore
               minutesWatched
+              chaptersRead
               format
             }
 
             fragment CountryStats on UserCountryStatistic {
               count
               meanScore
+              chaptersRead
               minutesWatched
               country
             }
@@ -119,6 +144,7 @@ namespace AniMoe.App.Queries
               count
               meanScore
               minutesWatched
+              chaptersRead
               releaseYear
             }
 
@@ -126,6 +152,7 @@ namespace AniMoe.App.Queries
               count
               meanScore
               minutesWatched
+              chaptersRead
               startYear
             }";
     }

@@ -1,4 +1,5 @@
-﻿using AniMoe.Parsers;
+﻿using AniMoe.App.ViewModels;
+using AniMoe.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,12 +21,14 @@ namespace AniMoe.App.Views
     public sealed partial class UserView : Page, IDisposable
     {
         private readonly IMdToHtmlParser mdToHtmlParser;
-
+        public UserViewModel ViewModel;
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) => Dispose();
 
         public UserView()
         {
             this.InitializeComponent();
+            ViewModel = new(851923, false);
+            DataContext = ViewModel;
             mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         }
 

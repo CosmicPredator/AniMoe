@@ -18,11 +18,21 @@ using Microsoft.UI.Xaml.Hosting;
 using System.Threading.Tasks;
 using AniMoe.Parsers;
 using Microsoft.Extensions.DependencyInjection;
+using AniMoe.App.Models.UserModel;
 
 namespace AniMoe.App.Controls.UserViewControls
 {
     public sealed partial class UserOverviewPage : Page
     {
+        public UserModel Model
+        {
+            get { return (UserModel)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof(UserModel), typeof(UserOverviewPage), new PropertyMetadata(null));
+
         private IMdToHtmlParser mdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         public UserOverviewPage()
         {

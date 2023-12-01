@@ -5,19 +5,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:AniMoe.App.Controls.UserViewControls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:winui="using:CommunityToolkit.Labs.WinUI" 
     xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:CommunityToolkit.Labs.WinUI"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Styles/LayoutStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Styles/LayoutStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <ScrollViewer>
         <Grid Margin="0,10,0,0" RowSpacing="15">
 
@@ -26,53 +26,210 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ComboBox Grid.Row="0" PlaceholderText="Overview">
-                <ComboBox.Items>
-                    <ComboBoxItem Content="Overview" />
-                    <ComboBoxItem Content="Genres" />
-                    <ComboBoxItem Content="Tags" />
-                    <ComboBoxItem Content="Voice Actors" />
-                    <ComboBoxItem Content="Studios" />
-                    <ComboBoxItem Content="Staff" />
-                </ComboBox.Items>
-            </ComboBox>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Score" />
+                        <winui:Segmented x:Name="TypeSegment" HorizontalAlignment="Right">
+                            <winui:Segmented.Items>
+                                <winui:SegmentedItem Content="Titles Watched" />
+                                <winui:SegmentedItem Content="Hours Watched" />
+                            </winui:Segmented.Items>
+                        </winui:Segmented>
+                    </Grid>
+                    <Grid
+                        Grid.Row="1"
+                        Height="250"
+                        Style="{StaticResource CardGridStyle}">
+                        <lvc:CartesianChart
+                            x:Name="Chart"
+                            Series="{x:Bind ViewModel.Series, Mode=OneWay}"
+                            XAxes="{x:Bind ViewModel.ScoreXAxes, Mode=OneTime}"
+                            YAxes="{x:Bind ViewModel.ScoreYAxes, Mode=OneTime}" />
+                    </Grid>
+                </Grid>
+            </Grid>
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"
-                      RowSpacing="10">
+                <Grid Grid.Row="0" RowSpacing="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <TextBlock Text="Score"
-                                   HorizontalAlignment="Left"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                        <winui:Segmented
-                            SelectedIndex="0"
-                            x:Name="TypeSegment"
-                            HorizontalAlignment="Right">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Episode Count" />
+                        <winui:Segmented HorizontalAlignment="Right">
                             <winui:Segmented.Items>
-                                <winui:SegmentedItem Content="Titles Watched"/>
-                                <winui:SegmentedItem Content="Hours Watched"/>
+                                <winui:SegmentedItem Content="Titles Watched" />
+                                <winui:SegmentedItem Content="Hours Watched" />
+                                <winui:SegmentedItem Content="Mean Score" />
                             </winui:Segmented.Items>
                         </winui:Segmented>
                     </Grid>
-                    <Grid Style="{StaticResource CardGridStyle}"
-                          Grid.Row="1"
-                          Height="250">
+                    <Grid
+                        Grid.Row="1"
+                        Height="250"
+                        Style="{StaticResource CardGridStyle}">
                         <lvc:CartesianChart
-                            x:Name="Chart"
-                            XAxes="{x:Bind XAxes, Mode=OneWay}"
-                            YAxes="{x:Bind YAxes, Mode=OneWay}"/>
+                            Series="{x:Bind ViewModel.Series, Mode=OneWay}"
+                            XAxes="{x:Bind ViewModel.ScoreXAxes, Mode=OneTime}"
+                            YAxes="{x:Bind ViewModel.ScoreYAxes, Mode=OneTime}" />
                     </Grid>
                 </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Release Year" />
+                        <winui:Segmented HorizontalAlignment="Right">
+                            <winui:Segmented.Items>
+                                <winui:SegmentedItem Content="Titles Watched" />
+                                <winui:SegmentedItem Content="Hours Watched" />
+                                <winui:SegmentedItem Content="Mean Score" />
+                            </winui:Segmented.Items>
+                        </winui:Segmented>
+                    </Grid>
+                    <Grid
+                        Grid.Row="1"
+                        Height="250"
+                        Style="{StaticResource CardGridStyle}">
+                        <lvc:CartesianChart
+                            Series="{x:Bind ViewModel.LineSeries, Mode=OneWay}"
+                            XAxes="{x:Bind ViewModel.ScoreXAxes, Mode=OneTime}"
+                            YAxes="{x:Bind ViewModel.ScoreYAxes, Mode=OneTime}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Watch Year" />
+                        <winui:Segmented HorizontalAlignment="Right">
+                            <winui:Segmented.Items>
+                                <winui:SegmentedItem Content="Titles Watched" />
+                                <winui:SegmentedItem Content="Hours Watched" />
+                                <winui:SegmentedItem Content="Mean Score" />
+                            </winui:Segmented.Items>
+                        </winui:Segmented>
+                    </Grid>
+                    <Grid
+                        Grid.Row="1"
+                        Height="250"
+                        Style="{StaticResource CardGridStyle}">
+                        <lvc:CartesianChart
+                            Series="{x:Bind ViewModel.LineSeries, Mode=OneWay}"
+                            XAxes="{x:Bind ViewModel.ScoreXAxes, Mode=OneTime}"
+                            YAxes="{x:Bind ViewModel.ScoreYAxes, Mode=OneTime}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid
+                Grid.Row="4"
+                Height="400"
+                ColumnSpacing="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Style="{StaticResource CardGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Margin="10"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="Format Distribution" />
+                    <lvc:PieChart
+                        Grid.Row="1"
+                        Margin="20"
+                        LegendPosition="Bottom"
+                        LegendTextPaint="{x:Bind ViewModel.LegendPaint, Mode=OneTime}"
+                        Series="{x:Bind ViewModel.PieChatSeries, Mode=OneTime}" />
+                </Grid>
+
+                <Grid Grid.Column="1" Style="{StaticResource CardGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Margin="10"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="Status Distribution" />
+                    <lvc:PieChart
+                        Grid.Row="1"
+                        Margin="20"
+                        LegendPosition="Bottom"
+                        LegendTextPaint="{x:Bind ViewModel.LegendPaint, Mode=OneTime}"
+                        Series="{x:Bind ViewModel.PieChatSeries, Mode=OneTime}" />
+                </Grid>
+
+                <Grid Grid.Column="2" Style="{StaticResource CardGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Margin="10"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="Country Distribution" />
+                    <lvc:PieChart
+                        Grid.Row="1"
+                        Margin="20"
+                        LegendPosition="Bottom"
+                        LegendTextPaint="{x:Bind ViewModel.LegendPaint, Mode=OneTime}"
+                        Series="{x:Bind ViewModel.PieChatSeries, Mode=OneTime}" />
+                </Grid>
+
             </Grid>
 
         </Grid>
