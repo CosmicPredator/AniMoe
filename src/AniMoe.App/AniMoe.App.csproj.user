@@ -23,6 +23,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\UserViewControls\UserStatsPage.xaml">
       <SubType>Designer</SubType>
     </Page>

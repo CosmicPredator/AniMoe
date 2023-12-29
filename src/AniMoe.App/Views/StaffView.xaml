@@ -200,7 +200,9 @@
                         BorderThickness="1"
                         Canvas.ZIndex="1"
                         CornerRadius="10">
-                        <WebView2
+                        <TextBlock Text="{x:Bind ViewModel.Model.Data.Staff.Description}"
+                                   TextWrapping="Wrap"/>
+                        <!--<WebView2
                             x:Name="DescriptionWebView"
                             AllowFocusOnInteraction="False"
                             Canvas.ZIndex="0"
@@ -211,7 +213,7 @@
                                 <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
                                 <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
                             </WebView2.Resources>
-                        </WebView2>
+                        </WebView2>-->
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="2" RowSpacing="15">

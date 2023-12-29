@@ -6,6 +6,7 @@ using Microsoft.UI.Dispatching;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.UI.Xaml;
+using System;
 
 namespace AniMoe.App.Views
 {
@@ -31,6 +32,7 @@ namespace AniMoe.App.Views
         private void MasterNavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var selected = sender.SelectedItem as NavigationViewItem;
+            Debug.WriteLine(selected.Name);
             switch (selected.Name)
             {
                 case "AnimeListSection":
@@ -48,11 +50,15 @@ namespace AniMoe.App.Views
                 case "UserSection":
                     PrimaryFrame.Navigate(typeof(UserView), null);
                     break;
+                case "SettingsItem":
+                    PrimaryFrame.Navigate(typeof(SettingsView), null);
+                    break;
             }
         }
 
         private void PrimaryFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
+            Debug.WriteLine(e.Content);
             switch( e.Content )
             {
                 case AnimeListView:
@@ -70,6 +76,11 @@ namespace AniMoe.App.Views
                         x => (x as NavigationViewItem).Content.ToString() == "Explore"
                     ).First();
                     break;
+                //case SettingsView:
+                //    MasterNavView.SelectedItem = MasterNavView.MenuItems.Where(
+                //        x => (x as NavigationViewItem).Name.ToString() == "SettingsItem"
+                //    ).First();
+                //    break;
             }
             MasterNavView.IsBackEnabled = PrimaryFrame.CanGoBack;
         }

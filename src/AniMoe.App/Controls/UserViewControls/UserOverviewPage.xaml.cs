@@ -63,6 +63,7 @@ namespace AniMoe.App.Controls.UserViewControls
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             ActivityModel = await AniMoe.App.Models.UserActivityModel.Initialize.FetchData(851923);
+            TestItRepeater.ItemsSource = ActivityModel.Data.Page.Activities;
         }
     }
 }

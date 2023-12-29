@@ -3,11 +3,11 @@
     x:Class="AniMoe.App.Controls.UserViewControls.UserOverviewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:activityModel="using:AniMoe.App.Models.UserActivityModel"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:converters="using:AniMoe.App.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:AniMoe.App.Controls.UserViewControls"
-    xmlns:activityModel="using:AniMoe.App.Models.UserActivityModel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
@@ -213,11 +213,8 @@
                                 <Run Text="Entries" />
                             </TextBlock>
                         </Grid>
-
                     </StackPanel>
-
                 </Grid>
-
             </Grid>
         </ScrollViewer>
 
@@ -249,18 +246,18 @@
             </Grid>
 
             <ScrollViewer Grid.Row="2">
-                <ItemsRepeater ItemsSource="{x:Bind ActivityModel.Data.Page.Activities, Mode=OneWay}">
+                <ItemsRepeater x:Name="TestItRepeater">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="activityModel:Activity">
                             <controls:SwitchPresenter Value="{x:Bind Type}">
                                 <controls:Case Value="ANIME_LIST">
-                                    <TextBlock Text="Anime List"/>
+                                    <TextBlock Text="Anime List" />
                                 </controls:Case>
                                 <controls:Case Value="MESSAGE">
-                                    <TextBlock Text="Message List"/>
+                                    <TextBlock Text="Message List" />
                                 </controls:Case>
-                                <controls:Case Value="Text">
-                                    <TextBlock Text="Text List"/>
+                                <controls:Case Value="TEXT">
+                                    <TextBlock Text="Text List" />
                                 </controls:Case>
                             </controls:SwitchPresenter>
                         </DataTemplate>
