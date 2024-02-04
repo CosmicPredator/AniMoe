@@ -37,7 +37,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="15">
                     <TextBlock>
                         <Run FontWeight="SemiBold" Text="Version:" />
-                        <Run Text="0.1.0-pre1" />
+                        <Run x:Name="VersionNumber" />
                     </TextBlock>
 
                     <TextBlock Text="|" />
@@ -46,6 +46,16 @@
                         Padding="0"
                         Content="GitHub Repo"
                         NavigateUri="https://github.com/CosmicPredator/AniMoe" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <ProgressRing IsActive="True" IsIndeterminate="True"
+                                  Visibility="Collapsed"
+                                  x:Name="UpdateProgressBar"/>
+                    <Button
+                        Click="Button_Click"
+                        Content="Update Now"
+                        Style="{ThemeResource AccentButtonStyle}" />
                 </StackPanel>
 
             </StackPanel>

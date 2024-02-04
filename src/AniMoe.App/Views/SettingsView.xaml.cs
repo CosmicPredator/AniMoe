@@ -10,22 +10,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using AniMoe.Updater;
 
 namespace AniMoe.App.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class SettingsView : Page
     {
         public SettingsView()
         {
             this.InitializeComponent();
+            string appVersion = string.Format("Version: {0}.{1}.{2}.{3}",
+                    Package.Current.Id.Version.Major,
+                    Package.Current.Id.Version.Minor,
+                    Package.Current.Id.Version.Build,
+                    Package.Current.Id.Version.Revision);
+            VersionNumber.Text = appVersion;
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateProgressBar.Visibility = Visibility.Visible;
+            Entry entry = new Entry();
+            await entry.UpdateAniMoe();
         }
     }
 }

@@ -7,8 +7,8 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="ef227002-f5fe-43f0-9e3f-a4e3671b2a35"
-    Publisher="CN=baran"
+    Name="AniMoe"
+    Publisher="CN=Cosmic Predator, O=&quot;Cosmic Predator C=CA&quot;"
     Version="0.0.1.102" />
 
   <Properties>
@@ -53,5 +53,6 @@
     <rescap:Capability Name="runFullTrust" />
     <Capability Name="internetClient"/>
     <uap:Capability Name="picturesLibrary"/>
+	<rescap:Capability Name="packageManagement" />
   </Capabilities>
 </Package>
