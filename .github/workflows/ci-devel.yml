@@ -58,7 +58,7 @@ jobs:
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
     - name: Install cert on Machine
-      run: certutil -f -user -p certPassword -importpfx personal "${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
+      run: certutil -f -user -p ${{ secrets.CERT_PASSWORD }} -importpfx personal "${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
 
     # Create the app package by building and packaging the project
     - name: Create the app package
