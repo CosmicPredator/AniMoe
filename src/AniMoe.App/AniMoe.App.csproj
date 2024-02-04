@@ -27,7 +27,6 @@
     <AppInstallerUri>E:\fonts</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>EFCBA8B8C30CD949466461335B1209635DA4AABB</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Constants\**" />
