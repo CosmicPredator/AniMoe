@@ -16,7 +16,7 @@
     <ApplicationIcon>Window-Icon.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampServerUrl>http://sha256timestamp.ws.symantec.com/sha256/timestamp</AppxPackageSigningTimestampServerUrl>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -27,6 +27,7 @@
     <AppInstallerUri>E:\fonts</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>34FD2A46959D50DE9A7A7899E5DDF7A3C6F7CC79</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Constants\**" />
