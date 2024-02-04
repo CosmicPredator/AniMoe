@@ -51,7 +51,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
+    - name: Decode the pfx And Password
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
         $certificatePath = "${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
