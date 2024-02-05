@@ -1,7 +1,7 @@
 # This workflow will build, sign, and package a WinUI 3 MSIX desktop application
 # built on .NET.
 
-name: WinUI3 Packaged MSIX App
+name: Development Branch
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -51,7 +51,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
+    - name: Decode the pfx and Password
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
         $certificatePath = "${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
@@ -59,7 +59,9 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=AniMoe.App_TemporaryKey.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform 
+            /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle 
+            /p:AppxPackageTestDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
@@ -67,14 +69,23 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         Platform: ${{ matrix.platform }}
 
+    # Rename the MSIX bundle for convinience
+    - name: Rename MSIX App
+      run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+
+    # Sign the MSIX using a self signed certificate
+    - name: Sign MSIX App
+      shell: cmd
+      run: |
+        "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0//x86/signtool.exe" sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx
-  
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
       uses: actions/upload-artifact@v3
       with:
         name: WinUI3 MSIX Package
-        path: ${{ github.workspace }}\\src\AniMoe.App\Packages
+        path: ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix

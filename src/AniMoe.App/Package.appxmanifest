@@ -8,7 +8,7 @@
 
   <Identity
     Name="AniMoe"
-    Publisher="CN=Cosmic Predator, O=&quot;Cosmic Predator C=CA&quot;"
+    Publisher="CN=Cosmic Predator, O=Cosmic Predator, C=CA"
     Version="0.0.1.102" />
 
   <Properties>
