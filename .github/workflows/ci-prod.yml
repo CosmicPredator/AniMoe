@@ -79,17 +79,6 @@ jobs:
       run: |
         "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0//x86/signtool.exe" sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
-    - name: Create INNO Installer Binary
-      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
-      with:
-        path: ${{ github.workspace }}\animoe-installer.iss
-        options: /O+
-
-    - name: Sign the Installer
-      shell: cmd
-      run: |
-        "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0//x86/signtool.exe" sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\setup.exe
-
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx    
@@ -101,5 +90,5 @@ jobs:
         name: WinUI3 MSIX Package
         path: |
           ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
-          ${{ github.workspace }}\setup.exe
+          ${{ github.workspace }}\\installer\animoe-setup.exe
           ${{ github.workspace }}\AniMoe_Certificate.cer
