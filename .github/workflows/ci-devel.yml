@@ -70,6 +70,15 @@ jobs:
     - name: Rename MSIX App
       run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
+    - name: Sign MSIX App
+      run: signtool.exe /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+    
+    - name: Convert PFX to CER
+      shell: pwsh
+      run: |
+        Get-PfxCertificate -FilePath ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx
+        Export-Certificate -FilePath ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe_Certificate.cer
+    
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx
