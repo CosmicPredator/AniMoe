@@ -73,7 +73,7 @@ jobs:
     - name: Sign MSIX App
       working-directory:
       run: |
-        'C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x86/signtool.exe' /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+        'C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x86/signtool.exe' sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
     - name: Convert PFX to CER
       shell: pwsh
