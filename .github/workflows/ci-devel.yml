@@ -59,25 +59,30 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:AppxPackageTestDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform 
+            /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle 
+            /p:AppxPackageTestDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+            /p:PackageCertificateKeyFile="${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
+            /p:PackageCertificatePassword="${{ secrets.CERT_PASSWORD }}"
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: Packages\
         Configuration: ${{ matrix.configuration }}
         Platform: ${{ matrix.platform }}
+        Password: ${{ secrets.CERT_PASSWORD }}
 
     - name: Rename MSIX App
       run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
-    - name: Sign MSIX App
-      shell: cmd
-      run: |
-        "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0//x86/signtool.exe" sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+    # - name: Sign MSIX App
+    #   shell: cmd
+    #   run: |
+    #     "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0//x86/signtool.exe" sign /fd sha256 /f ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx /p ${{ secrets.CERT_PASSWORD }} ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
-    - name: Convert PFX to CER
-      shell: pwsh
-      run: Get-PfxCertificate -FilePath ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx | Export-Certificate -FilePath ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe_Certificate.cer -Type CERT
+    # - name: Convert PFX to CER
+    #   shell: pwsh
+    #   run: Get-PfxCertificate -FilePath ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx | Export-Certificate -FilePath ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe_Certificate.cer -Type CERT
     
     # Remove the pfx
     - name: Remove the pfx
