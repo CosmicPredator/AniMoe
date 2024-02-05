@@ -68,7 +68,7 @@ jobs:
         Platform: ${{ matrix.platform }}
 
     - name: Rename MSIX App
-      run: mv Packages\**.msix AniMoe.App.msix
+      run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
     # Remove the pfx
     - name: Remove the pfx
