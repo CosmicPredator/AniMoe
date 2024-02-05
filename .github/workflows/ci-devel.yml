@@ -67,10 +67,12 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         Platform: ${{ matrix.platform }}
 
+    - name: Rename MSIX App
+      run: mv Packages\**.msix AniMoe.App.msix
+
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx
-  
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
