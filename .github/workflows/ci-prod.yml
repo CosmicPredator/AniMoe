@@ -89,6 +89,6 @@ jobs:
       with:
         name: WinUI3 MSIX Package
         path: |
-          ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
-          ${{ github.workspace }}\\installer\animoe-setup.exe
+          ${{ github.workspace }}\src\AniMoe.App\Packages\AniMoe.App.msix
+          ${{ github.workspace }}\installer\animoe-setup.exe
           ${{ github.workspace }}\AniMoe_Certificate.cer
