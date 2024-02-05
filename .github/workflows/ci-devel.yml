@@ -77,9 +77,7 @@ jobs:
 
     - name: Convert PFX to CER
       shell: pwsh
-      run: |
-        Get-PfxCertificate -FilePath ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx
-        Export-Certificate -FilePath ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe_Certificate.cer -Type CERT
+      run: Get-PfxCertificate -FilePath ${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx | Export-Certificate -FilePath ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe_Certificate.cer -Type CERT
     
     # Remove the pfx
     - name: Remove the pfx
