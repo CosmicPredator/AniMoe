@@ -97,6 +97,4 @@ jobs:
       with:
         name: AniMoe_Release
         path: |
-          ${{ github.workspace }}\src\AniMoe.App\Packages\\AniMoe.App.msix
-          ${{ github.workspace }}\installer\\animoe-setup.exe
-          ${{ github.workspace }}\AniMoe_Certificate.cer
+          ${{ github.workspace }}\Artifacts\
