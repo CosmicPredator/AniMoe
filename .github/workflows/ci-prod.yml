@@ -81,7 +81,15 @@ jobs:
 
     # Remove the pfx
     - name: Remove the pfx
-      run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx    
+      run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx 
+      
+    - name: Copy Release artifacts
+      working-directory: ${{ github.workspace }}
+      run: |
+        mkdir Artifacts
+        mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.App.Msix
+        mv installer\animoe-setup.exe Artifacts\animoe-setup.exe
+        mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
