@@ -14,7 +14,7 @@
 
 # Features
 - Anime & Manga Tracker.
-- Airing Notifictions.
+- Airing Notifications.
 - Media Detection & Updation.
 - Custom Markdown renderer for forums (future).
 
