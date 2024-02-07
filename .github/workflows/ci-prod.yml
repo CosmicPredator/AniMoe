@@ -101,15 +101,18 @@ jobs:
     - name: List Files
       run: ls ${{ github.workspace }}\Artifacts
 
+    - name: Change Path Delimeters
+      shell: pwsh
+      run: |
+        $Path = $Path -replace '\\','/'
+
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
-      env:
-        Path: ${{ github.workspace }} -replace '\\','/'
       with:
         files: |
-          $env:Path/Artifacts/AniMoe.msix
-          $env:Path/Artifacts/AniMoe_Certificate.cer
-          $env:Path/Artifacts/animoe_setup.exe
+          Artifacts/AniMoe.msix
+          Artifacts/AniMoe_Certificate.cer
+          Artifacts/animoe_setup.exe
         body_path: ${{ github.workspace }}/changelog.txt
         token: ${{ secrets.GITHUB_TOKEN }}
         name: "Version 0.0.2"
