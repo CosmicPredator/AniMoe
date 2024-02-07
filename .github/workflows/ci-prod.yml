@@ -101,7 +101,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: |
-          "${{ github.workspace }}\Artifacts\**"
+          "${{ github.workspace }}\Artifacts\*.msix,${{ github.workspace }}\Artifacts\*.cer,${{ github.workspace }}\Artifacts\*.exe"
         bodyFile: ${{ github.workspace }}\changelog.txt
         token: ${{ github.token }}
         name: "Version 0.0.2"
