@@ -84,7 +84,7 @@ jobs:
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx 
 
-    # Copies the release artifacts ["AniMoe.msix", "animoe-setup.exe", "AniMoe_Certificate.cer"]
+    # Copies the release artifacts ["AniMoe.msix", "animoe-setup.exe", "AniMoe_Certificate.cer"] to Artifacts folder.
     - name: Copy Release artifacts
       working-directory: ${{ github.workspace }}
       run: |
@@ -111,7 +111,7 @@ jobs:
           Artifacts/animoe_setup.exe
         body_path: ${{ github.workspace }}/changelog.txt
         token: ${{ secrets.GITHUB_TOKEN }}
-        name: Version ${{ env.APP_VERSION }}
+        name: Version ${{ env.APP_VERSION }} ✨
         tag_name: ${{ env.APP_VERSION }}
         generate_release_notes: true
         
