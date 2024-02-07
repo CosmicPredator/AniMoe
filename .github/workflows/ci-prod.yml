@@ -1,24 +1,18 @@
 # This workflow will build, sign, and package a WinUI 3 MSIX desktop application
 # built on .NET.
 
-name: Development Branch
+name: Production Branch
 
 on:
   push:
     branches: [ prod ]
-  pull_request:
-    branches: [ prod ]
 
 jobs:
 
-  build:
+  Build:
     permissions:
       contents: write
-    strategy:
-      matrix:
-        configuration: [Release]
-        platform: [x64]
-
+    
     runs-on: windows-latest 
                              
     env:
@@ -30,12 +24,10 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Add Version number to Env
+    - name: Fetch semver from latest.txt
       id: version_fetch
       run: |
         $Version = Get-Content -Path ${{ github.workspace }}\latest.txt
-        echo "Hello World"
-        echo "Version is: $Version"
         echo "APP_VERSION=$Version" >> $ENV:GITHUB_OUTPUT
     
     # Install the .NET Core workload
@@ -46,7 +38,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.1  
+      uses: microsoft/setup-msbuild@v2 
     
     # Add Community Toolkit Labs Repository for some Packages to get Installed
     - name: Add CommunityToolkit Labs Package Repository
@@ -59,7 +51,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx and Password
+    - name: Decode the pfx from secret
       run: |
         $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
         $certificatePath = "${{ github.workspace }}\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx"
@@ -74,12 +66,13 @@ jobs:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: Packages\
-        Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
+        Configuration: "Release"
+        Platform: "x64"
 
     # Rename the MSIX bundle for convinience
     - name: Rename MSIX App
-      run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+      run: |
+        mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
     # Sign the MSIX using a self signed certificate
     - name: Sign MSIX App
@@ -90,7 +83,8 @@ jobs:
     # Remove the pfx
     - name: Remove the pfx
       run: Remove-Item -path ${{ github.workspace }}\\src\AniMoe.App\AniMoe.App_TemporaryKey.pfx 
-      
+
+    # Copies the release artifacts ["AniMoe.msix", "animoe-setup.exe", "AniMoe_Certificate.cer"]
     - name: Copy Release artifacts
       working-directory: ${{ github.workspace }}
       run: |
@@ -98,15 +92,14 @@ jobs:
         mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.msix
         mv installer\animoe-setup.exe Artifacts\animoe_setup.exe
         mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
-    
-    - name: List Files
-      run: ls ${{ github.workspace }}\Artifacts
 
+    # Change the path delimeter from \ to / for github release action to work
     - name: Change Path Delimeters
       shell: pwsh
       run: |
         $Path = $Path -replace '\\','/'
 
+    # Creates a github release with the semver as tag
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
       env:
@@ -121,12 +114,4 @@ jobs:
         name: Version ${{ env.APP_VERSION }}
         tag_name: ${{ env.APP_VERSION }}
         generate_release_notes: true
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    #- name: Upload MSIX package
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: AniMoe_Release
-    #   path: |
-    #     ${{ github.workspace }}\Artifacts\
         
