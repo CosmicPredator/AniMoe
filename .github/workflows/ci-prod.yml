@@ -97,6 +97,9 @@ jobs:
         mv installer\animoe-setup.exe Artifacts\animoe_setup.exe
         mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
     
+    - name: List Files
+      run: ls ${{ github.workspace }}\Artifacts
+    
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
