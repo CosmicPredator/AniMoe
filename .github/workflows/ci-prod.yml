@@ -93,7 +93,7 @@ jobs:
       working-directory: ${{ github.workspace }}
       run: |
         mkdir Artifacts
-        mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.App.Msix
+        mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.App.msix
         mv installer\animoe-setup.exe Artifacts\animoe-setup.exe
         mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
     
