@@ -10,19 +10,13 @@ on:
     branches: [ devel ]
 
 jobs:
-
   build:
-
-    strategy:
-      matrix:
-        configuration: [Release]
-        platform: [x64]
-
     runs-on: windows-latest 
                              
-
     env:
-      Solution_Name: AniMoe.sln                
+      Solution_Name: AniMoe.sln
+      Configuration: Release
+      Arch: x64              
 
     steps:
     - name: Checkout
@@ -47,8 +41,6 @@ jobs:
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx and Password
@@ -59,19 +51,18 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform 
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Arch
             /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle 
             /p:AppxPackageTestDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: Packages\
-        Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
 
     # Rename the MSIX bundle for convinience
     - name: Rename MSIX App
-      run: mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+      run: |
+        mv ${{ github.workspace }}\\src\AniMoe.App\Packages\**.msix ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
 
     # Sign the MSIX using a self signed certificate
     - name: Sign MSIX App
@@ -85,7 +76,17 @@ jobs:
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: AniMoe_Development
+        retention-days: 10
         path: ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+
+    - name: Send discord announcement
+      uses: snorrwe/discord-action@v1.0.4
+      with:
+        discord_message: new
+        discord_token: ${{ secrets.DISCORD_BOT_TOKEN }}
+        post_file: changelog.md
+        discord_channel: '1122748057696604163'
+

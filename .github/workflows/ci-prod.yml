@@ -16,7 +16,9 @@ jobs:
     runs-on: windows-latest 
                              
     env:
-      Solution_Name: AniMoe.sln                
+      Solution_Name: AniMoe.sln
+      Configuration: Release
+      Arch: x64              
 
     steps:
     - name: Checkout
@@ -47,8 +49,6 @@ jobs:
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: "Release"
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx from secret
@@ -59,15 +59,13 @@ jobs:
 
     # Create the app package by building and packaging the project
     - name: Create the app package
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform 
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Arch 
             /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle 
             /p:AppxPackageTestDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
       env:
         Appx_Bundle: Never
         Appx_Package_Build_Mode: SideloadOnly
         Appx_Package_Dir: Packages\
-        Configuration: "Release"
-        Platform: "x64"
 
     # Rename the MSIX bundle for convinience
     - name: Rename MSIX App
@@ -114,4 +112,4 @@ jobs:
         name: Version ${{ env.APP_VERSION }} ✨
         tag_name: ${{ env.APP_VERSION }}
         generate_release_notes: true
-        
+    

@@ -1,3 +1,0 @@
-- Added a new installer where you can install AniMoe without using any scripts.
-- Testing out the automatic updator fucntion.
-- Some pakcages bump
