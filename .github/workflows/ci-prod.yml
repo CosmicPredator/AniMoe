@@ -36,7 +36,7 @@ jobs:
         $Version = Get-Content -Path ${{ github.workspace }}\latest.txt
         echo "Hello World"
         echo "Version is: $Version"
-        echo "APP_VERSION=$Version" >> "$GITHUB_OUTPUT"
+        echo "APP_VERSION=$Version" >> $ENV:GITHUB_OUTPUT
     
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -118,8 +118,8 @@ jobs:
           Artifacts/animoe_setup.exe
         body_path: ${{ github.workspace }}/changelog.txt
         token: ${{ secrets.GITHUB_TOKEN }}
-        name: "Version $APP_VERSION"
-        tag_name: "$APP_VERSION"
+        name: Version ${{ env.APP_VERSION }}
+        tag_name: ${{ env.APP_VERSION }}
         generate_release_notes: true
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
