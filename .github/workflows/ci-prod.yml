@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  Build:
+  build-x64:
     permissions:
       contents: write
     
