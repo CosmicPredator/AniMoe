@@ -32,7 +32,7 @@ namespace AniMoe.App.Controls.UserViewControls
             get { return (UserModel)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
-        private bool _loadGenreTable = false;
+        //private bool _loadGenreTable = false;
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof(UserModel), typeof(UserOverviewPage), new PropertyMetadata(null));
 
@@ -49,7 +49,7 @@ namespace AniMoe.App.Controls.UserViewControls
         {
             if (Model.Data.User.Statistics.Anime.Genres.Any())
             {
-                _loadGenreTable = true;
+                //_loadGenreTable = true;
             }
         }
 

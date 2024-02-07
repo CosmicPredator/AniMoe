@@ -113,3 +113,11 @@ jobs:
         tag_name: ${{ env.APP_VERSION }}
         generate_release_notes: true
     
+    # Sends a message to the #updates channel on AniMoe's Cafe discord server.
+    - name: Send discord announcement
+      uses: snorrwe/discord-action@v1.0.4
+      with:
+        discord_message: new
+        discord_token: ${{ secrets.DISCORD_BOT_TOKEN }}
+        post_file: changelog.md
+        discord_channel: '1170356953785061517'

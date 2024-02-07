@@ -23,6 +23,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\SettingsViewControls\UpdateDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SettingsPages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>

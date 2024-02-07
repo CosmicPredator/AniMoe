@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="AniMoe.App.Controls.SettingsViewControls.UpdateDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AniMoe.App.Controls.SettingsViewControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+    CloseButtonText="Not now"
+    CornerRadius="10"
+    Loaded="ContentDialog_Loaded"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
+    PrimaryButtonText="Update &amp; Restart"
+    mc:Ignorable="d">
+
+    <ContentDialog.CloseButtonStyle>
+        <Style TargetType="Button">
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+    </ContentDialog.CloseButtonStyle>
+
+    <Grid
+        Width="400"
+        Margin="0"
+        RowSpacing="5">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+            Style="{ThemeResource TitleTextBlockStyle}"
+            Text="Update Available!" />
+
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Vertical"
+            Spacing="5">
+            <TextBlock VerticalAlignment="Center">
+                <Run FontWeight="SemiBold" Text="Version:" />
+                <Run Text="{x:Bind Model.TagName, Mode=OneWay}" />
+            </TextBlock>
+
+            <TextBlock VerticalAlignment="Center">
+                <Run FontWeight="SemiBold" Text="Size:" />
+                <Run x:Name="SizeTextBlock" />
+            </TextBlock>
+
+            <TextBlock
+                Margin="0,10,0,0"
+                FontSize="17"
+                FontWeight="Medium"
+                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                Text="Changelog:" />
+
+            <toolkit:MarkdownTextBlock
+                x:Name="MdTextBlock"
+                Background="Transparent"
+                LinkClicked="MdTextBlock_LinkClicked"
+                Text="{x:Bind Model.Body}" />
+
+            <StackPanel
+                x:Name="LoaderStackPanel"
+                Margin="0,10,0,0"
+                Orientation="Horizontal"
+                Spacing="10"
+                Visibility="Collapsed">
+                <ProgressRing IsIndeterminate="True" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Text="Updating..." />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</ContentDialog>

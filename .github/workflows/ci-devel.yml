@@ -32,7 +32,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
     
     # Add Community Toolkit Labs Repository for some Packages to get Installed
     - name: Add CommunityToolkit Labs Package Repository
@@ -81,12 +81,4 @@ jobs:
         name: AniMoe_Development
         retention-days: 10
         path: ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
-
-    - name: Send discord announcement
-      uses: snorrwe/discord-action@v1.0.4
-      with:
-        discord_message: new
-        discord_token: ${{ secrets.DISCORD_BOT_TOKEN }}
-        post_file: changelog.md
-        discord_channel: '1122748057696604163'
 

@@ -14,27 +14,24 @@ using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using AniMoe.Updater;
+using AniMoe.App.Controls.SettingsViewControls;
+using AniMoe.App.ViewModels;
+using Microsoft.UI.Dispatching;
 
 namespace AniMoe.App.Views
 {
     public sealed partial class SettingsView : Page
     {
+        public UpdateViewModel ViewModel;
         public SettingsView()
         {
             this.InitializeComponent();
-            string appVersion = string.Format("Version: {0}.{1}.{2}.{3}",
-                    Package.Current.Id.Version.Major,
-                    Package.Current.Id.Version.Minor,
-                    Package.Current.Id.Version.Build,
-                    Package.Current.Id.Version.Revision);
-            VersionNumber.Text = appVersion;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Page_Loading(FrameworkElement sender, object args)
         {
-            UpdateProgressBar.Visibility = Visibility.Visible;
-            Entry entry = new Entry();
-            await entry.UpdateAniMoe();
+            ViewModel = new(this.XamlRoot, DispatcherQueue.GetForCurrentThread());
+            DataContext = ViewModel;
         }
     }
 }

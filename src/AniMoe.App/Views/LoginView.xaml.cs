@@ -23,7 +23,7 @@ namespace AniMoe.App.Views
         {
             this.InitializeComponent();
             ViewModel = new();
-            DataContext= ViewModel;
+            DataContext = ViewModel;
         }
     }
 }

@@ -51,7 +51,7 @@ namespace AniMoe.App.Views
             this.InitializeComponent();
         }
 
-        private async void MasterScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        private void MasterScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
             SegmentedBox.SelectionChanged += SegmentedBox_SelectionChanged;
             SegmentedBox.SelectedIndex = 0;

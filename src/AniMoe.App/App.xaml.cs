@@ -81,7 +81,8 @@ namespace AniMoe.App
                 .AddSingleton<IMdToHtmlParser, MdToHtmlParser>()
                 .AddSingleton<AnimeListViewModel>()
                 .AddSingleton<MangaListViewModel>()
-                .AddSingleton<ExploreViewModel>();
+                .AddSingleton<ExploreViewModel>()
+                .AddSingleton<UpdateHandler>();
 
             services.AddHttpClient<IRequestHandler, RequestHandler>();
             Log.Information("All Dependencies Hosted");

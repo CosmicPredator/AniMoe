@@ -49,6 +49,7 @@
     <None Remove="Controls\MediaSideViewControl.xaml" />
     <None Remove="Controls\MediaViewShimmer.xaml" />
     <None Remove="Controls\ReviewListView.xaml" />
+    <None Remove="Controls\SettingsViewControls\UpdateDialog.xaml" />
     <None Remove="Controls\StaffListView.xaml" />
     <None Remove="Controls\StatsPage.xaml" />
     <None Remove="Controls\UserViewControls\UserOverviewPage.xaml" />
@@ -68,6 +69,7 @@
     <None Remove="Views\MediaView.xaml" />
     <None Remove="Views\ReviewView.xaml" />
     <None Remove="Views\RootWindow.xaml" />
+    <None Remove="Views\SettingsPages\AboutPage.xaml" />
     <None Remove="Views\SettingsView.xaml" />
     <None Remove="Views\StaffView.xaml" />
     <None Remove="Views\UserView.xaml" />
@@ -93,6 +95,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.118" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1" />
@@ -201,6 +204,12 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\SettingsViewControls\UpdateDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\SettingsPages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

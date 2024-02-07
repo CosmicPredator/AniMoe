@@ -7,6 +7,7 @@
     xmlns:local="using:AniMoe.App.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settinsgCard="using:CommunityToolkit.Labs.WinUI"
+    Loading="Page_Loading"
     mc:Ignorable="d">
     <Grid Margin="40" RowSpacing="30">
         <Grid.RowDefinitions>
@@ -37,7 +38,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="15">
                     <TextBlock>
                         <Run FontWeight="SemiBold" Text="Version:" />
-                        <Run x:Name="VersionNumber" />
+                        <Run x:Name="VersionNumber" Text="{x:Bind ViewModel.CurrentAppVersion, Mode=OneWay}" />
                     </TextBlock>
 
                     <TextBlock Text="|" />
@@ -48,13 +49,17 @@
                         NavigateUri="https://github.com/CosmicPredator/AniMoe" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <ProgressRing IsActive="True" IsIndeterminate="True"
-                                  Visibility="Collapsed"
-                                  x:Name="UpdateProgressBar"/>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressRing
+                        x:Name="UpdateProgressBar"
+                        Margin="0,0,10,0"
+                        x:Load="{x:Bind ViewModel.LoaderState, Mode=OneWay}"
+                        IsActive="True"
+                        IsIndeterminate="True" />
                     <Button
-                        Click="Button_Click"
-                        Content="Update Now"
+                        Command="{x:Bind ViewModel.runRequestCommand}"
+                        Content="{x:Bind ViewModel.ButtonStatus, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.UpdateButtonEnable, Mode=OneWay}"
                         Style="{ThemeResource AccentButtonStyle}" />
                 </StackPanel>
 
