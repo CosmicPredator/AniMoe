@@ -103,11 +103,13 @@ jobs:
 
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
+      env:
+        Path: ${{ github.workspace }} -replace '\\','/'
       with:
         files: |
-          ${{ github.workspace }}/Artifacts/AniMoe.msix
-          ${{ github.workspace }}/Artifacts/AniMoe_Certificate.cer
-          ${{ github.workspace }}/Artifacts/animoe_setup.exe
+          $env:Path/Artifacts/AniMoe.msix
+          $env:Path/Artifacts/AniMoe_Certificate.cer
+          $env:Path/Artifacts/animoe_setup.exe
         body_path: ${{ github.workspace }}/changelog.txt
         token: ${{ secrets.GITHUB_TOKEN }}
         name: "Version 0.0.2"
