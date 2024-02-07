@@ -93,15 +93,15 @@ jobs:
       working-directory: ${{ github.workspace }}
       run: |
         mkdir Artifacts
-        mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.App.msix
-        mv installer\animoe-setup.exe Artifacts\animoe-setup.exe
+        mv src\AniMoe.App\Packages\Animoe.App.msix Artifacts\AniMoe.msix
+        mv installer\animoe-setup.exe Artifacts\animoe_setup.exe
         mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
     
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
         artifacts: |
-          "${{ github.workspace }}\Artifacts\*.msix,${{ github.workspace }}\Artifacts\*.cer,${{ github.workspace }}\Artifacts\*.exe"
+          "${{ github.workspace }}\Artifacts\AniMoe.msix,${{ github.workspace }}\Artifacts\AniMoe_Certificate.cer,${{ github.workspace }}\Artifacts\animoe_setup.exe"
         bodyFile: ${{ github.workspace }}\changelog.txt
         token: ${{ github.token }}
         name: "Version 0.0.2"
