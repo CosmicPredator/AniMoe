@@ -100,18 +100,19 @@ jobs:
     
     - name: List Files
       run: ls ${{ github.workspace }}\Artifacts
-    
-    - name: Create GitHub Release
-      uses: ncipollo/release-action@v1
+
+    - name: Create Github Release
+      uses: softprops/action-gh-release@v1
       with:
-        artifacts: |
-          "${{ github.workspace }}\Artifacts\AniMoe.msix,${{ github.workspace }}\Artifacts\AniMoe_Certificate.cer,${{ github.workspace }}\Artifacts\animoe_setup.exe"
-        bodyFile: ${{ github.workspace }}\changelog.txt
-        token: ${{ github.token }}
-        name: "Version $APP_VERSION"
-        tag: "$APP_VERSION"
-        makeLatest: true
-        generateReleaseNotes: true
+        files: |
+          ${{ github.workspace }}/Artifacts/AniMoe.msix
+          ${{ github.workspace }}/Artifacts/AniMoe_Certificate.cer
+          ${{ github.workspace }}/Artifacts/animoe_setup.exe
+        body_path: ${{ github.workspace }}/changelog.txt
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: "Version 0.0.2"
+        tag_name: "0.0.2"
+        generate_release_notes: true
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
