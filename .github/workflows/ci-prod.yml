@@ -100,13 +100,11 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ${{ github.workspace }}\Artifacts\AniMoe.App.msix
-          ${{ github.workspace }}\Artifacts\animoe-setup.exe
-          ${{ github.workspace }}\Artifacts\AniMoe_Certificate.cer
+          ${{ github.workspace }}\Artifacts\
         body_path: ${{ github.workspace }}\changelog.txt
         token: ${{ github.token }}
-        name: "Version $VERSION"
-        tag_name: "$VERSION"
+        name: $VERSION
+        tag_name: $VERSION
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
