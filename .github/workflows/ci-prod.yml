@@ -104,8 +104,8 @@ jobs:
           "${{ github.workspace }}\Artifacts\AniMoe.App.msix,${{ github.workspace }}\Artifacts\AniMoe_Certificate.cer, ${{ github.workspace }}\Artifacts\animoe-setup.exe"
         bodyFile: ${{ github.workspace }}\changelog.txt
         token: ${{ github.token }}
-        name: ${{ env.VERSION }}
-        tag: ${{ env.VERSION }}
+        name: "Version 0.0.2"
+        tag: "0.0.2"
         makeLatest: true
         generateReleaseNotes: true
 
