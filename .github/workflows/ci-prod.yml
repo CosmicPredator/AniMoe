@@ -32,11 +32,11 @@ jobs:
 
     - name: Add Version number to Env
       id: version_fetch
-      shell: pwsh
       run: |
         $Version = Get-Content -Path ${{ github.workspace }}\latest.txt
+        echo "Hello World"
+        echo "Version is: $Version"
         echo "APP_VERSION=$Version" >> "$GITHUB_OUTPUT"
-        echo $APP_VERSION
     
     # Install the .NET Core workload
     - name: Install .NET Core
