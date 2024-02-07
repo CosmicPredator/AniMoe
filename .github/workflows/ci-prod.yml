@@ -35,6 +35,7 @@ jobs:
       run: |
         $Version = Get-Content -Path "${{ github.workspace }}\latest.txt"
         echo "APP_VERSION=$Version" >> "$GITHUB_ENV"
+        echo $APP_VERSION
     
     # Install the .NET Core workload
     - name: Install .NET Core
