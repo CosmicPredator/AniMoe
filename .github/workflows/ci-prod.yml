@@ -31,10 +31,11 @@ jobs:
         fetch-depth: 0
 
     - name: Add Version number to Env
+      id: version_fetch
       shell: pwsh
       run: |
-        $Version = Get-Content -Path "${{ github.workspace }}\latest.txt"
-        echo "APP_VERSION=$Version" >> "$GITHUB_ENV"
+        $Version = Get-Content -Path ${{ github.workspace }}\latest.txt
+        echo "APP_VERSION=$Version" >> "$GITHUB_OUTPUT"
         echo $APP_VERSION
     
     # Install the .NET Core workload
@@ -108,6 +109,8 @@ jobs:
 
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
+      env:
+        APP_VERSION: ${{ steps.version_fetch.outputs.APP_VERSION }}
       with:
         files: |
           Artifacts/AniMoe.msix
@@ -115,15 +118,15 @@ jobs:
           Artifacts/animoe_setup.exe
         body_path: ${{ github.workspace }}/changelog.txt
         token: ${{ secrets.GITHUB_TOKEN }}
-        name: "Version 0.0.2"
-        tag_name: "0.0.2"
+        name: "Version $env:APP_VERSION"
+        tag_name: $env:APP_VERSION
         generate_release_notes: true
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload MSIX package
-      uses: actions/upload-artifact@v3
-      with:
-        name: AniMoe_Release
-        path: |
-          ${{ github.workspace }}\Artifacts\
+    #- name: Upload MSIX package
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: AniMoe_Release
+    #   path: |
+    #     ${{ github.workspace }}\Artifacts\
         
