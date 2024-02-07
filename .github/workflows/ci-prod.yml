@@ -12,7 +12,8 @@ on:
 jobs:
 
   build:
-
+    permissions:
+      contents: write
     strategy:
       matrix:
         configuration: [Release]
@@ -97,14 +98,16 @@ jobs:
         mv AniMoe_Certificate.cer Artifacts\AniMoe_Certificate.cer
     
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        files: |
-          ${{ github.workspace }}\Artifacts\
-        body_path: ${{ github.workspace }}\changelog.txt
+        artifacts: |
+          "${{ github.workspace }}\Artifacts\AniMoe.App.msix,${{ github.workspace }}\Artifacts\AniMoe_Certificate.cer, ${{ github.workspace }}\Artifacts\animoe-setup.exe"
+        bodyFile: ${{ github.workspace }}\changelog.txt
         token: ${{ github.token }}
-        name: $VERSION
-        tag_name: $VERSION
+        name: ${{ env.VERSION }}
+        tag: ${{ env.VERSION }}
+        makeLatest: true
+        generateReleaseNotes: true
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
