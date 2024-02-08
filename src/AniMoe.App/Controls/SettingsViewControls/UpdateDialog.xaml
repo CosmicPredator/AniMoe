@@ -21,62 +21,66 @@
         </Style>
     </ContentDialog.CloseButtonStyle>
 
-    <Grid
-        Width="400"
-        Margin="0"
-        RowSpacing="5">
+    <ScrollViewer>
+        <Grid
+            Width="400"
+            MaxHeight="600"
+            Margin="0"
+            RowSpacing="5">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <TextBlock
-            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-            Style="{ThemeResource TitleTextBlockStyle}"
-            Text="Update Available!" />
-
-        <StackPanel
-            Grid.Row="1"
-            Orientation="Vertical"
-            Spacing="5">
-            <TextBlock VerticalAlignment="Center">
-                <Run FontWeight="SemiBold" Text="Version:" />
-                <Run Text="{x:Bind Model.TagName, Mode=OneWay}" />
-            </TextBlock>
-
-            <TextBlock VerticalAlignment="Center">
-                <Run FontWeight="SemiBold" Text="Size:" />
-                <Run x:Name="SizeTextBlock" />
-            </TextBlock>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
             <TextBlock
-                Margin="0,10,0,0"
-                FontSize="17"
-                FontWeight="Medium"
                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                Text="Changelog:" />
-
-            <toolkit:MarkdownTextBlock
-                x:Name="MdTextBlock"
-                Background="Transparent"
-                LinkClicked="MdTextBlock_LinkClicked"
-                Text="{x:Bind Model.Body}" />
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="Update Available!" />
 
             <StackPanel
-                x:Name="LoaderStackPanel"
-                Margin="0,10,0,0"
-                Orientation="Horizontal"
-                Spacing="10"
-                Visibility="Collapsed">
-                <ProgressRing IsIndeterminate="True" />
-                <TextBlock
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Text="Updating..." />
-            </StackPanel>
-        </StackPanel>
+                Grid.Row="1"
+                Orientation="Vertical"
+                Spacing="5">
+                <TextBlock VerticalAlignment="Center">
+                    <Run FontWeight="SemiBold" Text="Version:" />
+                    <Run Text="{x:Bind Model.TagName, Mode=OneWay}" />
+                </TextBlock>
 
-    </Grid>
+                <TextBlock VerticalAlignment="Center">
+                    <Run FontWeight="SemiBold" Text="Size:" />
+                    <Run x:Name="SizeTextBlock" />
+                </TextBlock>
+
+                <TextBlock
+                    Margin="0,10,0,0"
+                    FontSize="17"
+                    FontWeight="Medium"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="Changelog:" />
+
+                <toolkit:MarkdownTextBlock
+                    x:Name="MdTextBlock"
+                    Background="Transparent"
+                    LinkClicked="MdTextBlock_LinkClicked"
+                    Text="{x:Bind Model.Body}" />
+
+                <StackPanel
+                    x:Name="LoaderStackPanel"
+                    Margin="0,10,0,0"
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    Visibility="Collapsed">
+                    <ProgressRing IsIndeterminate="True" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Text="Updating AniMoe. This may take a minute..."
+                        TextWrapping="WrapWholeWords" />
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
 </ContentDialog>

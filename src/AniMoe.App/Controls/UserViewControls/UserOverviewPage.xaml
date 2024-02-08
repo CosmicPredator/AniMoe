@@ -136,8 +136,8 @@
                 <Grid
                     x:Name="GenreDataPanel"
                     Grid.Row="3"
-                    x:Load="{x:Bind _loadGenreTable, Mode=OneWay}"
                     RowSpacing="15">
+                    <!--  x:Load="{x:Bind _loadGenreTable, Mode=OneWay}"  -->
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

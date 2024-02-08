@@ -118,7 +118,7 @@ namespace AniMoe.App.Views
             }
             else
             {
-                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+                MasterNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
             }
         }
     }

@@ -42,7 +42,7 @@ namespace AniMoe.App.ViewModels
             LoaderState = true;
             Model = await handler.CheckLatestRelease();
             LoaderState = false;
-            if (Model.TagName.CompareTo(CurrentAppVersion) < 0)
+            if (Model.TagName.CompareTo(CurrentAppVersion) > 0)
             {
                 _dispatcherQueue.TryEnqueue(async () =>
                 {

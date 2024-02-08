@@ -20,6 +20,7 @@ namespace AniMoe.App.Controls.SettingsViewControls
     public sealed partial class UpdateDialog : ContentDialog
     {
         public GithubModel Model;
+        public Uri AssetUrl;
         public UpdateDialog(GithubModel model)
         {
             this.InitializeComponent();
@@ -27,24 +28,20 @@ namespace AniMoe.App.Controls.SettingsViewControls
             DataContext = this;
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
-            foreach(var i in Model.Assets)
-            {
-                if (i.Name.Contains(".msix"))
-                {
-                    Debug.WriteLine(i.Name);
-                    Debug.WriteLine(i.Size);
-                    Debug.WriteLine(i.BrowserDownloadUrl);
-                }
-            }
+            LoaderStackPanel.Visibility = Visibility.Visible;
+            await new UpdateService().UpdateAniMoe(AssetUrl);
+            LoaderStackPanel.Visibility = Visibility.Collapsed;
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
+            var selectedMsix = Model.Assets.First(x => x.Name.Contains(".msix"));
+            AssetUrl = selectedMsix.BrowserDownloadUrl;
             double assetSize = Math.Round(
-                (Model.Assets.First(x => x.Name.Contains(".msix")).Size * 0.000001), 2);
+                (selectedMsix.Size * 0.000001), 2);
             SizeTextBlock.Text = $"{assetSize}MB";
         }
 

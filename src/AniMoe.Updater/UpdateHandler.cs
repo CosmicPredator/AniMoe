@@ -25,13 +25,9 @@ namespace AniMoe.Updater
                     Package.Current.Id.Version.Minor,
                     Package.Current.Id.Version.Build);
 
-            // It's a read-only access token. So, You can't do anything but reading public repos
-            _accessToken = 
-                "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";
             _baseUrl = @"https://api.github.com/repos/CosmicPredator/AniMoe/releases/latest";
 
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_accessToken}");
             _httpClient.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
             _httpClient.DefaultRequestHeaders.Add("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0");
