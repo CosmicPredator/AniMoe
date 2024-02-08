@@ -107,7 +107,7 @@ jobs:
           Artifacts/AniMoe.msix
           Artifacts/AniMoe_Certificate.cer
           Artifacts/animoe_setup.exe
-        body_path: ${{ github.workspace }}/changelog.txt
+        body_path: ${{ github.workspace }}/changelog.md
         token: ${{ secrets.GITHUB_TOKEN }}
         name: Version ${{ env.APP_VERSION }} ✨
         tag_name: ${{ env.APP_VERSION }}
