@@ -81,3 +81,9 @@ jobs:
         name: AniMoe_Development
         retention-days: 10
         path: ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
+
+    # Uploads coverage reports to CodeCov
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      env:
+        slug: CosmicPredator/AniMoe
