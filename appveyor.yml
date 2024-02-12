@@ -16,7 +16,7 @@ platform: x64
 configuration: Release
 
 before_build:
-- ps: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -n CommunityToolkitLabs &&  && msbuild AniMoe.sln /t:Restore /p:Configuration=Release
+- ps: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -n CommunityToolkitLabs; msbuild AniMoe.sln /t:Restore /p:Configuration=Release
 
 build:
   project: AniMoe.sln
