@@ -81,4 +81,3 @@ jobs:
         name: AniMoe_Development
         retention-days: 10
         path: ${{ github.workspace }}\\src\AniMoe.App\Packages\AniMoe.App.msix
-
