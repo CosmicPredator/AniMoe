@@ -16,11 +16,11 @@ platform: x64
 configuration: Release
 
 before_build:
-- ps: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -n CommunityToolkitLabs; msbuild AniMoe.sln /t:Restore /p:Configuration=Release
+- ps: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -n CommunityToolkitLabs
+- ps: msbuild AniMoe.sln /t:Restore /p:Configuration=Release
 
-build:
-  project: AniMoe.sln
-  verbosity: normal
+build_script:
+- msbuild AniMoe.sln /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /p:GenerateAppxPackageOnBuild=true /p:AppxPackageTestDir="Packages\"
 
 artifacts:
   - path: 'Packages\*.msix'
