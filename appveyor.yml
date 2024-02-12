@@ -1,0 +1,26 @@
+version: 1.0.{build}
+
+branches:
+  only:
+    - devel
+
+skip_tags: true
+image: Visual Studio 2022
+init:
+  - git config --global core.autocrlf input
+
+clone_folder: c:\animoe
+clone_depth: 1
+
+platform: x64
+configuration: Release
+
+before_build:
+- ps: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -n CommunityToolkitLabs
+
+build:
+  project: AniMoe.sln
+  verbosity: normal
+
+artifacts:
+  - path: '**\*.msix'
