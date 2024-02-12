@@ -20,7 +20,7 @@ before_build:
 - ps: msbuild AniMoe.sln /t:Restore /p:Configuration=Release
 
 build_script:
-- msbuild AniMoe.sln /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /p:GenerateAppxPackageOnBuild=true /p:AppxPackageTestDir="Packages\"
+- msbuild AniMoe.sln /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Never /p:GenerateAppxPackageOnBuild=true
 
 artifacts:
   - path: 'Packages\*.msix'
