@@ -76,6 +76,14 @@ jobs:
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
+
+    # Uploads coverage reports to CodeCov
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      env:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: CosmicPredator/AniMoe
+
       uses: actions/upload-artifact@v4
       with:
         name: AniMoe_Development
