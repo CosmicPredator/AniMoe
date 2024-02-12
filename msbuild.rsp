@@ -1,0 +1,6 @@
+/p:Configuration=Release
+/p:Platform=x64
+/p:UapAppxPackageBuildMode=SideloadOnly
+/p:AppxBundle=Never
+/p:GenerateAppxPackageOnBuild=true
+/p:AppxPackageTestDir="Packages\"
