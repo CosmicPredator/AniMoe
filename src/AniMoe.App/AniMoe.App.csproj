@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>AniMoe.App</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -9,9 +9,10 @@
     <Platforms>x86;x64;ARM64</Platforms>
 	<!--<PublishTrimmed>true</PublishTrimmed>
 	<TrimMode>link</TrimMode>-->
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
+	<UseRidGraph>true</UseRidGraph>
     <EnableMsixTooling>true</EnableMsixTooling>
     <ApplicationIcon>Window-Icon.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
@@ -105,7 +106,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
@@ -156,7 +157,7 @@
     <NoWarn>WMC1506</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LayoutDir>E:\DotnetApps\AniMoe\src\AniMoe.App\bin\x64\Debug\net7.0-windows10.0.22621.0\win10-x64\AppX</LayoutDir>
+    <LayoutDir>E:\DotnetApps\AniMoe\src\AniMoe.App\bin\x64\Debug\net8.0-windows10.0.19041.0\win10-x64\AppX</LayoutDir>
     <NoWarn>WMC1506</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
