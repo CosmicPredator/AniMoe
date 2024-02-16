@@ -55,82 +55,7 @@ namespace AniMoe.App.Views
         {
             SegmentedBox.SelectionChanged += SegmentedBox_SelectionChanged;
             SegmentedBox.SelectedIndex = 0;
-            //await DescriptionWebView.EnsureCoreWebView2Async();
-            //await Task.Delay(500);
-            //DescriptionWebView.NavigateToString(
-            //    mdToHtmlParser.Convert(ViewModel.Model.Data.Character.Description)
-            //);
         }
-
-        //private async void DescriptionWebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
-        //{
-        //    string jsx = "document.body.offsetHeight";
-        //    string heightString = await DescriptionWebView.ExecuteScriptAsync(jsx);
-        //    Debug.WriteLine(heightString);
-
-        //    if( double.TryParse(heightString, out double height) )
-        //    {
-        //        WebGrid.Height = height >= 800 ? height : height / 4;
-        //    }
-
-        //    string js = @"
-        //        var summaryTags = document.getElementsByTagName('summary');
-        //        for (var i = 0; i < summaryTags.length; i++) {
-        //            summaryTags[i].addEventListener('click', function() {
-        //                window.chrome.webview.postMessage('summaryClicked');
-        //            });
-        //        }
-        //        function calculateContentHeight() {
-        //            var body = document.body;
-        //            var html = document.documentElement;
-        //            var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-        //            window.chrome.webview.postMessage(height.toString());
-        //        }
-        //        calculateContentHeight();
-        //    ";
-        //    await DescriptionWebView.ExecuteScriptAsync(js);
-        //    DescriptionWebView.WebMessageReceived += DescriptionWebView_WebMessageReceived;
-        //}
-
-        //private void DescriptionWebView_WebMessageReceived(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs args)
-        //{
-        //    string message = args.TryGetWebMessageAsString();
-        //    if( !string.IsNullOrEmpty(message) )
-        //    {
-        //        if( message == "summaryClicked" )
-        //        {
-        //            // Update WebView2 height when summary tag is clicked
-        //            UpdateWebViewHeight();
-        //        }
-        //        else if( double.TryParse(message, out double contentHeight) )
-        //        {
-        //            // Use the content height value
-        //            WebGrid.Height = contentHeight;
-        //        }
-        //    }
-        //}
-
-        //private async void UpdateWebViewHeight()
-        //{
-        //    // Inject JavaScript code to recalculate content height after summary tag is clicked
-        //    string js = "calculateContentHeight();";
-        //    await DescriptionWebView.ExecuteScriptAsync(js);
-        //}
-
-        //private void DescriptionWebView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        DescriptionWebView.IsHitTestVisible = false;
-        //        timer.Debounce(() => {
-        //            DescriptionWebView.IsHitTestVisible = true;
-        //        }, TimeSpan.FromMilliseconds(500));
-        //    }
-        //    catch( Exception ex )
-        //    {
-        //        Log.Error(ex, "Some Error Occured");
-        //    }
-        //}
 
         private void SegmentedBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -165,8 +90,13 @@ namespace AniMoe.App.Views
 
         public void Dispose()
         {
-            //if (DescriptionWebView is not null) DescriptionWebView.Close();
             GC.Collect();
+        }
+
+        private async void MarkdownTextBlock_LinkClicked(object sender, CommunityToolkit.WinUI.UI.Controls.LinkClickedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(
+                    new Uri(e.Link));
         }
     }
 }

@@ -159,7 +159,7 @@
                                         <TextBlock
                                             FontSize="15"
                                             MaxLines="3"
-                                            Text="{x:Bind ViewModel.DescriptionText}"
+                                            Text="{x:Bind ViewModel.Model.Data.Media.Description}"
                                             TextWrapping="Wrap" />
                                         <HyperlinkButton
                                             Padding="0"
@@ -170,9 +170,10 @@
                             </Expander.Header>
                             <Expander.Content>
                                 <Grid Margin="5">
-                                    <TextBlock
+                                    <toolkit:MarkdownTextBlock
                                         FontSize="15"
-                                        Text="{x:Bind ViewModel.DescriptionText}"
+                                        Text="{x:Bind ViewModel.Model.Data.Media.Description}"
+                                        Background="Transparent"
                                         TextWrapping="Wrap" />
                                 </Grid>
                             </Expander.Content>

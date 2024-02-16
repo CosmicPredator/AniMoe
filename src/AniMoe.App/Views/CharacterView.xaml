@@ -110,19 +110,10 @@
                         BorderThickness="1"
                         Canvas.ZIndex="1"
                         CornerRadius="10">
-                        <TextBlock Text="{x:Bind ViewModel.Model.Data.Character.Description}" TextWrapping="Wrap" />
-                        <!--<WebView2
-                            x:Name="DescriptionWebView"
-                            AllowFocusOnInteraction="False"
-                            Canvas.ZIndex="0"
-                            DefaultBackgroundColor="Transparent"
-                            NavigationCompleted="DescriptionWebView_NavigationCompleted"
-                            PointerWheelChanged="DescriptionWebView_PointerWheelChanged">
-                            <WebView2.Resources>
-                                <SolidColorBrush x:Name="BrushForThemeBackgroundColor" Color="Transparent" />
-                                <SolidColorBrush x:Name="BrushForThemeBackgroundColor_HC" Color="Transparent" />
-                            </WebView2.Resources>
-                        </WebView2>-->
+                        <toolkit:MarkdownTextBlock
+                            Background="Transparent"
+                            LinkClicked="MarkdownTextBlock_LinkClicked"
+                            Text="{x:Bind ViewModel.Model.Data.Character.Description}" />
                     </Grid>
                 </Grid>
                 <Grid

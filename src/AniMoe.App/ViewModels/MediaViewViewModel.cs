@@ -41,7 +41,6 @@ namespace AniMoe.App.ViewModels
         private int MediaId;
         private DispatcherQueue dispatcherQueue;
         private bool showSummary = true;
-        private string descriptionText;
 
         public List<int> Series
         {
@@ -79,12 +78,6 @@ namespace AniMoe.App.ViewModels
             set => SetProperty(ref isLoading, value);
         }
 
-        public string DescriptionText
-        {
-            get => descriptionText;
-            set => SetProperty(ref descriptionText, value);
-        }
-
         public IAsyncRelayCommand LoadView { get; }
 
         public MediaViewViewModel(int mediaId, DispatcherQueue queue)
@@ -101,7 +94,6 @@ namespace AniMoe.App.ViewModels
                 Loaded = false;
                 IsLoading = !Loaded;
                 Model = await Initialize.FetchData(MediaId);
-                DescriptionText = Model.Data.Media.Description.RemoveHtmlTags();
                 Series = Model.Data.Media.Stats.ScoreDistribution.Select(
                     x => x.Amount
                 ).ToList();

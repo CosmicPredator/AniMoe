@@ -200,8 +200,10 @@
                         BorderThickness="1"
                         Canvas.ZIndex="1"
                         CornerRadius="10">
-                        <TextBlock Text="{x:Bind ViewModel.Model.Data.Staff.Description}"
-                                   TextWrapping="Wrap"/>
+                        <toolkit:MarkdownTextBlock
+                            Background="Transparent"
+                            LinkClicked="MarkdownTextBlock_LinkClicked"
+                            Text="{x:Bind ViewModel.Model.Data.Staff.Description}" />
                         <!--<WebView2
                             x:Name="DescriptionWebView"
                             AllowFocusOnInteraction="False"
