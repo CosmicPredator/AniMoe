@@ -75,6 +75,7 @@ namespace AniMoe.App
                 .AddScoped<ILocalSettings, LocalSettings>()
                 .AddScoped<IClipCopier, ClipCopier>()
                 .AddScoped<INotificationService, NotificationService>()
+                .AddSingleton<MasterModel>()
                 .AddSingleton<MasterViewModel>()
                 .AddSingleton<MediaListStatusModel>()
                 .AddSingleton(DispatcherQueue.GetForCurrentThread())
@@ -82,6 +83,7 @@ namespace AniMoe.App
                 .AddSingleton<AnimeListViewModel>()
                 .AddSingleton<MangaListViewModel>()
                 .AddSingleton<ExploreViewModel>()
+                .AddSingleton<SplashViewModel>()
                 .AddSingleton<UpdateHandler>();
 
             services.AddHttpClient<IRequestHandler, RequestHandler>();
@@ -109,8 +111,9 @@ namespace AniMoe.App
                 Process.GetProcessById((int)mainInstance.ProcessId).Kill();
                 Log.Information("Authorization handled successfully and accessToken was saved");
             }
-            m_window = new RootWindow();
-            m_window.ExtendsContentIntoTitleBar = true;
+            //m_window = new RootWindow();
+            m_window = new SplashView();
+            //m_window.ExtendsContentIntoTitleBar = true;
             m_window.Activate();
             Log.Information("RootWindow initialized");
         }

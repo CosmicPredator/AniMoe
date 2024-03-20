@@ -113,7 +113,7 @@ namespace AniMoe.App.Models.MangaListModel
         public static async Task<MangaListModel> FetchData()
         {
             IRequestHandler Handler = App.Current.Services.GetService<IRequestHandler>();
-            MasterViewModel Vm = App.Current.Services.GetRequiredService<MasterViewModel>();
+            SplashViewModel Vm = App.Current.Services.GetRequiredService<SplashViewModel>();
             MangaListModel Model = await Handler.RequestApi<MangaListModel>(
                 Queries.Query.MediaListQuery,
                 new

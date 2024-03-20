@@ -17,13 +17,14 @@ using AniMoe.App.ViewModels;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.VoiceCommands;
+using WinRT.Interop;
 
 namespace AniMoe.App.Views
 { 
     public sealed partial class RootWindow : Window
     {
         #region Properties
-        private ILocalSettings _localSettings;
+        private readonly ILocalSettings _localSettings;
 
         public Thickness TitleBarThickness = new()
         {
@@ -41,8 +42,8 @@ namespace AniMoe.App.Views
                 this.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
             else 
                 this.SystemBackdrop = new DesktopAcrylicBackdrop();
-            LoadIcon("Assets/Window-Icon.ico");
-            _localSettings = App.Current.Services.GetService<ILocalSettings>();
+            SetAppWindowIcon();
+            _localSettings = App.Current.Services.GetRequiredService<ILocalSettings>();
             AppTitleBar.Margin = TitleBarThickness;
             SetTitle();
             SetView();
@@ -63,26 +64,17 @@ namespace AniMoe.App.Views
             SetTitleBar( AppTitleBar );
         }
 
-        private void LoadIcon(string iconName)
+        private void SetAppWindowIcon()
         {
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            IntPtr hIcon = PInvoke.User32.LoadImage(IntPtr.Zero, iconName,
-                      PInvoke.User32.ImageType.IMAGE_ICON, 16, 16, PInvoke.User32.LoadImageFlags.LR_LOADFROMFILE);
-
-            PInvoke.User32.SendMessage(hwnd, PInvoke.User32.WindowMessage.WM_SETICON, (IntPtr)0, hIcon);
+            IntPtr hWnd = WindowNative.GetWindowHandle(this);
+            WindowId id = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+            var appWindow = AppWindow.GetFromWindowId(id);
+            appWindow.SetIcon("Assets/Window-Icon.ico");
         }
 
         public void ChangeTitleBarThickness(Thickness thickness)
         {
             AppTitleBar.Margin = thickness;
-        }
-
-        [ComImport]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        [Guid("AD056AB3-1FBB-4F8D-963D-7ED80A181C2D")]
-        internal interface IWindowNative
-        {
-            IntPtr WindowHandle { get; }
         }
     }
 }

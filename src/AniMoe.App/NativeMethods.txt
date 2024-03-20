@@ -1,0 +1,4 @@
+﻿SetWindowPos
+GetSystemMetrics
+SetWindowLongPtr
+WINDOW_STYLE

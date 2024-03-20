@@ -12,11 +12,11 @@ namespace AniMoe.App.Views
 {
     public sealed partial class MasterView : Page
     {
-        public MasterViewModel ViewModel;
+        public SplashViewModel ViewModel;
         DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MasterView()
         {
-            ViewModel = App.Current.Services.GetRequiredService<MasterViewModel>();
+            ViewModel = App.Current.Services.GetRequiredService<SplashViewModel>();
             this.InitializeComponent();
             DataContext = ViewModel;
         }

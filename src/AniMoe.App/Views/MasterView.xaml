@@ -11,15 +11,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
-    <Interactivity:Interaction.Behaviors>
+    <!--<Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="Loaded">
             <Core:InvokeCommandAction Command="{x:Bind ViewModel.LoadData}" />
         </Core:EventTriggerBehavior>
-    </Interactivity:Interaction.Behaviors>
+    </Interactivity:Interaction.Behaviors>-->
+
+    <!--  x:Load="{x:Bind ViewModel.IsVisible}"  -->
+
     <Grid x:Name="RootGrid">
         <NavigationView
             x:Name="MasterNavView"
-            x:Load="{x:Bind ViewModel.IsVisible}"
             BackRequested="MasterNavView_BackRequested"
             DisplayModeChanged="MasterNavView_DisplayModeChanged"
             IsBackEnabled="True"
@@ -34,32 +36,27 @@
                 </TransitionCollection>
             </NavigationView.Transitions>
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Home"
-                                    x:Name="HomeSection">
+                <NavigationViewItem x:Name="HomeSection" Content="Home">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe10f;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Anime List"
-                                    x:Name="AnimeListSection">
+                <NavigationViewItem x:Name="AnimeListSection" Content="Anime List">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe173;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Manga List"
-                                    x:Name="MangaListSection">
+                <NavigationViewItem x:Name="MangaListSection" Content="Manga List">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe8f1;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Explore"
-                                    x:Name="ExploreSection">
+                <NavigationViewItem x:Name="ExploreSection" Content="Explore">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xe138;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Notifications"
-                                    x:Name="NotificationSection">
+                <NavigationViewItem x:Name="NotificationSection" Content="Notifications">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA8F;" />
                     </NavigationViewItem.Icon>
@@ -96,8 +93,9 @@
             x:Name="Spinner"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            x:Load="{x:Bind ViewModel.NavItemsEnable}"
             IsActive="True"
+            x:Load="False"
             IsIndeterminate="True" />
+        <!--  x:Load="{x:Bind ViewModel.NavItemsEnable}"  -->
     </Grid>
 </Page>

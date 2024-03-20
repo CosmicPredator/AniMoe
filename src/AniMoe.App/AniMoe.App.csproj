@@ -72,6 +72,7 @@
     <None Remove="Views\RootWindow.xaml" />
     <None Remove="Views\SettingsPages\AboutPage.xaml" />
     <None Remove="Views\SettingsView.xaml" />
+    <None Remove="Views\SplashView.xaml" />
     <None Remove="Views\StaffView.xaml" />
     <None Remove="Views\UserView.xaml" />
   </ItemGroup>
@@ -106,10 +107,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -205,6 +208,9 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\SplashView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\SettingsViewControls\UpdateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

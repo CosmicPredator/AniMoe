@@ -20,7 +20,7 @@ namespace AniMoe.App.Dialogs
 {
     public sealed partial class ExploreViewFilterDialog : ContentDialog
     {
-        public MasterViewModel masterViewModel;
+        public SplashViewModel masterViewModel;
         public List<ExploreFilterModel> FilterList;
         public Dictionary<string, dynamic> Filters = new();
         public List<EnumValue> FormatList;
@@ -28,7 +28,7 @@ namespace AniMoe.App.Dialogs
 
         public ExploreViewFilterDialog(string mediaType)
         {
-            masterViewModel = App.Current.Services.GetRequiredService<MasterViewModel>();
+            masterViewModel = App.Current.Services.GetRequiredService<SplashViewModel>();
             MediaType = mediaType;
             InitializeComponent();
             LoadFilterList();

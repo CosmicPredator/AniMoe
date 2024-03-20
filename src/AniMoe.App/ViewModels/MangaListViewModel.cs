@@ -19,7 +19,7 @@ namespace AniMoe.App.ViewModels
     public partial class MangaListViewModel : ObservableObject
     {
         private MangaListModel model;
-        private MasterViewModel StatusModel;
+        private SplashViewModel StatusModel;
         private bool loaded = false;
         private bool isLoading = true;
         private bool isEmpty = false;
@@ -123,9 +123,9 @@ namespace AniMoe.App.ViewModels
             }
         }
 
-        public MangaListViewModel(MasterViewModel masterViewModel)
+        public MangaListViewModel(SplashViewModel splashViewModel)
         {
-            StatusModel = masterViewModel;
+            StatusModel = splashViewModel;
             LoadView = new AsyncRelayCommand(async () =>
             {
                 await InitView();

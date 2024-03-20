@@ -42,16 +42,18 @@ namespace AniMoe.App.ViewModels
 
         public IAsyncRelayCommand LoadData { get; }
 
-        public MasterViewModel()
+        public MasterViewModel(MasterModel model, MediaListStatusModel _mediaListStatusModel)
         {
+            mediaListStatusModel = _mediaListStatusModel;
+            Model = model;
             LoadData = new AsyncRelayCommand(LoadModel);
         }
 
         public async Task LoadModel()
         {
-            IsVisible = false;
-            NavItemsEnable = true;
-            await LoadFromApi();
+            //IsVisible = false;
+            //NavItemsEnable = true;
+            //await LoadFromApi();
             NavItemsEnable = false;
             IsVisible = true;
         }

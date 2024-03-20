@@ -15,8 +15,8 @@ namespace AniMoe.App.Dialogs
         public MediaListFilterModel Model;
         private List<Genre> genreList;
         public List<Format> AnimeFormatList;
-        public MasterViewModel DataModal = App.Current.Services
-            .GetRequiredService<MasterViewModel>();
+        public SplashViewModel DataModal = App.Current.Services
+            .GetRequiredService<SplashViewModel>();
         public int Year = DateTime.Now.Year + 1;
         public MediaListFliterView()
         { 
