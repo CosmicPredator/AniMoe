@@ -26,7 +26,7 @@ namespace AniMoe.App.ViewModels
         private IMdToHtmlParser MdToHtmlParser = App.Current.Services.GetRequiredService<IMdToHtmlParser>();
         private DispatcherQueue dispatcherQueue;
         private string createdTime;
-        private MasterViewModel masterViewModel = App.Current.Services.GetRequiredService<MasterViewModel>();
+        private SplashViewModel masterViewModel = App.Current.Services.GetRequiredService<SplashViewModel>();
 
         [ObservableProperty]
         private bool isLoading = true;

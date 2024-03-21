@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using AniMoe.App.Models;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AniMoe.App.ViewModels
 {
@@ -151,7 +152,8 @@ namespace AniMoe.App.ViewModels
             }
             if( Model == null || isReload )
             {
-                Model = await Initialize.FetchData();
+                // Model = await Initialize.FetchData();
+                Model = App.Current.Services.GetRequiredService<SplashViewModel>().MangaListModelObj;
             }
             LoadStatusBar = true;
             if( Model.Data.MediaListCollection.Lists.Count > 0 )
