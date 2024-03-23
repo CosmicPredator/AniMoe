@@ -101,127 +101,122 @@
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="data:Entry">
-                        <Grid
-                            x:Name="MasterGrid"
-                            Padding="3"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            Canvas.ZIndex="0"
-                            CornerRadius="8"
-                            PointerEntered="CardOnHover"
-                            PointerExited="CardOffHover"
-                            PointerPressed="MasterGrid_PointerPressed"
-                            Tag="{x:Bind Media.Id}">
-                            <Grid.Shadow>
-                                <ThemeShadow />
-                            </Grid.Shadow>
-                            <Grid.TranslationTransition>
-                                <Vector3Transition />
-                            </Grid.TranslationTransition>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Edit">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE70F;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        Click="DownloadCoverImage"
-                                        Tag="{x:Bind Media}"
-                                        Text="Save Image">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE78C;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        Click="UrlLauncher"
-                                        Tag="{x:Bind Media.SiteUrl}"
-                                        Text="Open in Browser">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE7AC;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        Click="CopyUrl"
-                                        Tag="{x:Bind Media.SiteUrl}"
-                                        Text="Copy URL">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C8;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </Grid.ContextFlyout>
-                            <toolkit:ImageEx
-                                Grid.Row="0"
-                                Margin="10"
-                                CornerRadius="5"
-                                IsCacheEnabled="True"
-                                Source="{x:Bind Media.CoverImage.Large}"
-                                Stretch="UniformToFill" />
-                            <TextBlock
-                                Grid.Row="1"
-                                Margin="10,0"
-                                FontSize="15"
-                                FontWeight="Medium"
-                                MaxLines="1"
-                                Text="{x:Bind Media.Title.UserPreferred}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap"
-                                ToolTipService.ToolTip="{x:Bind Media.Title.UserPreferred}" />
-                            <TextBlock
-                                Grid.Row="2"
-                                Margin="10,5"
-                                FontSize="12"
-                                MaxLines="1"
-                                Text="{x:Bind Media.Format, Converter={StaticResource FormatConv}}"
-                                TextTrimming="CharacterEllipsis"
-                                ToolTipService.ToolTip="{x:Bind Media.Format, Converter={StaticResource FormatConv}}" />
-                            <RelativePanel Grid.Row="3" Margin="10,5,10,10">
-                                <Button
-                                    Padding="4"
-                                    x:DefaultBindMode="OneWay"
-                                    Command="{Binding DataContext.SaveImage, ElementName=AnimeListElement}"
-                                    RelativePanel.AlignLeftWithPanel="True">
-                                    <Button.Content>
-                                        <TextBlock FontSize="12" FontWeight="Medium">
-                                            <Run Text="{x:Bind Progress}" />
-                                            <Run Text="/" />
-                                            <Run Text="{x:Bind Media.Episodes}" />
-                                            <Run Text="+" />
-                                        </TextBlock>
-                                    </Button.Content>
-                                </Button>
-                                <Button
-                                    x:Name="AiringButton"
-                                    Padding="4"
-                                    x:Load="{x:Bind Media.NextAiringEpisode.AiringAt, Converter={StaticResource NullValConv}}"
-                                    Background="{ThemeResource SystemAccentColorDark1}"
-                                    RelativePanel.AlignRightWithPanel="True">
-                                    <Button.Content>
-                                        <FontIcon FontSize="15" Glyph="&#xe121;" />
-                                    </Button.Content>
-                                    <Button.Flyout>
-                                        <Flyout>
-                                            <Flyout.Content>
-                                                <TextBlock FontWeight="Medium">
-                                                    <Run Text="Ep." />
-                                                    <Run Text="{x:Bind Media.NextAiringEpisode.Episode}" />
-                                                    <Run Text=" in " />
-                                                    <Run Text="{x:Bind Media.NextAiringEpisode.AiringAt, Converter={StaticResource UntilConv}}" />
-                                                </TextBlock>
-                                            </Flyout.Content>
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </RelativePanel>
-                        </Grid>
+                        <ItemContainer CornerRadius="8">
+                            <Grid
+                                x:Name="MasterGrid"
+                                Padding="3"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                Canvas.ZIndex="0"
+                                CornerRadius="8"
+                                PointerPressed="MasterGrid_PointerPressed"
+                                Tag="{x:Bind Media.Id}">
+                                <Grid.Shadow>
+                                    <ThemeShadow />
+                                </Grid.Shadow>
+                                <Grid.TranslationTransition>
+                                    <Vector3Transition />
+                                </Grid.TranslationTransition>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Edit">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE70F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Click="DownloadCoverImage"
+                                            Tag="{x:Bind Media}"
+                                            Text="Save Image">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE78C;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Click="UrlLauncher"
+                                            Tag="{x:Bind Media.SiteUrl}"
+                                            Text="Open in Browser">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE7AC;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Click="CopyUrl"
+                                            Tag="{x:Bind Media.SiteUrl}"
+                                            Text="Copy URL">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE8C8;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Grid.ContextFlyout>
+                                <toolkit:ImageEx
+                                    Grid.Row="0"
+                                    Margin="10"
+                                    CornerRadius="5"
+                                    IsCacheEnabled="True"
+                                    Source="{x:Bind Media.CoverImage.Large}"
+                                    Stretch="UniformToFill" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="10,0"
+                                    FontSize="15"
+                                    MaxLines="1"
+                                    Text="{x:Bind Media.Title.UserPreferred}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind Media.Title.UserPreferred}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Margin="10,5"
+                                    FontSize="12"
+                                    MaxLines="1"
+                                    Text="{x:Bind Media.Format, Converter={StaticResource FormatConv}}"
+                                    TextTrimming="CharacterEllipsis"
+                                    ToolTipService.ToolTip="{x:Bind Media.Format, Converter={StaticResource FormatConv}}" />
+                                <RelativePanel Grid.Row="3" Margin="10,5,10,10">
+                                    <Button
+                                        Padding="4"
+                                        x:DefaultBindMode="OneWay"
+                                        Command="{Binding DataContext.SaveImage, ElementName=AnimeListElement}"
+                                        RelativePanel.AlignLeftWithPanel="True">
+                                        <Button.Content>
+                                            <TextBlock FontSize="12" FontWeight="Medium">
+                                                <Run Text="{x:Bind Progress}" />
+                                                <Run Text="/" />
+                                                <Run Text="{x:Bind Media.Episodes}" />
+                                                <Run Text="+" />
+                                            </TextBlock>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button
+                                        x:Name="AiringButton"
+                                        Padding="4"
+                                        x:Load="{x:Bind Media.NextAiringEpisode.AiringAt, Converter={StaticResource NullValConv}}"
+                                        Background="{ThemeResource SystemAccentColorDark1}"
+                                        RelativePanel.AlignRightWithPanel="True">
+                                        <ToolTipService.ToolTip>
+                                            <TextBlock FontWeight="Medium">
+                                                <Run Text="Ep." />
+                                                <Run Text="{x:Bind Media.NextAiringEpisode.Episode}" />
+                                                <Run Text=" in " />
+                                                <Run Text="{x:Bind Media.NextAiringEpisode.AiringAt, Converter={StaticResource UntilConv}}" />
+                                            </TextBlock>
+                                        </ToolTipService.ToolTip>
+                                        <Button.Content>
+                                            <FontIcon FontSize="15" Glyph="&#xe121;" />
+                                        </Button.Content>
+                                    </Button>
+                                </RelativePanel>
+                            </Grid>
+                        </ItemContainer>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
