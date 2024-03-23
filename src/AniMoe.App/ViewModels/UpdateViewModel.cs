@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Semver;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,9 +42,11 @@ namespace AniMoe.App.ViewModels
         private async Task runRequest()
         {
             LoaderState = true;
-            Model = await handler.CheckLatestRelease();
+            //Model = await handler.CheckLatestRelease();
             LoaderState = false;
-            if (Model.TagName.CompareTo(CurrentAppVersion) > 0)
+            var appVersion = SemVersion.Parse(CurrentAppVersion, SemVersionStyles.Any);
+            var newVersion = SemVersion.Parse(Model.TagName, SemVersionStyles.Any);
+            if (SemVersion.ComparePrecedence(newVersion, appVersion) > 0)
             {
                 _dispatcherQueue.TryEnqueue(async () =>
                 {
@@ -60,7 +64,7 @@ namespace AniMoe.App.ViewModels
 
         public UpdateViewModel(XamlRoot xamlRoot, DispatcherQueue dispatcherQueue)
         {
-            CurrentAppVersion = string.Format("Version: {0}.{1}.{2}",
+            CurrentAppVersion = string.Format("{0}.{1}.{2}",
                     Package.Current.Id.Version.Major,
                     Package.Current.Id.Version.Minor,
                     Package.Current.Id.Version.Build);
