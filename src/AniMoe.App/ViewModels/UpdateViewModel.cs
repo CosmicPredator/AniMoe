@@ -42,7 +42,7 @@ namespace AniMoe.App.ViewModels
         private async Task runRequest()
         {
             LoaderState = true;
-            //Model = await handler.CheckLatestRelease();
+            Model = await handler.CheckLatestRelease();
             LoaderState = false;
             var appVersion = SemVersion.Parse(CurrentAppVersion, SemVersionStyles.Any);
             var newVersion = SemVersion.Parse(Model.TagName, SemVersionStyles.Any);
