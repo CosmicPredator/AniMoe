@@ -33,50 +33,6 @@
     <None Remove="Constants\**" />
     <Page Remove="Constants\**" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\animoe_logo.png" />
-    <None Remove="Assets\benner_2.jpg" />
-    <None Remove="Assets\cover.jpg" />
-    <None Remove="Assets\emptyList.json" />
-    <None Remove="Assets\like-filled.svg" />
-    <None Remove="Assets\profile_banner.jpg" />
-    <None Remove="Assets\Window-Icon.ico" />
-    <None Remove="Controls\ActivityCards\ListActivityCard.xaml" />
-    <None Remove="Controls\ActivityCards\MessageActivityCard.xaml" />
-    <None Remove="Controls\ActivityCards\TextActivityCard.xaml" />
-    <None Remove="Controls\CharacterListView.xaml" />
-    <None Remove="Controls\CharacterViewControls\AnimeListControl.xaml" />
-    <None Remove="Controls\MediaOverviewView.xaml" />
-    <None Remove="Controls\MediaSideViewControl.xaml" />
-    <None Remove="Controls\MediaViewShimmer.xaml" />
-    <None Remove="Controls\ReviewListView.xaml" />
-    <None Remove="Controls\SettingsViewControls\UpdateDialog.xaml" />
-    <None Remove="Controls\StaffListView.xaml" />
-    <None Remove="Controls\StatsPage.xaml" />
-    <None Remove="Controls\UserViewControls\UserOverviewPage.xaml" />
-    <None Remove="Controls\UserViewControls\UserStatsPage.xaml" />
-    <None Remove="Dialogs\ActivityEditorDialog.xaml" />
-    <None Remove="Dialogs\ActivityEditorDialogControls\EditorPage.xaml" />
-    <None Remove="Dialogs\ActivityEditorDialogControls\PreviewPage.xaml" />
-    <None Remove="Dialogs\ExploreViewFilterDialog.xaml" />
-    <None Remove="Dialogs\MediaListFliterView.xaml" />
-    <None Remove="Styles\LayoutStyles.xaml" />
-    <None Remove="Styles\TextStyles.xaml" />
-    <None Remove="Views\AnimeListView.xaml" />
-    <None Remove="Views\CharacterView.xaml" />
-    <None Remove="Views\ExploreView.xaml" />
-    <None Remove="Views\LoginView.xaml" />
-    <None Remove="Views\MangaListView.xaml" />
-    <None Remove="Views\MediaView.xaml" />
-    <None Remove="Views\NotImplementedPage.xaml" />
-    <None Remove="Views\ReviewView.xaml" />
-    <None Remove="Views\RootWindow.xaml" />
-    <None Remove="Views\SettingsPages\AboutPage.xaml" />
-    <None Remove="Views\SettingsView.xaml" />
-    <None Remove="Views\SplashView.xaml" />
-    <None Remove="Views\StaffView.xaml" />
-    <None Remove="Views\UserView.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />

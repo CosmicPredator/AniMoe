@@ -20,178 +20,178 @@
         <ResourceDictionary>
             <converters:UpperToCultureStringConverter x:Key="UpperToCulture" />
             <DataTemplate x:Key="AnimeMangaDataTemplate" x:DataType="MediaModel:AnimeManga">
-                <Grid
-                    x:Name="MasterGrid"
-                    Padding="3"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    Canvas.ZIndex="1"
-                    CornerRadius="8"
-                    PointerEntered="MasterGrid_PointerEntered"
-                    PointerExited="MasterGrid_PointerExited"
-                    PointerPressed="MasterGrid_PointerPressed"
-                    Tag="{x:Bind Id}">
-                    <Grid.Shadow>
-                        <ThemeShadow />
-                    </Grid.Shadow>
-                    <Grid.TranslationTransition>
-                        <Vector3Transition />
-                    </Grid.TranslationTransition>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="6*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <toolkit:ImageEx
-                        Grid.Row="0"
-                        Margin="10"
-                        CornerRadius="5"
-                        IsCacheEnabled="True"
-                        Source="{x:Bind CoverImage.Large}"
-                        Stretch="UniformToFill" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="10,2"
-                        FontSize="15"
-                        FontWeight="Medium"
-                        MaxLines="2"
-                        Text="{x:Bind Title.UserPreferred}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="Wrap"
-                        ToolTipService.ToolTip="{x:Bind Title.UserPreferred}" />
-                </Grid>
-            </DataTemplate>
-            <DataTemplate x:Key="CharacterDataTemplate" x:DataType="CharacterModel:Character">
-                <Grid
-                    Name="{x:Bind TypeName}"
-                    Padding="3"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    Canvas.ZIndex="1"
-                    CornerRadius="8"
-                    PointerEntered="MasterGrid_PointerEntered"
-                    PointerExited="MasterGrid_PointerExited"
-                    PointerPressed="CharacterGrid_PointerPressed"
-                    Tag="{x:Bind Id}">
-                    <Grid.Shadow>
-                        <ThemeShadow />
-                    </Grid.Shadow>
-                    <Grid.TranslationTransition>
-                        <Vector3Transition />
-                    </Grid.TranslationTransition>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="6*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <toolkit:ImageEx
-                        Grid.Row="0"
-                        Margin="10"
-                        CornerRadius="5"
-                        IsCacheEnabled="True"
-                        Source="{x:Bind Image.Large}"
-                        Stretch="UniformToFill" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="10,2"
-                        FontSize="15"
-                        FontWeight="Medium"
-                        MaxLines="2"
-                        Text="{x:Bind Name.UserPreferred}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="Wrap"
-                        ToolTipService.ToolTip="{x:Bind Name.UserPreferred}" />
-                </Grid>
-            </DataTemplate>
-            <DataTemplate x:Key="ReviewDataTemplate" x:DataType="ReviewModel:Review">
-                <Grid
-                    x:Name="ReviewGrid"
-                    Padding="3"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    Canvas.ZIndex="1"
-                    CornerRadius="8"
-                    PointerEntered="MasterGrid_PointerEntered"
-                    PointerExited="MasterGrid_PointerExited"
-                    PointerPressed="ReviewGrid_PointerPressed"
-                    Tag="{x:Bind Id}">
-                    <Grid.Shadow>
-                        <ThemeShadow />
-                    </Grid.Shadow>
-                    <Grid.TranslationTransition>
-                        <Vector3Transition />
-                    </Grid.TranslationTransition>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <toolkit:ImageEx
-                        Grid.Row="0"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        CornerRadius="5"
-                        IsCacheEnabled="True"
-                        Source="{x:Bind Media.BannerImage}"
-                        Stretch="UniformToFill" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="10,2"
-                        FontSize="15"
-                        FontWeight="Medium"
-                        MaxLines="2"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="Wrap">
-                        <Run Text="Review Of" />
-                        <Run Text="{x:Bind Media.Title.UserPreferred}" />
-                        <Run Text="by" />
-                        <Run Text="{x:Bind User.Name}" />
-                        <ToolTipService.ToolTip>
-                            <TextBlock TextWrapping="WrapWholeWords">
-                                <Run Text="Review Of" />
-                                <Run Text="{x:Bind Media.Title.UserPreferred}" />
-                                <Run Text="by" />
-                                <Run Text="{x:Bind User.Name}" />
-                            </TextBlock>
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                <ItemContainer CornerRadius="8">
                     <Grid
-                        Grid.Row="2"
-                        Margin="10,10"
-                        ColumnSpacing="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                        x:Name="MasterGrid"
+                        Padding="3"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        Canvas.ZIndex="1"
+                        CornerRadius="8"
+                        PointerPressed="MasterGrid_PointerPressed"
+                        Tag="{x:Bind Id}">
+                        <Grid.Shadow>
+                            <ThemeShadow />
+                        </Grid.Shadow>
+                        <Grid.TranslationTransition>
+                            <Vector3Transition />
+                        </Grid.TranslationTransition>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <toolkit:ImageEx
+                            Grid.Row="0"
+                            Margin="10"
+                            CornerRadius="5"
+                            IsCacheEnabled="True"
+                            Source="{x:Bind CoverImage.Large}"
+                            Stretch="UniformToFill" />
                         <TextBlock
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            FontStyle="Italic"
+                            Grid.Row="1"
+                            Margin="10,2"
+                            FontSize="15"
+                            FontWeight="Medium"
                             MaxLines="2"
-                            Opacity="0.7"
-                            Text="{x:Bind Summary}"
+                            Text="{x:Bind Title.UserPreferred}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap"
-                            ToolTipService.ToolTip="{x:Bind Summary}" />
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                <Viewbox Stretch="Uniform">
-                                    <Canvas Width="24" Height="24">
-                                        <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z" Fill="{ThemeResource TextFillColorPrimaryBrush}" />
-                                    </Canvas>
-                                </Viewbox>
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind Rating}" />
-                            </StackPanel>
-                        </StackPanel>
+                            ToolTipService.ToolTip="{x:Bind Title.UserPreferred}" />
                     </Grid>
-                </Grid>
+                </ItemContainer>
+            </DataTemplate>
+            <DataTemplate x:Key="CharacterDataTemplate" x:DataType="CharacterModel:Character">
+                <ItemContainer CornerRadius="8">
+                    <Grid
+                        Name="{x:Bind TypeName}"
+                        Padding="3"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        Canvas.ZIndex="1"
+                        CornerRadius="8"
+                        PointerPressed="CharacterGrid_PointerPressed"
+                        Tag="{x:Bind Id}">
+                        <Grid.Shadow>
+                            <ThemeShadow />
+                        </Grid.Shadow>
+                        <Grid.TranslationTransition>
+                            <Vector3Transition />
+                        </Grid.TranslationTransition>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="6*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <toolkit:ImageEx
+                            Grid.Row="0"
+                            Margin="10"
+                            CornerRadius="5"
+                            IsCacheEnabled="True"
+                            Source="{x:Bind Image.Large}"
+                            Stretch="UniformToFill" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="10,2"
+                            FontSize="15"
+                            FontWeight="Medium"
+                            MaxLines="2"
+                            Text="{x:Bind Name.UserPreferred}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap"
+                            ToolTipService.ToolTip="{x:Bind Name.UserPreferred}" />
+                    </Grid>
+                </ItemContainer>
+            </DataTemplate>
+            <DataTemplate x:Key="ReviewDataTemplate" x:DataType="ReviewModel:Review">
+                <ItemContainer CornerRadius="8">
+                    <Grid
+                        x:Name="ReviewGrid"
+                        Padding="3"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        Canvas.ZIndex="1"
+                        CornerRadius="8"
+                        PointerPressed="ReviewGrid_PointerPressed"
+                        Tag="{x:Bind Id}">
+                        <Grid.Shadow>
+                            <ThemeShadow />
+                        </Grid.Shadow>
+                        <Grid.TranslationTransition>
+                            <Vector3Transition />
+                        </Grid.TranslationTransition>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <toolkit:ImageEx
+                            Grid.Row="0"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            CornerRadius="5"
+                            IsCacheEnabled="True"
+                            Source="{x:Bind Media.BannerImage}"
+                            Stretch="UniformToFill" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="10,2"
+                            FontSize="15"
+                            FontWeight="Medium"
+                            MaxLines="2"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap">
+                            <Run Text="Review Of" />
+                            <Run Text="{x:Bind Media.Title.UserPreferred}" />
+                            <Run Text="by" />
+                            <Run Text="{x:Bind User.Name}" />
+                            <ToolTipService.ToolTip>
+                                <TextBlock TextWrapping="WrapWholeWords">
+                                    <Run Text="Review Of" />
+                                    <Run Text="{x:Bind Media.Title.UserPreferred}" />
+                                    <Run Text="by" />
+                                    <Run Text="{x:Bind User.Name}" />
+                                </TextBlock>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                        <Grid
+                            Grid.Row="2"
+                            Margin="10,10"
+                            ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontStyle="Italic"
+                                MaxLines="2"
+                                Opacity="0.7"
+                                Text="{x:Bind Summary}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap"
+                                ToolTipService.ToolTip="{x:Bind Summary}" />
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <Viewbox Stretch="Uniform">
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M15.057 9.004c.46-1.427.693-2.676.693-3.753 0-2.399-.939-4.248-2.5-4.248-.847 0-1.109.505-1.437 1.747.017-.065-.163.634-.215.821-.101.36-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.175 9.953A5.885 5.885 0 0 1 5.32 12.28l-1.257.481a1.75 1.75 0 0 0-1.092 1.968l.686 3.538a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.429h-3.165Z" Fill="{ThemeResource TextFillColorPrimaryBrush}" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind Rating}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </ItemContainer>
             </DataTemplate>
             <converters:ExploreDataTemplateSelector
                 x:Key="DtTemplateSelector"
@@ -210,7 +210,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ChildrenTransitions>
-            <EntranceThemeTransition />
+            <TransitionCollection>
+                <EntranceThemeTransition />
+            </TransitionCollection>
         </Grid.ChildrenTransitions>
         <TextBlock
             Margin="0,30,0,0"
@@ -280,7 +282,9 @@
                 <Grid>
                     <ItemsRepeater x:Name="MasterItemsRepeater" ItemTemplate="{StaticResource DtTemplateSelector}">
                         <ItemsRepeater.Transitions>
-                            <EntranceThemeTransition IsStaggeringEnabled="True" />
+                            <TransitionCollection>
+                                <EntranceThemeTransition />
+                            </TransitionCollection>
                         </ItemsRepeater.Transitions>
                         <ItemsRepeater.Layout>
                             <UniformGridLayout
