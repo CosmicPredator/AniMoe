@@ -40,7 +40,8 @@ namespace AniMoe.App.ViewModels
         public async void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
             var ins = Application.Current as App;
-            if (args.WindowActivationState == WindowActivationState.CodeActivated)
+            if (args.WindowActivationState == WindowActivationState.CodeActivated && 
+                args.WindowActivationState != WindowActivationState.PointerActivated)
             {
                 if (_localSettings.IsSettingExists("accessToken"))
                     await LoadFromApi();

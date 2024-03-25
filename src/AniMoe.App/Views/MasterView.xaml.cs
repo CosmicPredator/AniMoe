@@ -35,6 +35,9 @@ namespace AniMoe.App.Views
             Debug.WriteLine(selected.Name);
             switch (selected.Name)
             {
+                case "HomeSection":
+                    PrimaryFrame.Navigate(typeof(NotImplementedPage), null);
+                    break;
                 case "AnimeListSection":
                     PrimaryFrame.Navigate(typeof(AnimeListView), null);
                     break;
@@ -46,9 +49,14 @@ namespace AniMoe.App.Views
                     break;
                 case "NotificationSection":
                     NotificationBadge.Opacity = 0;
+                    PrimaryFrame.Navigate(typeof(NotImplementedPage), null);
                     break;
                 case "UserSection":
+#if DEBUG
                     PrimaryFrame.Navigate(typeof(UserView), null);
+#elif RELEASE
+                    PrimaryFrame.Navigate(typeof(NotImplementedPage), null);
+#endif
                     break;
                 case "SettingsItem":
                     PrimaryFrame.Navigate(typeof(SettingsView), null);

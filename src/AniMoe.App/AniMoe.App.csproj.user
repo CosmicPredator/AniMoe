@@ -23,6 +23,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\NotImplementedPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\SplashView.xaml">
       <SubType>Designer</SubType>
     </Page>

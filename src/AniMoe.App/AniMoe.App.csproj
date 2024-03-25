@@ -68,6 +68,7 @@
     <None Remove="Views\LoginView.xaml" />
     <None Remove="Views\MangaListView.xaml" />
     <None Remove="Views\MediaView.xaml" />
+    <None Remove="Views\NotImplementedPage.xaml" />
     <None Remove="Views\ReviewView.xaml" />
     <None Remove="Views\RootWindow.xaml" />
     <None Remove="Views\SettingsPages\AboutPage.xaml" />
@@ -209,6 +210,9 @@
     <None Update="Assets\profile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\NotImplementedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\SplashView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
