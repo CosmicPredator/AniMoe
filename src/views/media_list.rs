@@ -45,7 +45,7 @@ impl MediaListPage {
                     let text = state.read(cx).value();
                     println!("Input changed: {}", text);
                 }
-                InputEvent::PressEnter { secondary } => {
+                InputEvent::PressEnter { secondary, shift } => {
                     println!("Enter pressed, secondary: {}", secondary);
                 }
                 InputEvent::Focus => println!("Input focused"),

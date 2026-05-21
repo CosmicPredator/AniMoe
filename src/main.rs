@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use gpui::{
-    App, AppContext, Application, Bounds, SharedString, TitlebarOptions, WindowBounds,
+    App, AppContext, Bounds, SharedString, TitlebarOptions, WindowBounds,
     WindowOptions, px, size,
 };
 use gpui_component::{Root, Theme, ThemeRegistry};
@@ -18,15 +18,15 @@ mod views;
 pub fn init_theme(cx: &mut App) {
     let theme_name = SharedString::from("macOS Classic Dark");
     // Load and watch themes from ./themes directory
-    if let Err(_) = ThemeRegistry::watch_dir(PathBuf::from("./themes"), cx, move |cx| {
+    if ThemeRegistry::watch_dir(PathBuf::from("./themes"), cx, move |cx| {
         if let Some(theme) = ThemeRegistry::global(cx).themes().get(&theme_name).cloned() {
             Theme::global_mut(cx).apply_config(&theme);
         }
-    }) {}
+    }).is_err() {}
 }
 
 fn main() {
-    Application::new().with_assets(Assets).run(move |cx| {
+    gpui_platform::application().with_assets(Assets).run(move |cx| {
         let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
         let window_options = WindowOptions {
             window_bounds: Some(WindowBounds::Windowed(bounds)),

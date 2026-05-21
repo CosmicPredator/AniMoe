@@ -1,4 +1,4 @@
-use gpui::{Context, IntoElement};
+use gpui::{Context, IntoElement, ParentElement, div};
 use gpui_component::{
     Icon, Side, sidebar::{Sidebar, SidebarGroup, SidebarMenu, SidebarMenuItem}
 };
@@ -7,7 +7,8 @@ use crate::{states::home::Page, views::master::{MasterView}};
 
 impl MasterView {
     pub fn navbar(&self, current_page: Page, cx: &mut Context<Self>) -> impl IntoElement {
-        Sidebar::new(Side::Left)
+        Sidebar::new("sidebar-1")
+            .side(Side::Left)
             .collapsible(true)
             .child(
                 SidebarGroup::new("Navigation").child(
@@ -59,31 +60,6 @@ impl MasterView {
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Notifications);
-                                    })
-                                })),
-                        ),
-                ),
-            )
-            .footer(
-                SidebarGroup::new("User Area").child(
-                    SidebarMenu::new()
-                        .child(
-                            SidebarMenuItem::new("CosmicPredator")
-                                .active(current_page.clone() == Page::User)
-                                .icon(Icon::empty().path("./assets/user.svg"))
-                                .on_click(cx.listener(|this, _, _, cx| {
-                                    this.state.update(cx, |this, cx| {
-                                        this.change_page(cx, Page::User);
-                                    })
-                                })),
-                        )
-                        .child(
-                            SidebarMenuItem::new("Settings")
-                                .active(current_page.clone() == Page::Settings)
-                                .icon(Icon::empty().path("./assets/bolt.svg"))
-                                .on_click(cx.listener(|this, _, _, cx| {
-                                    this.state.update(cx, |this, cx| {
-                                        this.change_page(cx, Page::Settings);
                                     })
                                 })),
                         ),
