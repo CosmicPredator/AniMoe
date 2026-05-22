@@ -1,22 +1,27 @@
 
+use std::ops::Range;
+
 use gpui::{
-    AppContext, Context, IntoElement, ParentElement, Render, Styled,
-    StyledImage, TextOverflow, Window, div, img, px,
+    AppContext, Context, InteractiveElement, IntoElement, ParentElement, Render, Styled, StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img, px, uniform_list
 };
 use gpui_component::{
-    Icon, StyledExt,
-    button::{Button, ButtonVariants},
-    input::{Input, InputState},
-    scroll::ScrollableElement,
-    select::{Select, SelectState}, v_virtual_list,
+    Icon, StyledExt, button::{Button, ButtonVariants}, h_flex, input::{Input, InputState}, select::{Select, SelectState}
 };
 
+const CARD_WIDTH: f32 = 120.;
+const CARD_GAP: f32 = 10.0;
 
-pub struct MediaListPage {}
+pub struct MediaListPage {
+    scroll: UniformListScrollHandle,
+    anime: Vec<i32>,
+}
 
 impl MediaListPage {
     pub fn new(_cx: &mut Context<Self>, _window: &mut Window) -> Self {
-        Self { }
+        Self {
+            scroll: UniformListScrollHandle::new(),
+            anime: (0..1000).collect()
+        }
     }
 }
 
@@ -26,6 +31,14 @@ impl Render for MediaListPage {
         window: &mut gpui::Window,
         cx: &mut gpui::prelude::Context<Self>,
     ) -> impl gpui::prelude::IntoElement {
+        let avail_width = window.bounds().size.width.as_f32() - 80. - 255.;
+        let columns = ((avail_width + CARD_GAP) / (CARD_WIDTH + CARD_GAP))
+            .floor()
+            .max(1.0) as usize;
+
+        println!("avail_width: {}, cols: {}", avail_width, columns);
+        let row_count = self.anime.len().div_ceil(columns);
+        
         div()
             .v_flex()
             .size_full()
@@ -36,14 +49,41 @@ impl Render for MediaListPage {
             .child(div().text_3xl().font_semibold().child("Anime List"))
             .child(self.tool_bar(cx, window))
             .child(
-                div()
-                    .h_flex()
-                    .flex_wrap()
-                    .justify_center()
-                    .overflow_y_scrollbar()
-                    .gap_2()
-                    .children((0..50).map(|ix| self.media_card(ix))),
+                uniform_list(
+                    "media-list",
+                    row_count,
+                    cx.processor(move |this, range: Range<usize>, _, _cx| {
+                        range
+                            .map(|ix| {
+                                let start = ix * columns;
+                                let end = (start + columns).min(this.anime.len());
+
+                                h_flex()
+                                    .id(format!("media-card-{}", ix))
+                                    .gap(px(CARD_GAP))
+                                    .pb(px(CARD_GAP))
+                                    .w_full()
+                                    .justify_center()
+                                    .children(
+                                        this.anime[start..end]
+                                            .iter()
+                                            .map(|id| {
+                                                MediaListPage::media_card(*id as usize)
+                                            })
+                                    )
+                            }).collect::<Vec<_>>()
+                    })
+                ).h_full().track_scroll(&self.scroll)
             )
+            // .child(
+            //     div()
+            //         .h_flex()
+            //         .flex_wrap()
+            //         .justify_center()
+            //         .overflow_y_scrollbar()
+            //         .gap_2()
+            //         .children((0..50).map(|ix| MediaListPage::media_card(ix))),
+            // )
     }
 }
 
@@ -89,7 +129,7 @@ impl MediaListPage {
             )
     }
 
-    fn media_card(&self, ix: usize) -> impl IntoElement {
+    fn media_card(ix: usize) -> impl IntoElement {
         div()
             .w(px(120.))
             .rounded_sm()
@@ -135,7 +175,8 @@ impl MediaListPage {
                                     .bg(gpui::green())
                                     .rounded_full(),
                             ),
-                    ),
+                    )
+                    .child(div().h(px(5.0))),
             )
     }
 }
