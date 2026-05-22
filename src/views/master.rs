@@ -3,17 +3,22 @@ use gpui::{
 };
 use gpui_component::StyledExt;
 
-use crate::{states::home::HomeState, views::media_list::MediaListPage};
+use crate::{states::master::MasterState, views::media_list::MediaListPage};
 
 pub struct MasterView {
-    pub state: Entity<HomeState>,
+    pub state: Entity<MasterState>,
     pub ml_page: Entity<MediaListPage>
 }
 
 impl MasterView {
     pub fn new(cx: &mut Context<Self>, window: &mut Window) -> Self {
+        let master_state = cx.new(|_| MasterState::new());        
+        master_state.update(cx, |this, cx| {
+            this.fetch_viewer(cx);
+        });
+        
         Self {
-            state: cx.new(|_| HomeState::new()),
+            state: master_state,
             ml_page: cx.new(|cx| MediaListPage::new(cx, window))
         }
     }

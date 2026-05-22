@@ -1,11 +1,15 @@
-
 use std::ops::Range;
 
 use gpui::{
-    AppContext, Context, InteractiveElement, IntoElement, ParentElement, Render, Styled, StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img, px, uniform_list
+    AppContext, Context, InteractiveElement, IntoElement, ParentElement, Render, Styled,
+    StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img, px, uniform_list,
 };
 use gpui_component::{
-    Icon, StyledExt, button::{Button, ButtonVariants}, h_flex, input::{Input, InputState}, select::{Select, SelectState}
+    Icon, StyledExt,
+    button::{Button, ButtonVariants},
+    h_flex,
+    input::{Input, InputState},
+    select::{Select, SelectState},
 };
 
 const CARD_WIDTH: f32 = 120.;
@@ -20,7 +24,7 @@ impl MediaListPage {
     pub fn new(_cx: &mut Context<Self>, _window: &mut Window) -> Self {
         Self {
             scroll: UniformListScrollHandle::new(),
-            anime: (0..1000).collect()
+            anime: (0..100).collect(),
         }
     }
 }
@@ -30,15 +34,7 @@ impl Render for MediaListPage {
         &mut self,
         window: &mut gpui::Window,
         cx: &mut gpui::prelude::Context<Self>,
-    ) -> impl gpui::prelude::IntoElement {
-        let avail_width = window.bounds().size.width.as_f32() - 80. - 255.;
-        let columns = ((avail_width + CARD_GAP) / (CARD_WIDTH + CARD_GAP))
-            .floor()
-            .max(1.0) as usize;
-
-        println!("avail_width: {}, cols: {}", avail_width, columns);
-        let row_count = self.anime.len().div_ceil(columns);
-        
+    ) -> impl gpui::prelude::IntoElement {        
         div()
             .v_flex()
             .size_full()
@@ -48,55 +44,17 @@ impl Render for MediaListPage {
             .gap(px(20.))
             .child(div().text_3xl().font_semibold().child("Anime List"))
             .child(self.tool_bar(cx, window))
-            .child(
-                uniform_list(
-                    "media-list",
-                    row_count,
-                    cx.processor(move |this, range: Range<usize>, _, _cx| {
-                        range
-                            .map(|ix| {
-                                let start = ix * columns;
-                                let end = (start + columns).min(this.anime.len());
-
-                                h_flex()
-                                    .id(format!("media-card-{}", ix))
-                                    .gap(px(CARD_GAP))
-                                    .pb(px(CARD_GAP))
-                                    .w_full()
-                                    .justify_center()
-                                    .children(
-                                        this.anime[start..end]
-                                            .iter()
-                                            .map(|id| {
-                                                MediaListPage::media_card(*id as usize)
-                                            })
-                                    )
-                            }).collect::<Vec<_>>()
-                    })
-                ).h_full().track_scroll(&self.scroll)
-            )
-            // .child(
-            //     div()
-            //         .h_flex()
-            //         .flex_wrap()
-            //         .justify_center()
-            //         .overflow_y_scrollbar()
-            //         .gap_2()
-            //         .children((0..50).map(|ix| MediaListPage::media_card(ix))),
-            // )
+            .child(self.media_list(cx, window))
     }
 }
 
 impl MediaListPage {
+
+    // top tool bar which contains search and filter buttons
     fn tool_bar(&self, cx: &mut Context<Self>, window: &mut Window) -> impl IntoElement {
         let input_state = cx.new(|cx| InputState::new(window, cx).placeholder("Search anime..."));
-        let select_state = cx.new(|cx| SelectState::new(
-            vec!["hello", "world"],
-            None,
-            window,
-            cx
-        ));
-        
+        let select_state = cx.new(|cx| SelectState::new(vec!["hello", "world"], None, window, cx));
+    
         div()
             .w_full()
             .h_flex()
@@ -129,54 +87,92 @@ impl MediaListPage {
             )
     }
 
-    fn media_card(ix: usize) -> impl IntoElement {
-        div()
-            .w(px(120.))
-            .rounded_sm()
-            .bg(gpui::opaque_grey(0.3, 0.3))
-            .p(px(5.0))
-            .child(
-                div()
-                    .v_flex()
-                    .size_full()
-                    .child(
-                        div().rounded_sm().h(px(170.)).child(
-                            img("./assets/cover.jpg")
-                                .size_full()
-                                .rounded_sm()
-                                .object_fit(gpui::ObjectFit::Contain),
-                        ),
-                    )
-                    .child(
-                        div()
-                            .text_sm()
-                            .text_overflow(TextOverflow::Truncate("...".into()))
-                            .child("The Ramparts of Ice"),
-                    )
-                    .child(div().text_size(px(10.0)).child("Tv Show • 1 Ep Behind"))
-                    .child(div().h(px(10.0)))
-                    .child(
-                        div()
-                            .h_flex()
-                            .justify_between()
-                            .child(
-                                Button::new(format!("add-btn-{}", ix))
-                                    .compact()
-                                    .rounded_sm()
-                                    .h(px(20.0))
-                                    .text_xs()
-                                    .primary()
-                                    .child(div().text_xs().child("2 / 12 +")),
+    // actual media uniform list
+    fn media_list(&self, cx: &mut Context<Self>, window: &mut Window) -> impl IntoElement {
+        let avail_width = window.bounds().size.width.as_f32() - 80. - 255.;
+        let columns = ((avail_width + CARD_GAP) / (CARD_WIDTH + CARD_GAP))
+            .floor()
+            .max(1.0) as usize;
+
+        let row_count = self.anime.len().div_ceil(columns);
+        
+        uniform_list(
+            "media-list",
+            row_count,
+            cx.processor(move |this, range: Range<usize>, _, _cx| {
+                range
+                    .map(|ix| {
+                        let start = ix * columns;
+                        let end = (start + columns).min(this.anime.len());
+    
+                        h_flex()
+                            .id(format!("media-card-{}", ix))
+                            .gap(px(CARD_GAP))
+                            .pb(px(CARD_GAP))
+                            .w_full()
+                            .justify_center()
+                            .children(
+                                this.anime[start..end]
+                                    .iter()
+                                    .map(|id| media_card(*id as usize)),
                             )
-                            .child(
-                                div()
-                                    .h(px(15.0))
-                                    .w(px(15.0))
-                                    .bg(gpui::green())
-                                    .rounded_full(),
-                            ),
-                    )
-                    .child(div().h(px(5.0))),
-            )
+                    })
+                    .collect::<Vec<_>>()
+            }),
+        )
+        .h_full()
+        .track_scroll(&self.scroll)
     }
+}
+
+// media list card component
+fn media_card(ix: usize) -> impl IntoElement {
+    div()
+        .w(px(120.))
+        .rounded_sm()
+        .bg(gpui::opaque_grey(0.3, 0.3))
+        .p(px(5.0))
+        .child(
+            div()
+                .v_flex()
+                .size_full()
+                .child(
+                    div().rounded_sm().h(px(170.)).child(
+                        img("./assets/cover.jpg")
+                            .size_full()
+                            .rounded_sm()
+                            .object_fit(gpui::ObjectFit::Contain),
+                    ),
+                )
+                .child(
+                    div()
+                        .text_sm()
+                        .text_overflow(TextOverflow::Truncate("...".into()))
+                        .child("The Ramparts of Ice"),
+                )
+                .child(div().text_size(px(10.0)).child("Tv Show • 1 Ep Behind"))
+                .child(div().h(px(10.0)))
+                .child(
+                    div()
+                        .h_flex()
+                        .justify_between()
+                        .child(
+                            Button::new(format!("add-btn-{}", ix))
+                                .compact()
+                                .rounded_sm()
+                                .h(px(20.0))
+                                .text_xs()
+                                .primary()
+                                .child(div().text_xs().child("2 / 12 +")),
+                        )
+                        .child(
+                            div()
+                                .h(px(15.0))
+                                .w(px(15.0))
+                                .bg(gpui::green())
+                                .rounded_full(),
+                        ),
+                )
+                .child(div().h(px(5.0))),
+        )
 }

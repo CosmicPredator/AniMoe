@@ -5,10 +5,11 @@ use gpui_component::{
     v_flex,
 };
 
-use crate::{states::home::Page, views::master::MasterView};
+use crate::{states::master::Page, views::master::MasterView};
 
 impl MasterView {
     pub fn navbar(&self, current_page: Page, cx: &mut Context<Self>) -> impl IntoElement {
+        let viewer = self.state.read(cx);
         Sidebar::new("sidebar-1")
             .side(Side::Left)
             .collapsible(true)
@@ -66,14 +67,25 @@ impl MasterView {
                                 })),
                         )
                         .child(
-                            SidebarMenuItem::new("Cosmic Predator")
-                                .active(current_page == Page::User)
-                                .icon(Icon::empty().path("./assets/user.svg"))
-                                .on_click(cx.listener(|this, _, _, cx| {
-                                    this.state.update(cx, |this, cx| {
-                                        this.change_page(cx, Page::Explore);
-                                    })
-                                })),
+                            if let Some(ref viewer) = viewer.viewer {
+                                SidebarMenuItem::new(viewer.name.clone())
+                                    .active(current_page == Page::User)
+                                    .icon(Icon::empty().path("./assets/user.svg"))
+                                    .on_click(cx.listener(|this, _, _, cx| {
+                                        this.state.update(cx, |this, cx| {
+                                            this.change_page(cx, Page::User);
+                                        })
+                                    }))
+                            } else {
+                                SidebarMenuItem::new("Loading...")
+                                    .active(current_page == Page::User)
+                                    .icon(Icon::empty().path("./assets/user.svg"))
+                                    .on_click(cx.listener(|this, _, _, cx| {
+                                        this.state.update(cx, |this, cx| {
+                                            this.change_page(cx, Page::User);
+                                        })
+                                    }))
+                            }
                         )
                         .child(
                             SidebarMenuItem::new("Settings")
@@ -81,7 +93,7 @@ impl MasterView {
                                 .icon(Icon::empty().path("./assets/bolt.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
-                                        this.change_page(cx, Page::Notifications);
+                                        this.change_page(cx, Page::Settings);
                                     })
                                 })),
                         )

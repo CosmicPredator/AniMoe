@@ -7,7 +7,7 @@ use gpui::{
 use gpui_component::{Root, Theme, ThemeRegistry};
 
 use crate::{
-    assets::Assets, views::master::MasterView
+    assets::Assets, states::master::MasterState, views::master::MasterView
 };
 
 mod assets;
@@ -38,6 +38,7 @@ fn main() {
             ..Default::default()
         };
 
+        gpui_tokio::init(cx);
         gpui_component::init(cx);
         init_theme(cx);
 
