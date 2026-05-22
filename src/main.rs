@@ -14,6 +14,7 @@ mod assets;
 mod states;
 mod utils;
 mod views;
+mod anilist;
 
 pub fn init_theme(cx: &mut App) {
     let theme_name = SharedString::from("macOS Classic Dark");
@@ -49,3 +50,7 @@ fn main() {
         cx.activate(true);
     });
 }
+
+// fn main() {
+//     println!("{}", gpui::guess_compositor())
+// }
