@@ -1,43 +1,87 @@
 use std::{env, time::Duration};
 
-use anyhow::Ok;
-use reqwest::{Client, header::{HeaderMap, HeaderValue}};
-use serde_json::json;
+use anyhow::{Context, anyhow};
+use gpui::Global;
+use log::debug;
+use reqwest::{
+    StatusCode,
+    header::{AUTHORIZATION, HeaderMap, HeaderValue},
+};
+use serde::de::DeserializeOwned;
+use serde_json::{Value, json};
 
-use crate::{anilist::{queries::viewer_query, viewer::ViewerResponse}, utils::constants::AL_URL};
+use crate::{
+    anilist::{queries::viewer_query, viewer::ViewerResponse},
+    utils::constants::AL_URL,
+};
 
-
+#[derive(Clone)]
 pub struct AniList {
-    client: Client
+    client: reqwest::Client,
 }
+
+impl Global for AniList {}
 
 impl AniList {
     pub fn new() -> anyhow::Result<Self> {
-        let mut headers = HeaderMap::new();
-        let access_token = format!("Bearer {}", env::var("AL_ACCESS_TOKEN").unwrap());
-        headers.append("Authorization", HeaderValue::from_str(&access_token).unwrap());
+        debug!("initializing http client");
+        let access_token = env::var("AL_ACCESS_TOKEN");
+        if access_token.is_err() {
+            return Err(anyhow!("failed to fetch access token"));
+        } 
         
-        let client = Client::builder()
-                .timeout(Duration::from_secs(10))
-                .default_headers(headers)
-                .user_agent("AniMoe")
-                .build()?;
+        let mut headers = HeaderMap::new();
+        let access_token = format!("Bearer {}", access_token.unwrap());
+        headers.append(
+            AUTHORIZATION,
+            HeaderValue::from_str(&access_token).unwrap(),
+        );
+
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(10))
+            .default_headers(headers)
+            .user_agent("AniMoe")
+            .build()?;
+        
         Ok(Self { client })
     }
 
-    pub async fn get_viewer(&self) -> anyhow::Result<ViewerResponse> {
+    async fn query<T>(&self, query: &str, variables: Option<Value>) -> anyhow::Result<T>
+    where
+        T: DeserializeOwned,
+    {
         let body = json!({
-            "query": viewer_query(),
-            "variables": {}
+            "query": query,
+            "variables": variables
         });
 
-        let response = self.client
-            .post(AL_URL)
-            .json(&body)
-            .send()
-            .await?;
+        debug!("trying to fetch anilist for query: {}, variables: {:?}", query, variables);
+        let response = self.client.post(AL_URL).json(&body).send().await;
 
-        let data: ViewerResponse = response.json().await?;
+        match response {
+            Ok(result) => {
+                let deserialized = result
+                    .json::<T>()
+                    .await
+                    .context(format!("failed to deserialize json. query: {}", query))?;
+
+                Ok(deserialized)
+            }
+            Err(err) => {
+                Err(anyhow!(
+                    "failed to make http request. status code: {}",
+                    err.status().unwrap_or(StatusCode::INTERNAL_SERVER_ERROR)
+                ))
+            }
+        }
+    }
+
+    pub async fn get_viewer(&self) -> anyhow::Result<ViewerResponse> {
+        debug!("initiating viewer query");
+        let data: ViewerResponse = self
+            .query(viewer_query(), None)
+            .await
+            .context("failed to call Viewer query")?;
         Ok(data)
     }
 }

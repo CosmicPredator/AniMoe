@@ -5,9 +5,10 @@ use gpui::{
     WindowOptions, px, size,
 };
 use gpui_component::{Root, Theme, ThemeRegistry};
+use log::{debug, info};
 
 use crate::{
-    assets::Assets, states::master::MasterState, views::master::MasterView
+    anilist::client::AniList, assets::Assets, views::master::MasterView
 };
 
 mod assets;
@@ -26,7 +27,8 @@ pub fn init_theme(cx: &mut App) {
     }).is_err() {}
 }
 
-fn main() {
+fn run_app() {
+    
     gpui_platform::application().with_assets(Assets).run(move |cx| {
         let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
         let window_options = WindowOptions {
@@ -38,12 +40,18 @@ fn main() {
             ..Default::default()
         };
 
+        debug!("initializing tokio, gpui_component and theme");
         gpui_tokio::init(cx);
         gpui_component::init(cx);
         init_theme(cx);
 
+        let al_client = AniList::new().unwrap();
+        cx.set_global(al_client);
+
+        debug!("opening main window");
         cx.open_window(window_options, |window, cx| {
             //let root = cx.new(|cx| LoginView::new(cx));
+            debug!("creating master view");
             let root = cx.new(|cx| MasterView::new(cx, window));
             cx.new(|cx| Root::new(root, window, cx))
         })
@@ -52,6 +60,12 @@ fn main() {
     });
 }
 
-// fn main() {
-//     println!("{}", gpui::guess_compositor())
-// }
+fn main() {
+    dotenvy::dotenv().ok();
+    env_logger::init();
+    info!("loaded env file");
+
+    info!("starting application");
+    run_app();
+    info!("stopping application");
+}

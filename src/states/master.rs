@@ -1,6 +1,6 @@
-use anyhow::Ok;
-use gpui::{AsyncApp, Context, Global, WeakEntity, Window};
+use gpui::Context;
 use gpui_tokio::Tokio;
+use log::error;
 
 use crate::anilist::{client::AniList, viewer::Viewer};
 
@@ -28,25 +28,34 @@ impl MasterState {
         }
     }
 
-    pub fn change_page(&mut self, cx: &mut Context<Self>, item: Page) -> () {
+    pub fn change_page(&mut self, cx: &mut Context<Self>, item: Page) {
         self.current_page = item;
         cx.notify();
     }
 
     pub fn fetch_viewer(&mut self, cx: &mut Context<Self>) {
-        let fut = Tokio::spawn_result(cx, async {
-            let client = AniList::new()?;
-            let data = client.get_viewer().await?;
+        let al_client = cx.global::<AniList>().clone();
+        
+        let fut = Tokio::spawn_result(cx, async move {
+            let data = al_client.get_viewer().await?;
             Ok(data.data.viewer)
         });
 
         cx.spawn(async move |this, cx| {
-            let result = fut.await.unwrap();
-            if let Some(this) = this.upgrade() {
-                this.update(cx, |this, cx| {
-                    this.viewer = Some(result);
-                    cx.notify();
-                });
+            let result = fut.await;
+
+            match result {
+                Ok(result) => {
+                    if let Some(this) = this.upgrade() {
+                        this.update(cx, |this, cx| {
+                            this.viewer = Some(result);
+                            cx.notify();
+                        });
+                    }
+                },
+                Err(err) => {
+                    error!("failed to fetch viewer: {}", err);
+                }
             }
         }).detach();
     }
