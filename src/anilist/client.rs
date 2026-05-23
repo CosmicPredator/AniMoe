@@ -1,23 +1,23 @@
-use std::{env, time::Duration};
+use std::{env, str::Bytes, time::Duration};
 
 use anyhow::{Context, anyhow};
+use futures::TryFutureExt;
 use gpui::Global;
 use log::debug;
 use reqwest::{
-    StatusCode,
-    header::{AUTHORIZATION, HeaderMap, HeaderValue},
+    Response, StatusCode, header::{AUTHORIZATION, HeaderMap, HeaderValue}
 };
 use serde::de::DeserializeOwned;
 use serde_json::{Value, json};
 
 use crate::{
-    anilist::{queries::viewer_query, viewer::ViewerResponse},
-    utils::constants::AL_URL,
+    anilist::{media_list::MediaListResponse, queries::{media_list_query, viewer_query}, viewer::ViewerResponse},
+    utils::{constants::AL_URL, enums::MediaType},
 };
 
 #[derive(Clone)]
 pub struct AniList {
-    client: reqwest::Client,
+    pub client: reqwest::Client,
 }
 
 impl Global for AniList {}
@@ -76,12 +76,26 @@ impl AniList {
         }
     }
 
-    pub async fn get_viewer(&self) -> anyhow::Result<ViewerResponse> {
+    pub async fn fetch_viewer(&self) -> anyhow::Result<ViewerResponse> {
         debug!("initiating viewer query");
         let data: ViewerResponse = self
             .query(viewer_query(), None)
             .await
             .context("failed to call Viewer query")?;
+        Ok(data)
+    }
+
+    pub async fn fetch_anime_list(&self, user_id: i64, media_type: MediaType) -> anyhow::Result<MediaListResponse> {
+        debug!("initiating anime list query");
+        let variables = json!({
+            "id": user_id,
+            "type": media_type
+        });
+
+        let data = self
+            .query(media_list_query(), Some(variables))
+            .await
+            .context("failed to execute anime list query")?;
         Ok(data)
     }
 }

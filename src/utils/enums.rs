@@ -1,6 +1,9 @@
+use serde::Serialize;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+
+#[derive(Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde()]
 pub enum MediaType {
-    Anime,
-    Manga
+    ANIME,
+    MANGA
 }
