@@ -1,3 +1,4 @@
+use gpui::SharedString;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -23,8 +24,8 @@ pub struct MediaListCollection {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct List {
-    pub status: Option<String>,
-    pub name: String,
+    pub status: Option<SharedString>,
+    pub name: SharedString,
     pub is_custom_list: bool,
     pub entries: Vec<Entry>,
 }
@@ -45,7 +46,7 @@ pub struct Media {
     pub cover_image: CoverImage,
     pub title: Title,
     pub next_airing_episode: Option<NextAiringEpisode>,
-    pub format: Option<String>,
+    pub format: Option<SharedString>,
     pub episodes: Option<i64>,
     pub chapters: Value,
     pub volumes: Value,
@@ -54,13 +55,13 @@ pub struct Media {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CoverImage {
-    pub large: String,
+    pub large: SharedString,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Title {
-    pub user_preferred: String,
+    pub user_preferred: SharedString,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]

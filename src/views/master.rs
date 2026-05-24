@@ -5,6 +5,7 @@ use crate::{states::master::MasterState, views::media_list::MediaListPage};
 
 pub struct MasterView {
     pub state: Entity<MasterState>,
+    
     pub ml_page: Entity<MediaListPage>,
 }
 
@@ -14,14 +15,9 @@ impl MasterView {
         master_state.update(cx, |this, cx| {
             this.fetch_viewer(cx);
         });
-
-        let entry_list = master_state.read(cx).anime_list.clone();
+        
         let ml_page = cx.new(|cx| {
-            MediaListPage::new(
-                cx,
-                window,
-                master_state.clone()
-            )
+            MediaListPage::new(cx, window, master_state.clone())
         });
 
         Self {
