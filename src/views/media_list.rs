@@ -2,18 +2,11 @@ use std::ops::Range;
 
 use gpui::{
     App, AppContext, Context, Entity, InteractiveElement, IntoElement, ParentElement, Render,
-    SharedString, Styled, StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img, px,
-    uniform_list,
+    SharedString, Styled, StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img,
+    prelude::FluentBuilder, px, uniform_list,
 };
 use gpui_component::{
-    Icon, StyledExt,
-    button::{Button, ButtonVariants},
-    h_flex,
-    input::{Input, InputState},
-    progress::Progress,
-    scroll::ScrollableElement,
-    select::{Select, SelectState},
-    spinner::Spinner,
+    Disableable, Icon, StyledExt, button::{Button, ButtonVariants}, h_flex, input::{Input, InputState}, progress::Progress, scroll::ScrollableElement, select::{Select, SelectState}, spinner::Spinner
 };
 
 use crate::{
@@ -114,6 +107,8 @@ impl MediaListPage {
             .max(1.0) as usize;
 
         let anime_list = self.state.read(cx).selected_list.clone();
+        let current_status = self.state.read(cx).current_status.clone();
+
         if anime_list.is_none() {
             return div()
                 .size_full()
@@ -150,6 +145,7 @@ impl MediaListPage {
                                         if anime.media.next_airing_episode.is_none() {
                                             media_card(
                                                 anime.media_id as usize,
+                                                current_status.clone(),
                                                 anime.media.title.user_preferred.clone(),
                                                 anime.media.format.clone().unwrap_or("?".into()),
                                                 anime.media.episodes.unwrap_or_default(),
@@ -160,6 +156,7 @@ impl MediaListPage {
                                         } else {
                                             media_card(
                                                 anime.media_id as usize,
+                                                current_status.clone(),
                                                 anime.media.title.user_preferred.clone(),
                                                 anime.media.format.clone().unwrap_or("?".into()),
                                                 anime.media.episodes.unwrap_or_default(),
@@ -187,6 +184,7 @@ impl MediaListPage {
 // media list card component
 fn media_card(
     ix: usize,
+    status: SharedString,
     title: SharedString,
     format: SharedString,
     episodes: i64,
@@ -230,11 +228,25 @@ fn media_card(
                         .text_overflow(TextOverflow::Truncate("...".into()))
                         .child(title),
                 )
-                .child(div().text_size(px(10.0)).child(format!(
-                    "{} • {} Ep Behind",
-                    format,
-                    (next_airing_episode - progress).max(0)
-                )))
+                .when_else(
+                    status == "Watching",
+                    |this| {
+                        let text = if next_airing_episode != 0 {
+                            let ep_behind = (next_airing_episode - 1) - progress;
+
+                            if ep_behind > 0 {
+                                format!("{} • {} Ep Behind", format, ep_behind)
+                            } else {
+                                format.to_string()
+                            }
+                        } else {
+                            format.to_string()
+                        };
+
+                        this.child(div().text_size(px(10.0)).child(text))
+                    },
+                    |this| this.child(div().text_size(px(10.0)).child(format.to_string())),
+                )
                 .child(div().h(px(10.0)))
                 .child(
                     div()
@@ -247,6 +259,7 @@ fn media_card(
                                 .h(px(20.0))
                                 .text_xs()
                                 .primary()
+                                .disabled(status == "Completed")
                                 .child(
                                     div()
                                         .text_xs()

@@ -1,3 +1,5 @@
+use std::cmp::Reverse;
+
 use gpui::{AppContext, Context, Entity, SharedString, Subscription, Window};
 use gpui_component::{
     input::{InputEvent, InputState},
@@ -12,7 +14,7 @@ pub struct MediaListState {
     pub status_select_state: Entity<SelectState<Vec<SharedString>>>,
     pub search_input_state: Entity<InputState>,
 
-    current_status: SharedString,
+    pub current_status: SharedString,
     current_search_query: SharedString,
     _current_media_type: MediaType,
 
@@ -114,7 +116,7 @@ impl MediaListState {
             .and_then(|list| list.iter().find(|f| f.name == self.current_status))
             .map(|list| {
                 let mut entries = list.entries.clone();
-                entries.sort_by_key(|f| f.updated_at);
+                entries.sort_by_key(|f| Reverse(f.updated_at));
                 if !query.is_empty() {
                     entries
                         .retain(|f| f.media.title.user_preferred.to_lowercase().contains(&query));
