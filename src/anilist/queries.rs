@@ -1,5 +1,4 @@
-
-pub fn viewer_query<'a>() -> &'a str {
+pub(crate) fn q_viewer<'a>() -> &'a str {
     r#"
     query {
     	Viewer {
@@ -13,8 +12,7 @@ pub fn viewer_query<'a>() -> &'a str {
     "#
 }
 
-
-pub(crate) fn media_list_query<'a>() -> &'a str {
+pub(crate) fn q_media_list<'a>() -> &'a str {
     r#"
     query($id: Int, $type: MediaType) {
     	MediaListCollection(userId: $id, type: $type) {
@@ -49,6 +47,17 @@ pub(crate) fn media_list_query<'a>() -> &'a str {
     	progress
     	progressVolumes
     	updatedAt
+    }
+    "#
+}
+
+pub(crate) fn m_update_media_list<'a>() -> &'a str {
+    r#"
+    mutation ($id: Int, $status: MediaListStatus, $progress: Int) {
+      SaveMediaListEntry(mediaId: $id, progress: $progress, status: $status) {
+        progress
+        status
+      }
     }
     "#
 }

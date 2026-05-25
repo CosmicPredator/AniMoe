@@ -2,7 +2,6 @@
 // use futures::FutureExt;
 // use gpui::{App, AppContext, Asset, AssetLogger, Context, ElementId, Entity, ImageAssetLoader, ImageCache, ImageCacheProvider, Window, hash};
 
-
 // // TAKEN FROM GPUI EXAMPLES
 // pub fn simple_lru_cache(id: impl Into<ElementId>, max_items: usize) -> SimpleLruCacheProvider {
 //     SimpleLruCacheProvider {
@@ -118,7 +117,6 @@
 //     }
 // }
 
-
 use std::{
     collections::HashMap,
     sync::{Arc, Weak},
@@ -126,13 +124,11 @@ use std::{
 
 use futures::FutureExt;
 use gpui::{
-    App, AppContext, Asset, AssetLogger, Context, ElementId, Entity, ImageAssetLoader, ImageCache, ImageCacheError, ImageCacheProvider, RenderImage, Window, hash
+    App, AppContext, Asset, AssetLogger, Context, ElementId, Entity, ImageAssetLoader, ImageCache,
+    ImageCacheError, ImageCacheProvider, RenderImage, Window, hash,
 };
 
-pub fn simple_lru_cache(
-    id: impl Into<ElementId>,
-    max_bytes: usize,
-) -> SimpleLruCacheProvider {
+pub fn simple_lru_cache(id: impl Into<ElementId>, max_bytes: usize) -> SimpleLruCacheProvider {
     SimpleLruCacheProvider {
         id: id.into(),
         max_bytes,
@@ -156,9 +152,7 @@ impl ImageCacheProvider for SimpleLruCacheProvider {
                         });
 
                         if cache.read(cx).max_bytes != self.max_bytes {
-                            cache = cx.new(|cx| {
-                                SimpleLruCache::new(self.max_bytes, cx)
-                            });
+                            cache = cx.new(|cx| SimpleLruCache::new(self.max_bytes, cx));
                         }
 
                         (cache.clone(), cache)
@@ -185,9 +179,7 @@ struct SimpleLruCache {
 
     loading: HashMap<
         u64,
-        futures::future::Shared<
-            gpui::Task<Result<Arc<RenderImage>, ImageCacheError>>,
-        >,
+        futures::future::Shared<gpui::Task<Result<Arc<RenderImage>, ImageCacheError>>>,
     >,
 }
 
@@ -214,9 +206,7 @@ impl SimpleLruCache {
     fn estimate_size(image: &RenderImage) -> usize {
         let size = image.size(0);
 
-        size.width.0 as usize
-            * size.height.0 as usize
-            * 4 // RGBA8
+        size.width.0 as usize * size.height.0 as usize * 4 // RGBA8
     }
 
     fn touch(&mut self, hash: u64) {
@@ -234,8 +224,7 @@ impl SimpleLruCache {
             };
 
             if let Some(entry) = self.cache.remove(&oldest) {
-                self.current_bytes =
-                    self.current_bytes.saturating_sub(entry.bytes);
+                self.current_bytes = self.current_bytes.saturating_sub(entry.bytes);
 
                 if let Some(image) = entry.image.upgrade() {
                     cx.drop_image(image, Some(window));
@@ -259,8 +248,7 @@ impl SimpleLruCache {
 
         for key in dead {
             if let Some(entry) = self.cache.remove(&key) {
-                self.current_bytes =
-                    self.current_bytes.saturating_sub(entry.bytes);
+                self.current_bytes = self.current_bytes.saturating_sub(entry.bytes);
             }
 
             self.usages.retain(|v| *v != key);

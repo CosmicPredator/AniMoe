@@ -2,7 +2,10 @@ use gpui::Context;
 use gpui_tokio::Tokio;
 use log::{debug, error, info};
 
-use crate::{anilist::{client::AniList, viewer::Viewer}, utils::enums::MediaType};
+use crate::{
+    anilist::{client::AniList, viewer::Viewer},
+    utils::enums::MediaType,
+};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum Page {
@@ -18,7 +21,7 @@ pub enum Page {
 pub struct MasterState {
     pub current_page: Page,
     pub viewer: Option<Viewer>,
-    pub anime_list: Option<Vec<crate::anilist::media_list::List>>
+    pub anime_list: Option<Vec<crate::anilist::media_list::List>>,
 }
 
 impl MasterState {
@@ -26,7 +29,7 @@ impl MasterState {
         Self {
             current_page: Page::Home,
             viewer: None,
-            anime_list: None
+            anime_list: None,
         }
     }
 
@@ -37,7 +40,7 @@ impl MasterState {
 
     pub fn fetch_viewer(&mut self, cx: &mut Context<Self>) {
         let al_client = cx.global::<AniList>().clone();
-        
+
         let fut = Tokio::spawn_result(cx, async move {
             let data = al_client.fetch_viewer().await?;
             Ok(data.data.viewer)
@@ -56,12 +59,13 @@ impl MasterState {
                             cx.notify();
                         });
                     }
-                },
+                }
                 Err(err) => {
                     error!("failed to fetch viewer: {}", err);
                 }
             }
-        }).detach();
+        })
+        .detach();
     }
 
     pub fn fetch_anime_list(&mut self, cx: &mut Context<Self>) {
@@ -86,12 +90,13 @@ impl MasterState {
                                 cx.notify();
                             });
                         }
-                    },
+                    }
                     Err(err) => {
                         error!("failed to fetch viewer: {}", err);
                     }
                 }
-            }).detach();
+            })
+            .detach();
         }
     }
 }

@@ -2,16 +2,17 @@ use std::{ops::Range, time::Duration};
 
 use gpui::{
     Animation, AnimationExt, App, AppContext, ClipboardItem, Context, Entity, InteractiveElement,
-    IntoElement, ParentElement, Render, SharedString, Styled, StyledImage, TextOverflow,
-    UniformListScrollHandle, Window, div, img, prelude::FluentBuilder, px, uniform_list,
+    IntoElement, ParentElement, Render, SharedString, Styled, StyledImage, TextOverflow, Window,
+    div, img, prelude::FluentBuilder, px, uniform_list,
 };
 use gpui_component::{
-    Disableable, Icon, Sizable, StyledExt,
+    Disableable, Icon, Sizable, StyledExt, WindowExt,
     animation::ease_in_out_cubic,
     button::{Button, ButtonVariants},
     h_flex,
     input::Input,
     menu::{ContextMenuExt, PopupMenuItem},
+    notification::Notification,
     scroll::ScrollableElement,
     select::Select,
     spinner::Spinner,
@@ -30,7 +31,6 @@ const CARD_WIDTH: f32 = 130.;
 const CARD_GAP: f32 = 15.0;
 
 pub struct MediaListPage {
-    scroll: UniformListScrollHandle,
     state: Entity<MediaListState>,
 }
 
@@ -40,10 +40,7 @@ impl MediaListPage {
             MediaListState::new(cx, window, entity, crate::utils::enums::MediaType::ANIME)
         });
 
-        Self {
-            scroll: UniformListScrollHandle::new(),
-            state: ml_state,
-        }
+        Self { state: ml_state }
     }
 }
 
@@ -116,6 +113,7 @@ impl MediaListPage {
 
         let anime_list = self.state.read(cx).selected_list.clone();
         let current_status = self.state.read(cx).current_status.clone();
+        let scroll_handle = self.state.read(cx).scroll_handle.clone();
 
         if anime_list.is_none() {
             return div()
@@ -132,20 +130,34 @@ impl MediaListPage {
 
         let entries = anime_list.unwrap().clone();
         let row_count = entries.len().div_ceil(columns);
+        let state = self.state.clone();
 
         div()
             .size_full()
             .image_cache(simple_lru_cache("media-list-cache", 20 * 1024 * 1024))
-            .vertical_scrollbar(&self.scroll)
+            .vertical_scrollbar(&scroll_handle)
             .child(
                 uniform_list(
                     "media-list",
                     row_count,
-                    cx.processor(move |_this, range: Range<usize>, _, _cx| {
+                    cx.processor(move |_this, range: Range<usize>, _, cx| {
                         range
                             .map(|ix| {
                                 let start = ix * columns;
                                 let end = (start + columns).min(entries.len());
+
+                                let children = entries[start..end]
+                                    .iter()
+                                    .map(|anime| {
+                                        media_card(
+                                            state.clone(),
+                                            anime.media_id as usize,
+                                            anime.clone(),
+                                            current_status.clone(),
+                                            anime.media.cover_image.large.clone(),
+                                        )
+                                    })
+                                    .collect::<Vec<_>>();
 
                                 h_flex()
                                     .id(format!("media-card-{}", ix))
@@ -153,26 +165,20 @@ impl MediaListPage {
                                     .pb(px(CARD_GAP))
                                     .w_full()
                                     .justify_center()
-                                    .children(entries[start..end].iter().map(|anime| {
-                                        media_card(
-                                            anime.media_id as usize,
-                                            anime.clone(),
-                                            current_status.clone(),
-                                            anime.media.cover_image.large.clone(),
-                                        )
-                                    }))
+                                    .children(children)
                             })
                             .collect::<Vec<_>>()
                     }),
                 )
                 .h_full()
-                .track_scroll(&self.scroll),
+                .track_scroll(&scroll_handle),
             )
     }
 }
 
 // media list card component
 fn media_card(
+    state: Entity<MediaListState>,
     ix: usize,
     entry: Entry,
     status: SharedString,
@@ -182,6 +188,7 @@ fn media_card(
         url: cover_image_url.to_string(),
     };
     let m_id = entry.media_id;
+    let progress = entry.progress;
 
     div()
         .id(ix)
@@ -191,7 +198,7 @@ fn media_card(
         .bg(gpui::opaque_grey(0.3, 0.3))
         .hover(|style| style.bg(gpui::opaque_grey(0.5, 0.3)))
         .p(px(5.0))
-        .context_menu(move |menu, win, cx| {
+        .context_menu(move |menu, _win, _cx| {
             menu.item(
                 PopupMenuItem::new("Edit Entry")
                     .icon(Icon::empty().path("./assets/edit.svg"))
@@ -201,15 +208,21 @@ fn media_card(
             )
             .link_with_icon(
                 "Open in Browser",
-                Icon::empty().path("./assets/link.svg").size(px(12.)),
+                Icon::empty().path("./assets/open.svg"),
                 format!("https://anilist.co/anime/{}", m_id),
             )
             .item(
                 PopupMenuItem::new("Copy Link")
-                    .icon(Icon::empty().path("./assets/link_copy.svg"))
+                    .icon(Icon::empty().path("./assets/link.svg"))
                     .on_click(move |_, win, cx| {
                         let link = format!("https://anilist.co/anime/{}", m_id);
                         cx.write_to_clipboard(ClipboardItem::new_string(link));
+                        let notification = Notification::new()
+                            .message("Copied link to clipboard")
+                            .icon(Icon::empty().path("./assets/check.svg"))
+                            .autohide(true)
+                            .title("Success");
+                        win.push_notification(notification, cx);
                     }),
             )
         })
@@ -246,7 +259,7 @@ fn media_card(
 
                         let text = match entry.media.next_airing_episode.map(|e| e.episode) {
                             Some(next_airing) if next_airing > 0 => {
-                                let ep_behind = next_airing.saturating_sub(1 + entry.progress);
+                                let ep_behind = next_airing.saturating_sub(1 + progress);
 
                                 if ep_behind > 0 {
                                     format!("{format} • {ep_behind} Ep Behind").into()
@@ -280,9 +293,18 @@ fn media_card(
                                 .disabled(status == "Completed")
                                 .child(div().text_xs().child(format!(
                                     "{} / {} +",
-                                    entry.progress,
+                                    progress,
                                     entry.media.episodes.unwrap_or(0)
-                                ))),
+                                )))
+                                .on_click({
+                                    let state = state.clone();
+                                    move |_, _, cx| {
+                                        state.update(cx, |this, cx| {
+                                            let prg = progress + 1;
+                                            this.update_progress(cx, m_id, prg);
+                                        })
+                                    }
+                                }),
                         )
                         .child(
                             div()

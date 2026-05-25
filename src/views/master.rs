@@ -1,11 +1,11 @@
 use gpui::{AppContext, Context, Entity, ParentElement, Render, Styled, Window, div};
-use gpui_component::StyledExt;
+use gpui_component::{Root, StyledExt};
 
 use crate::{states::master::MasterState, views::media_list::MediaListPage};
 
 pub struct MasterView {
     pub state: Entity<MasterState>,
-    
+
     pub ml_page: Entity<MediaListPage>,
 }
 
@@ -15,14 +15,12 @@ impl MasterView {
         master_state.update(cx, |this, cx| {
             this.fetch_viewer(cx);
         });
-        
-        let ml_page = cx.new(|cx| {
-            MediaListPage::new(cx, window, master_state.clone())
-        });
+
+        let ml_page = cx.new(|cx| MediaListPage::new(cx, window, master_state.clone()));
 
         Self {
             state: master_state,
-            ml_page
+            ml_page,
         }
     }
 }
@@ -30,7 +28,7 @@ impl MasterView {
 impl Render for MasterView {
     fn render(
         &mut self,
-        _window: &mut gpui::Window,
+        window: &mut gpui::Window,
         cx: &mut gpui::prelude::Context<Self>,
     ) -> impl gpui::prelude::IntoElement {
         let current_nav = self.state.read(cx).current_page;
@@ -39,5 +37,7 @@ impl Render for MasterView {
             .size_full()
             .child(self.navbar(current_nav, cx))
             .child(self.ml_page.clone())
+            .children(Root::render_dialog_layer(window, cx))
+            .children(Root::render_notification_layer(window, cx))
     }
 }

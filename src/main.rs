@@ -3,21 +3,18 @@
 use std::path::PathBuf;
 
 use gpui::{
-    App, AppContext, Bounds, SharedString, TitlebarOptions, WindowBounds,
-    WindowOptions, px, size,
+    App, AppContext, Bounds, SharedString, TitlebarOptions, WindowBounds, WindowOptions, px, size,
 };
 use gpui_component::{Root, Theme, ThemeRegistry};
 use log::{debug, info};
 
-use crate::{
-    anilist::client::AniList, assets::Assets, views::master::MasterView
-};
+use crate::{anilist::client::AniList, assets::Assets, views::master::MasterView};
 
+mod anilist;
 mod assets;
 mod states;
 mod utils;
 mod views;
-mod anilist;
 
 pub fn init_theme(cx: &mut App) {
     let theme_name = SharedString::from("macOS Classic Dark");
@@ -26,40 +23,43 @@ pub fn init_theme(cx: &mut App) {
         if let Some(theme) = ThemeRegistry::global(cx).themes().get(&theme_name).cloned() {
             Theme::global_mut(cx).apply_config(&theme);
         }
-    }).is_err() {}
+    })
+    .is_err()
+    {}
 }
 
 fn run_app() {
-    
-    gpui_platform::application().with_assets(Assets).run(move |cx| {
-        let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
-        let window_options = WindowOptions {
-            window_bounds: Some(WindowBounds::Windowed(bounds)),
-            titlebar: Some(TitlebarOptions {
-                title: Some(SharedString::new("AniMoe")),
+    gpui_platform::application()
+        .with_assets(Assets)
+        .run(move |cx| {
+            let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
+            let window_options = WindowOptions {
+                window_bounds: Some(WindowBounds::Windowed(bounds)),
+                titlebar: Some(TitlebarOptions {
+                    title: Some(SharedString::new("AniMoe")),
+                    ..Default::default()
+                }),
                 ..Default::default()
-            }),
-            ..Default::default()
-        };
+            };
 
-        debug!("initializing tokio, gpui_component and theme");
-        gpui_tokio::init(cx);
-        gpui_component::init(cx);
-        init_theme(cx);
+            debug!("initializing tokio, gpui_component and theme");
+            gpui_tokio::init(cx);
+            gpui_component::init(cx);
+            init_theme(cx);
 
-        let al_client = AniList::new().unwrap();
-        cx.set_global(al_client);
+            let al_client = AniList::new().unwrap();
+            cx.set_global(al_client);
 
-        debug!("opening main window");
-        cx.open_window(window_options, |window, cx| {
-            //let root = cx.new(|cx| LoginView::new(cx));
-            debug!("creating master view");
-            let root = cx.new(|cx| MasterView::new(cx, window));
-            cx.new(|cx| Root::new(root, window, cx))
-        })
-        .expect("Failed to open window");
-        cx.activate(true);
-    });
+            debug!("opening main window");
+            cx.open_window(window_options, |window, cx| {
+                //let root = cx.new(|cx| LoginView::new(cx));
+                debug!("creating master view");
+                let root = cx.new(|cx| MasterView::new(cx, window));
+                cx.new(|cx| Root::new(root, window, cx))
+            })
+            .expect("Failed to open window");
+            cx.activate(true);
+        });
 }
 
 fn main() {

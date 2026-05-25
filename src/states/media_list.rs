@@ -1,12 +1,20 @@
 use std::cmp::Reverse;
 
-use gpui::{AppContext, Context, Entity, SharedString, Subscription, Window};
+use gpui::{
+    AppContext, Context, Entity, SharedString, Subscription, UniformListScrollHandle, Window,
+};
 use gpui_component::{
     input::{InputEvent, InputState},
     select::{SelectEvent, SelectState},
 };
+use gpui_tokio::Tokio;
+use log::error;
 
-use crate::{anilist::media_list::Entry, states::master::MasterState, utils::enums::MediaType};
+use crate::{
+    anilist::{client::AniList, media_list::Entry},
+    states::master::MasterState,
+    utils::enums::MediaType,
+};
 
 pub struct MediaListState {
     master_state: Entity<MasterState>,
@@ -17,6 +25,7 @@ pub struct MediaListState {
     pub current_status: SharedString,
     current_search_query: SharedString,
     _current_media_type: MediaType,
+    pub scroll_handle: UniformListScrollHandle,
 
     pub selected_list: Option<Vec<Entry>>,
     _subscriptions: Vec<Subscription>,
@@ -83,6 +92,7 @@ impl MediaListState {
             current_search_query: SharedString::new(""),
             _current_media_type: media_type,
             selected_list: None,
+            scroll_handle: UniformListScrollHandle::new(),
             _subscriptions: subs,
         }
     }
@@ -94,11 +104,9 @@ impl MediaListState {
             .anime_list
             .as_ref()
             .map_or_else(Vec::new, |list| {
-                list.iter()
-                    .map(|entry| entry.name.clone())
-                    .collect()
+                list.iter().map(|entry| entry.name.clone()).collect()
             });
-        
+
         self.status_select_state.update(cx, |this, cx| {
             this.set_items(status_list, win, cx);
             this.set_selected_value(&self.current_status, win, cx);
@@ -123,7 +131,44 @@ impl MediaListState {
                 }
                 entries
             });
+        self.scroll_handle
+            .scroll_to_item_strict(0, gpui::ScrollStrategy::Nearest);
 
         cx.notify();
+    }
+
+    pub fn update_progress(&mut self, cx: &mut Context<Self>, media_id: i64, progress: i64) {
+        let al_client = cx.global::<AniList>().clone();
+        let fut = Tokio::spawn_result(cx, async move {
+            al_client.update_episode_chapter(media_id, progress).await
+        });
+
+        cx.spawn(async move |this, cx| {
+            let result = fut.await;
+
+            match result {
+                Ok(_) => {
+                    if let Some(state) = this.upgrade() {
+                        state.update(cx, |this, cx| {
+                            this.master_state.update(cx, |this, cx| {
+                                let _ = this
+                                    .anime_list
+                                    .as_mut()
+                                    .into_iter()
+                                    .flat_map(|lists| lists.iter_mut())
+                                    .flat_map(|lists| lists.entries.iter_mut())
+                                    .find(|e| e.media_id == media_id)
+                                    .map(|entry| entry.progress = progress);
+                            });
+                            cx.notify();
+                        });
+                    }
+                }
+                Err(err) => {
+                    error!("error happened while updating list progress: {}", err);
+                }
+            }
+        })
+        .detach();
     }
 }

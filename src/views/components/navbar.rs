@@ -66,27 +66,25 @@ impl MasterView {
                                     })
                                 })),
                         )
-                        .child(
-                            if let Some(ref viewer) = viewer.viewer {
-                                SidebarMenuItem::new(viewer.name.clone())
-                                    .active(current_page == Page::User)
-                                    .icon(Icon::empty().path("./assets/user.svg"))
-                                    .on_click(cx.listener(|this, _, _, cx| {
-                                        this.state.update(cx, |this, cx| {
-                                            this.change_page(cx, Page::User);
-                                        })
-                                    }))
-                            } else {
-                                SidebarMenuItem::new("Loading...")
-                                    .active(current_page == Page::User)
-                                    .icon(Icon::empty().path("./assets/user.svg"))
-                                    .on_click(cx.listener(|this, _, _, cx| {
-                                        this.state.update(cx, |this, cx| {
-                                            this.change_page(cx, Page::User);
-                                        })
-                                    }))
-                            }
-                        )
+                        .child(if let Some(ref viewer) = viewer.viewer {
+                            SidebarMenuItem::new(viewer.name.clone())
+                                .active(current_page == Page::User)
+                                .icon(Icon::empty().path("./assets/user.svg"))
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.state.update(cx, |this, cx| {
+                                        this.change_page(cx, Page::User);
+                                    })
+                                }))
+                        } else {
+                            SidebarMenuItem::new("Loading...")
+                                .active(current_page == Page::User)
+                                .icon(Icon::empty().path("./assets/user.svg"))
+                                .on_click(cx.listener(|this, _, _, cx| {
+                                    this.state.update(cx, |this, cx| {
+                                        this.change_page(cx, Page::User);
+                                    })
+                                }))
+                        })
                         .child(
                             SidebarMenuItem::new("Settings")
                                 .active(current_page == Page::Settings)
@@ -96,14 +94,14 @@ impl MasterView {
                                         this.change_page(cx, Page::Settings);
                                     })
                                 })),
-                        )
+                        ),
                 ),
             )
             .footer(
                 div()
                     .text_sm()
                     .text_color(gpui::opaque_grey(1.0, 0.3))
-                    .child("AniMoe v0.0.1-snapshot")
+                    .child("AniMoe v0.0.1-snapshot"),
             )
     }
 }
