@@ -1,16 +1,23 @@
 use std::ops::Range;
 
 use gpui::{
-    App, AppContext, Context, Entity, InteractiveElement, IntoElement, ParentElement, Render,
-    SharedString, Styled, StyledImage, TextOverflow, UniformListScrollHandle, Window, div, img,
-    prelude::FluentBuilder, px, uniform_list,
+    App, AppContext, Context, Entity, InteractiveElement, IntoElement, ParentElement,
+    Render, SharedString, Styled, StyledImage, TextOverflow,
+    UniformListScrollHandle, Window, div, img, prelude::FluentBuilder, px, uniform_list,
 };
 use gpui_component::{
-    Disableable, Icon, StyledExt, button::{Button, ButtonVariants}, h_flex, input::{Input, InputState}, progress::Progress, scroll::ScrollableElement, select::{Select, SelectState}, spinner::Spinner
+    Disableable, Icon, StyledExt,
+    button::{Button, ButtonVariants},
+    h_flex,
+    input::Input,
+    scroll::ScrollableElement,
+    select::Select,
+    spinner::Spinner,
 };
+use log::info;
 
 use crate::{
-    anilist::media_list::{Entry, List},
+    anilist::media_list::Entry,
     states::{master::MasterState, media_list::MediaListState},
     utils::{
         image_cache::simple_lru_cache,
@@ -142,34 +149,12 @@ impl MediaListPage {
                                     .w_full()
                                     .justify_center()
                                     .children(entries[start..end].iter().map(|anime| {
-                                        if anime.media.next_airing_episode.is_none() {
-                                            media_card(
-                                                anime.media_id as usize,
-                                                current_status.clone(),
-                                                anime.media.title.user_preferred.clone(),
-                                                anime.media.format.clone().unwrap_or("?".into()),
-                                                anime.media.episodes.unwrap_or_default(),
-                                                anime.progress,
-                                                0,
-                                                anime.media.cover_image.large.clone(),
-                                            )
-                                        } else {
-                                            media_card(
-                                                anime.media_id as usize,
-                                                current_status.clone(),
-                                                anime.media.title.user_preferred.clone(),
-                                                anime.media.format.clone().unwrap_or("?".into()),
-                                                anime.media.episodes.unwrap_or_default(),
-                                                anime.progress,
-                                                anime
-                                                    .media
-                                                    .next_airing_episode
-                                                    .clone()
-                                                    .unwrap()
-                                                    .episode,
-                                                anime.media.cover_image.large.clone(),
-                                            )
-                                        }
+                                        media_card(
+                                            anime.media_id as usize,
+                                            anime.clone(),
+                                            current_status.clone(),
+                                            anime.media.cover_image.large.clone(),
+                                        )
                                     }))
                             })
                             .collect::<Vec<_>>()
@@ -184,12 +169,8 @@ impl MediaListPage {
 // media list card component
 fn media_card(
     ix: usize,
+    entry: Entry,
     status: SharedString,
-    title: SharedString,
-    format: SharedString,
-    episodes: i64,
-    progress: i64,
-    next_airing_episode: i64,
     cover_image_url: SharedString,
 ) -> impl IntoElement {
     let image = RemoteImage {
@@ -226,26 +207,41 @@ fn media_card(
                         .text_sm()
                         .mt(px(4.0))
                         .text_overflow(TextOverflow::Truncate("...".into()))
-                        .child(title),
+                        .child(entry.media.title.user_preferred),
                 )
                 .when_else(
                     status == "Watching",
                     |this| {
-                        let text = if next_airing_episode != 0 {
-                            let ep_behind = (next_airing_episode - 1) - progress;
+                        let next_airing = entry
+                            .media
+                            .next_airing_episode
+                            .map(|f| f.episode)
+                            .unwrap_or_default();
+                        let text = if next_airing != 0 {
+                            let ep_behind = (next_airing - 1) - entry.progress;
 
                             if ep_behind > 0 {
-                                format!("{} • {} Ep Behind", format, ep_behind)
+                                format!(
+                                    "{} • {} Ep Behind",
+                                    entry.media.format.clone().unwrap_or("?".into()),
+                                    ep_behind
+                                )
                             } else {
-                                format.to_string()
+                                entry.media.format.clone().unwrap_or("?".into()).to_string()
                             }
                         } else {
-                            format.to_string()
+                            entry.media.format.clone().unwrap_or("?".into()).to_string()
                         };
 
                         this.child(div().text_size(px(10.0)).child(text))
                     },
-                    |this| this.child(div().text_size(px(10.0)).child(format.to_string())),
+                    |this| {
+                        this.child(
+                            div().text_size(px(10.0)).child(
+                                entry.media.format.clone().unwrap_or("?".into()).to_string(),
+                            ),
+                        )
+                    },
                 )
                 .child(div().h(px(10.0)))
                 .child(
@@ -260,11 +256,11 @@ fn media_card(
                                 .text_xs()
                                 .primary()
                                 .disabled(status == "Completed")
-                                .child(
-                                    div()
-                                        .text_xs()
-                                        .child(format!("{} / {} +", progress, episodes)),
-                                ),
+                                .child(div().text_xs().child(format!(
+                                    "{} / {} +",
+                                    entry.progress,
+                                    entry.media.episodes.unwrap_or(0)
+                                ))),
                         )
                         .child(
                             div()

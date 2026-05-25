@@ -1,6 +1,6 @@
 use gpui::Context;
 use gpui_tokio::Tokio;
-use log::error;
+use log::{debug, error, info};
 
 use crate::{anilist::{client::AniList, viewer::Viewer}, utils::enums::MediaType};
 
