@@ -1,20 +1,21 @@
-use std::ops::Range;
+use std::{ops::Range, time::Duration};
 
 use gpui::{
-    App, AppContext, Context, Entity, InteractiveElement, IntoElement, ParentElement,
-    Render, SharedString, Styled, StyledImage, TextOverflow,
+    Animation, AnimationExt, App, AppContext, ClipboardItem, Context, Entity, InteractiveElement,
+    IntoElement, ParentElement, Render, SharedString, Styled, StyledImage, TextOverflow,
     UniformListScrollHandle, Window, div, img, prelude::FluentBuilder, px, uniform_list,
 };
 use gpui_component::{
-    Disableable, Icon, StyledExt,
+    Disableable, Icon, Sizable, StyledExt,
+    animation::ease_in_out_cubic,
     button::{Button, ButtonVariants},
     h_flex,
     input::Input,
+    menu::{ContextMenuExt, PopupMenuItem},
     scroll::ScrollableElement,
     select::Select,
     spinner::Spinner,
 };
-use log::info;
 
 use crate::{
     anilist::media_list::Entry,
@@ -67,7 +68,7 @@ impl Render for MediaListPage {
 
 impl MediaListPage {
     // top tool bar which contains search and filter buttons
-    fn tool_bar(&self, cx: &mut Context<Self>, window: &mut Window) -> impl IntoElement {
+    fn tool_bar(&self, cx: &mut Context<Self>, _window: &mut Window) -> impl IntoElement {
         let state = self.state.read(cx);
 
         div()
@@ -122,7 +123,11 @@ impl MediaListPage {
                 .v_flex()
                 .justify_center()
                 .items_center()
-                .child(Spinner::new().icon(Icon::empty().path("./assets/spinner.svg")));
+                .child(
+                    Spinner::new()
+                        .icon(Icon::empty().path("./assets/spinner.svg"))
+                        .with_size(px(30.)),
+                );
         }
 
         let entries = anime_list.unwrap().clone();
@@ -130,7 +135,7 @@ impl MediaListPage {
 
         div()
             .size_full()
-            .image_cache(simple_lru_cache("media-list-cache", 500))
+            .image_cache(simple_lru_cache("media-list-cache", 20 * 1024 * 1024))
             .vertical_scrollbar(&self.scroll)
             .child(
                 uniform_list(
@@ -176,13 +181,38 @@ fn media_card(
     let image = RemoteImage {
         url: cover_image_url.to_string(),
     };
+    let m_id = entry.media_id;
 
     div()
+        .id(ix)
         .w(px(CARD_WIDTH))
         .h(px(270.))
         .rounded_sm()
         .bg(gpui::opaque_grey(0.3, 0.3))
+        .hover(|style| style.bg(gpui::opaque_grey(0.5, 0.3)))
         .p(px(5.0))
+        .context_menu(move |menu, win, cx| {
+            menu.item(
+                PopupMenuItem::new("Edit Entry")
+                    .icon(Icon::empty().path("./assets/edit.svg"))
+                    .on_click(move |_, _, _| {
+                        println!("Edit entry clicked");
+                    }),
+            )
+            .link_with_icon(
+                "Open in Browser",
+                Icon::empty().path("./assets/link.svg").size(px(12.)),
+                format!("https://anilist.co/anime/{}", m_id),
+            )
+            .item(
+                PopupMenuItem::new("Copy Link")
+                    .icon(Icon::empty().path("./assets/link_copy.svg"))
+                    .on_click(move |_, win, cx| {
+                        let link = format!("https://anilist.co/anime/{}", m_id);
+                        cx.write_to_clipboard(ClipboardItem::new_string(link));
+                    }),
+            )
+        })
         .child(
             div()
                 .v_flex()
@@ -212,35 +242,27 @@ fn media_card(
                 .when_else(
                     status == "Watching",
                     |this| {
-                        let next_airing = entry
-                            .media
-                            .next_airing_episode
-                            .map(|f| f.episode)
-                            .unwrap_or_default();
-                        let text = if next_airing != 0 {
-                            let ep_behind = (next_airing - 1) - entry.progress;
+                        let format = entry.media.format.clone().unwrap_or_else(|| "?".into());
 
-                            if ep_behind > 0 {
-                                format!(
-                                    "{} • {} Ep Behind",
-                                    entry.media.format.clone().unwrap_or("?".into()),
-                                    ep_behind
-                                )
-                            } else {
-                                entry.media.format.clone().unwrap_or("?".into()).to_string()
+                        let text = match entry.media.next_airing_episode.map(|e| e.episode) {
+                            Some(next_airing) if next_airing > 0 => {
+                                let ep_behind = next_airing.saturating_sub(1 + entry.progress);
+
+                                if ep_behind > 0 {
+                                    format!("{format} • {ep_behind} Ep Behind").into()
+                                } else {
+                                    format.clone()
+                                }
                             }
-                        } else {
-                            entry.media.format.clone().unwrap_or("?".into()).to_string()
+                            _ => format.clone(),
                         };
 
                         this.child(div().text_size(px(10.0)).child(text))
                     },
                     |this| {
-                        this.child(
-                            div().text_size(px(10.0)).child(
-                                entry.media.format.clone().unwrap_or("?".into()).to_string(),
-                            ),
-                        )
+                        let format = entry.media.format.clone().unwrap_or_else(|| "?".into());
+
+                        this.child(div().text_size(px(10.0)).child(format))
                     },
                 )
                 .child(div().h(px(10.0)))
@@ -272,5 +294,11 @@ fn media_card(
                         ),
                 )
                 .child(div().h(px(5.0))),
+        )
+        .opacity(0.0)
+        .with_animation(
+            "entry-animation",
+            Animation::new(Duration::from_millis(300)).with_easing(ease_in_out_cubic),
+            |this, delta| this.opacity(delta).top(px((1.0 - delta) * 20.)),
         )
 }
