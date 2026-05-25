@@ -30,21 +30,19 @@ impl Asset for RemoteImageLoader {
                     .send()
                     .await?
                     .error_for_status()?;
-        
+
                 let bytes = response.bytes().await?;
-        
+
                 let dynamic = image::load_from_memory(&bytes)?;
-        
-                let mut rgba = dynamic.to_rgba8();
-        
-                // RGBA -> BGRA
-                for pixel in rgba.pixels_mut() {
-                    let [r, g, b, a] = pixel.0;
-                    pixel.0 = [b, g, r, a];
+                let resized = dynamic.resize(130, 190, image::imageops::FilterType::Triangle);
+
+                let mut rgba = resized.to_rgba8();
+                for pixel in rgba.chunks_exact_mut(4) {
+                    pixel.swap(0, 2);
                 }
-        
+
                 let frame = image::Frame::new(rgba);
-        
+
                 Ok(Arc::new(RenderImage::new(vec![frame])))
             });
         async move {
