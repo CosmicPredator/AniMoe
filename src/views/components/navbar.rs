@@ -1,11 +1,12 @@
 use gpui::{Context, IntoElement, ParentElement, Styled, div};
 use gpui_component::{
-    Icon, Side, h_flex,
-    sidebar::{Sidebar, SidebarFooter, SidebarGroup, SidebarMenu, SidebarMenuItem},
-    v_flex,
+    Icon, Side,
+    sidebar::{Sidebar, SidebarGroup, SidebarMenu, SidebarMenuItem},
 };
 
 use crate::{states::master::Page, views::master::MasterView};
+
+const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 impl MasterView {
     pub fn navbar(&self, current_page: Page, cx: &mut Context<Self>) -> impl IntoElement {
@@ -101,7 +102,7 @@ impl MasterView {
                 div()
                     .text_sm()
                     .text_color(gpui::opaque_grey(1.0, 0.3))
-                    .child("AniMoe v0.0.1-snapshot"),
+                    .child(format!("AniMoe v{}", VERSION)),
             )
     }
 }

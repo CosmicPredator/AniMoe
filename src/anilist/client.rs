@@ -1,11 +1,10 @@
-use std::{env, str::Bytes, time::Duration};
+use std::{env, time::Duration};
 
 use anyhow::{Context, anyhow};
-use futures::TryFutureExt;
 use gpui::Global;
 use log::debug;
 use reqwest::{
-    Response, StatusCode,
+    StatusCode,
     header::{AUTHORIZATION, HeaderMap, HeaderValue},
 };
 use serde::de::DeserializeOwned;
@@ -107,14 +106,16 @@ impl AniList {
     }
 
     pub async fn update_episode_chapter(&self, media_id: i64, progress: i64) -> anyhow::Result<()> {
-        debug!("updating list progress for media id {} with progress {}", media_id, progress);
+        debug!(
+            "updating list progress for media id {} with progress {}",
+            media_id, progress
+        );
         let variables = json!({
             "id": media_id,
             "progress": progress
         });
 
-        self
-            .query::<Value>(m_update_media_list(), Some(variables))
+        self.query::<Value>(m_update_media_list(), Some(variables))
             .await
             .context("failed to execute list progress update mutation")?;
 
