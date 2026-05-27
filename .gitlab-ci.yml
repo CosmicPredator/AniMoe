@@ -39,7 +39,7 @@ build_windows:
     stage: build
     
     tags:
-        - windows
+        - saas-windows-medium-amd64
 
     script:
         - cargo build --release
