@@ -10,7 +10,7 @@ workflow:
 
 build_linux:
     stage: build
-    image: rust:latest
+    image: rust:1.95.0-trixie
 
     before_script:
         - apt-get update
@@ -35,7 +35,7 @@ build_linux:
 
 build_windows:
     stage: build
-    image: rust:latest
+    image: rust:1.95.0-trixie
 
     before_script:
         - apt-get update
