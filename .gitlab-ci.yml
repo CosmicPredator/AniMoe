@@ -13,6 +13,13 @@ build_linux:
     image: rust:latest
 
     before_script:
+        - apt-get update
+        - apt-get install -y \
+            pkg-config \
+            libxkbcommon-dev \
+            libxkbcommon-x11-dev \
+            libwayland-dev \
+            libx11-dev
         - rustup target add x86_64-unknown-linux-gnu
     
     script:
