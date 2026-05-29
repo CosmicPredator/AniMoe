@@ -3,12 +3,12 @@
 use std::path::PathBuf;
 
 use gpui::{
-    App, AppContext, Bounds, SharedString, TitlebarOptions, WindowBounds, WindowOptions, px, size,
+    App, SharedString,
 };
 use gpui_component::{Root, Theme, ThemeRegistry};
 use log::{debug, info};
 
-use crate::{anilist::client::AniList, assets::Assets, views::master::MasterView};
+use crate::{anilist::client::AniList, assets::Assets, states::{login::open_login_window, master::open_master_window}, views::{master::MasterView}};
 
 mod anilist;
 mod assets;
@@ -28,36 +28,33 @@ pub fn init_theme(cx: &mut App) {
     {}
 }
 
+fn is_token_exists() -> bool {
+    if let Some(config_dir) = dirs::config_local_dir() {
+        let animoe_dir = config_dir.join("animoe");
+        let config_file_path = animoe_dir.join("token.json");
+        return config_file_path.exists();
+    }
+    false
+}
+
 fn run_app() {
     gpui_platform::application()
         .with_assets(Assets)
         .run(move |cx| {
-            let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
-            let window_options = WindowOptions {
-                window_bounds: Some(WindowBounds::Windowed(bounds)),
-                titlebar: Some(TitlebarOptions {
-                    title: Some(SharedString::new("AniMoe")),
-                    ..Default::default()
-                }),
-                ..Default::default()
-            };
-
             debug!("initializing tokio, gpui_component and theme");
             gpui_tokio::init(cx);
             gpui_component::init(cx);
             init_theme(cx);
-
+            
             let al_client = AniList::new().unwrap();
             cx.set_global(al_client);
 
-            debug!("opening main window");
-            cx.open_window(window_options, |window, cx| {
-                //let root = cx.new(|cx| LoginView::new(cx));
-                debug!("creating master view");
-                let root = cx.new(|cx| MasterView::new(cx, window));
-                cx.new(|cx| Root::new(root, window, cx))
-            })
-            .expect("Failed to open window");
+            if is_token_exists() {
+                open_master_window(cx);
+            } else {
+                open_login_window(cx);
+            }
+            
             cx.activate(true);
         });
 }

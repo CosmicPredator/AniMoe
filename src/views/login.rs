@@ -1,12 +1,12 @@
 use gpui::{
-    AppContext, Context, Entity, ParentElement, Render, SharedString, Styled, div, img, px,
+    App, AppContext, Bounds, Context, Entity, ParentElement, Render, SharedString, Styled, TitlebarOptions, WindowBounds, WindowOptions, div, img, px, size
 };
 use gpui_component::{
-    Icon, StyledExt,
-    button::{Button, ButtonVariants},
+    Icon, Root, StyledExt, button::{Button, ButtonVariants}
 };
+use log::debug;
 
-use crate::states::login::LoginState;
+use crate::{states::login::LoginState, utils::constants::AL_AUTH_URL};
 
 pub struct LoginView {
     state: Entity<LoginState>,
@@ -15,6 +15,10 @@ pub struct LoginView {
 impl LoginView {
     pub fn new(cx: &mut Context<Self>) -> Self {
         let state = cx.new(|_| LoginState::new());
+        state.update(cx, |this, cx| {
+            this.open_server(cx);
+        });
+        
         Self { state }
     }
 }
@@ -38,21 +42,26 @@ impl Render for LoginView {
                     .gap_5()
                     .child(img("./assets/animoe.png").w(px(120.)).h(px(120.)))
                     .child(
+                        div()
+                            .text_2xl()
+                            .font_semibold()
+                            .child("AniMoe for AniList")
+                    )
+                    .child(
                         Button::new("login-btn")
                             .label("Login with AniList")
+                            .loading(state.button_is_loading)
                             .loading_icon(
                                 Icon::empty().path(SharedString::new("./assets/spinner.svg")),
                             )
-                            .loading(state.btn_clicked)
                             .primary()
                             .on_click(cx.listener(|this, _, _, cx| {
+                                cx.open_url(AL_AUTH_URL);
                                 this.state.update(cx, |this, cx| {
-                                    this.toggle_btn_clicked(cx);
-                                    if this.btn_clicked {
-                                        this.open_login_url(cx);
-                                    }
-                                });
-                            })),
+                                    this.button_is_loading = true;
+                                    cx.notify();
+                                })
+                            }))
                     ),
             )
     }

@@ -1,10 +1,11 @@
-use gpui::Context;
+use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, WindowBounds, WindowOptions, px, size};
+use gpui_component::Root;
 use gpui_tokio::Tokio;
 use log::{debug, error, info};
 
 use crate::{
     anilist::{client::AniList, viewer::Viewer},
-    utils::enums::MediaType,
+    utils::enums::MediaType, views::master::MasterView,
 };
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -39,7 +40,7 @@ impl MasterState {
     }
 
     pub fn fetch_viewer(&mut self, cx: &mut Context<Self>) {
-        let al_client = cx.global::<AniList>().clone();
+        let mut al_client = cx.global::<AniList>().clone();
 
         let fut = Tokio::spawn_result(cx, async move {
             let data = al_client.fetch_viewer().await?;
@@ -69,7 +70,7 @@ impl MasterState {
     }
 
     pub fn fetch_anime_list(&mut self, cx: &mut Context<Self>) {
-        let al_client = cx.global::<AniList>().clone();
+        let mut al_client = cx.global::<AniList>().clone();
         if let Some(ref viewer) = self.viewer {
             let user_id = viewer.id;
             let fut = Tokio::spawn_result(cx, async move {
@@ -99,4 +100,25 @@ impl MasterState {
             .detach();
         }
     }
+}
+
+pub fn open_master_window(cx: &mut App) {
+    let bounds = Bounds::centered(None, size(px(1280.), px(720.0)), cx);
+    let window_options = WindowOptions {
+        window_bounds: Some(WindowBounds::Windowed(bounds)),
+        titlebar: Some(TitlebarOptions {
+            title: Some(SharedString::new("AniMoe")),
+            ..Default::default()
+        }),
+        ..Default::default()
+    };
+
+    debug!("opening master window");
+    cx.open_window(window_options, |window, cx| {
+        //let root = cx.new(|cx| LoginView::new(cx));
+        debug!("creating master view");
+        let root = cx.new(|cx| MasterView::new(cx, window));
+        cx.new(|cx| Root::new(root, window, cx))
+    })
+    .expect("Failed to open master window");
 }

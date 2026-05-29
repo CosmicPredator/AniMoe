@@ -2,3 +2,4 @@ target/*
 .env
 animoe
 animoe.exe
+src/utils/constants.rs

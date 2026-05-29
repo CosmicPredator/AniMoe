@@ -138,7 +138,7 @@ impl MediaListState {
     }
 
     pub fn update_progress(&mut self, cx: &mut Context<Self>, media_id: i64, progress: i64) {
-        let al_client = cx.global::<AniList>().clone();
+        let mut al_client = cx.global::<AniList>().clone();
         let fut = Tokio::spawn_result(cx, async move {
             al_client.update_episode_chapter(media_id, progress).await
         });
