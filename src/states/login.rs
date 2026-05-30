@@ -1,12 +1,12 @@
 use anyhow::anyhow;
 use futures::{StreamExt, channel::mpsc};
-use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, VisualContext, Window, WindowBounds, WindowOptions, px, size} ;
+use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, Window, WindowBounds, WindowOptions, px, size} ;
 use gpui_component::Root;
 use gpui_tokio::Tokio;
 use log::{debug, error, info};
 use tiny_http::{Response, Server};
 
-use crate::{anilist::{token_callback::AccessTokenCallback, client::AniList}, states::master::open_master_window, utils::constants::REDIRECT_URI, views::{login::LoginView, master::MasterView}};
+use crate::{anilist::{token_callback::AccessTokenCallback, client::AniList}, states::master::open_master_window, utils::constants::REDIRECT_URI, views::login::LoginView};
 
 #[derive(Debug)]
 pub struct AuthCodeCallback {
@@ -124,7 +124,7 @@ fn parse_auth_code(url: String) -> Option<AuthCodeCallback> {
     code.map(|code| AuthCodeCallback { code })
 }
 
-pub fn open_login_window(cx: &mut App) -> anyhow::Result<()> {
+pub fn open_login_window(cx: &mut App) {
     let bounds = Bounds::centered(None, size(px(500.), px(500.0)), cx);
     let window_options = WindowOptions {
         window_bounds: Some(WindowBounds::Windowed(bounds)),
@@ -135,11 +135,9 @@ pub fn open_login_window(cx: &mut App) -> anyhow::Result<()> {
         ..Default::default()
     };
 
-    cx.open_window(window_options, |window, cx| {
+    let _ = cx.open_window(window_options, |window, cx| {
         debug!("opening login view window");
         let login_view = cx.new(|cx| LoginView::new(cx, window));
         cx.new(|cx| Root::new(login_view, window, cx))
-    })?;
-    
-    Ok(())
+    });
 }

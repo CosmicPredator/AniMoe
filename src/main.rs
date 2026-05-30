@@ -5,10 +5,10 @@ use std::path::PathBuf;
 use gpui::{
     App, SharedString,
 };
-use gpui_component::{Root, Theme, ThemeRegistry};
+use gpui_component::{Theme, ThemeRegistry};
 use log::{debug, info};
 
-use crate::{anilist::client::AniList, assets::Assets, states::{login::open_login_window, master::open_master_window}, views::{master::MasterView}};
+use crate::{anilist::client::AniList, assets::Assets, states::{login::open_login_window, master::open_master_window}};
 
 mod anilist;
 mod assets;

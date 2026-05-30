@@ -1,7 +1,7 @@
 use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, WindowBounds, WindowOptions, px, size};
 use gpui_component::Root;
 use gpui_tokio::Tokio;
-use log::{debug, error, info};
+use log::{debug, error};
 
 use crate::{
     anilist::{client::AniList, viewer::Viewer},

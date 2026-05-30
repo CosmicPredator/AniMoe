@@ -150,7 +150,7 @@ impl MediaListState {
                 Ok(_) => {
                     if let Some(state) = this.upgrade() {
                         state.update(cx, |this, cx| {
-                            this.master_state.update(cx, |this, cx| {
+                            this.master_state.update(cx, |this, _cx| {
                                 let _ = this
                                     .anime_list
                                     .as_mut()

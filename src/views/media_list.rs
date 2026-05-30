@@ -140,7 +140,7 @@ impl MediaListPage {
                 uniform_list(
                     "media-list",
                     row_count,
-                    cx.processor(move |_this, range: Range<usize>, _, cx| {
+                    cx.processor(move |_this, range: Range<usize>, _, _cx| {
                         range
                             .map(|ix| {
                                 let start = ix * columns;
