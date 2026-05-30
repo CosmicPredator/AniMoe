@@ -1,12 +1,20 @@
 use anyhow::anyhow;
 use futures::{StreamExt, channel::mpsc};
-use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, Window, WindowBounds, WindowOptions, px, size} ;
+use gpui::{
+    App, AppContext, Bounds, Context, SharedString, TitlebarOptions, Window, WindowBounds,
+    WindowOptions, px, size,
+};
 use gpui_component::Root;
 use gpui_tokio::Tokio;
 use log::{debug, error, info};
 use tiny_http::{Response, Server};
 
-use crate::{anilist::{token_callback::AccessTokenCallback, client::AniList}, states::master::open_master_window, utils::constants::REDIRECT_URI, views::login::LoginView};
+use crate::{
+    anilist::{client::AniList, token_callback::AccessTokenCallback},
+    states::master::open_master_window,
+    utils::constants::REDIRECT_URI,
+    views::login::LoginView,
+};
 
 #[derive(Debug)]
 pub struct AuthCodeCallback {
@@ -15,14 +23,17 @@ pub struct AuthCodeCallback {
 
 pub struct LoginState {
     auth_rx: Option<mpsc::UnboundedReceiver<AuthCodeCallback>>,
-    pub button_is_loading: bool
+    pub button_is_loading: bool,
 }
 
 impl LoginState {
     pub fn new() -> Self {
-        Self { auth_rx: None, button_is_loading: false }
+        Self {
+            auth_rx: None,
+            button_is_loading: false,
+        }
     }
-    
+
     pub fn open_server(&mut self, cx: &mut Context<Self>, win: &mut Window) -> anyhow::Result<()> {
         let server = Server::http("127.0.0.1:2013").map_err(|err| anyhow!(err))?;
 
@@ -58,15 +69,14 @@ impl LoginState {
         };
         let al_client = cx.global::<AniList>().clone();
         let win_handle = win.window_handle();
-        
+
         cx.spawn(async move |this, cx| {
             if let Some(callback) = rx.next().await {
                 let fut = Tokio::spawn_result(cx, async move {
-                    let access_token = al_client
-                        .get_access_token(callback.code)
-                        .await?;
+                    let access_token = al_client.get_access_token(callback.code).await?;
                     Ok(access_token)
-                }).await;
+                })
+                .await;
 
                 match fut {
                     Ok(access_token) => {
@@ -81,13 +91,14 @@ impl LoginState {
                                 });
                             })
                         }
-                    },
+                    }
                     Err(err) => {
                         error!("{err}")
                     }
                 }
             }
-        }).detach();
+        })
+        .detach();
     }
 
     fn open_master_window(&self, cx: &mut Context<Self>) {

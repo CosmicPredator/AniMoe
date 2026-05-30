@@ -1,8 +1,9 @@
 use gpui::{
-    AppContext, Context, Entity, ParentElement, Render, SharedString, Styled, Window, div, img, px
+    AppContext, Context, Entity, ParentElement, Render, SharedString, Styled, Window, div, img, px,
 };
 use gpui_component::{
-    Icon, StyledExt, button::{Button, ButtonVariants}
+    Icon, StyledExt,
+    button::{Button, ButtonVariants},
 };
 
 use crate::{states::login::LoginState, utils::constants::AL_AUTH_URL};
@@ -17,7 +18,7 @@ impl LoginView {
         state.update(cx, |this, cx| {
             let _ = this.open_server(cx, win);
         });
-        
+
         Self { state }
     }
 }
@@ -40,12 +41,7 @@ impl Render for LoginView {
                     .items_center()
                     .gap_5()
                     .child(img("./assets/animoe.png").w(px(120.)).h(px(120.)))
-                    .child(
-                        div()
-                            .text_2xl()
-                            .font_semibold()
-                            .child("AniMoe for AniList")
-                    )
+                    .child(div().text_2xl().font_semibold().child("AniMoe for AniList"))
                     .child(
                         Button::new("login-btn")
                             .label("Login with AniList")
@@ -60,7 +56,7 @@ impl Render for LoginView {
                                     this.button_is_loading = true;
                                     cx.notify();
                                 })
-                            }))
+                            })),
                     ),
             )
     }

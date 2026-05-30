@@ -2,13 +2,15 @@
 
 use std::path::PathBuf;
 
-use gpui::{
-    App, SharedString,
-};
+use gpui::{App, SharedString};
 use gpui_component::{Theme, ThemeRegistry};
 use log::{debug, info};
 
-use crate::{anilist::client::AniList, assets::Assets, states::{login::open_login_window, master::open_master_window}};
+use crate::{
+    anilist::client::AniList,
+    assets::Assets,
+    states::{login::open_login_window, master::open_master_window},
+};
 
 mod anilist;
 mod assets;
@@ -45,7 +47,7 @@ fn run_app() {
             gpui_tokio::init(cx);
             gpui_component::init(cx);
             init_theme(cx);
-            
+
             let al_client = AniList::new().unwrap();
             cx.set_global(al_client);
 
@@ -54,7 +56,7 @@ fn run_app() {
             } else {
                 open_login_window(cx);
             }
-            
+
             cx.activate(true);
         });
 }
