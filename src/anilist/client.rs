@@ -34,11 +34,6 @@ impl Global for AniList {}
 impl AniList {
     pub fn new() -> anyhow::Result<Self> {
         debug!("initializing http client");
-        let access_token = env::var("AL_ACCESS_TOKEN");
-        if access_token.is_err() {
-            return Err(anyhow!("failed to fetch access token"));
-        }
-
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(10))
             .user_agent("AniMoe")
