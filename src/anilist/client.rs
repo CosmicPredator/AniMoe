@@ -65,7 +65,7 @@ impl AniList {
             let token_callback: AccessTokenCallback = serde_json::from_reader(reader)?;
             Ok(token_callback)
         } else {
-            return Err(anyhow!("failed to access config dir"));
+            Err(anyhow!("failed to access config dir"))
         }
     }
 
