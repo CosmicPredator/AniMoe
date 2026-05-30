@@ -1,7 +1,7 @@
 use std::cmp::Reverse;
 
 use gpui::{
-    AppContext, Context, Entity, SharedString, Subscription, UniformListScrollHandle, Window,
+    AppContext, ClipboardItem, Context, Entity, EventEmitter, SharedString, Subscription, UniformListScrollHandle, Window
 };
 use gpui_component::{
     input::{InputEvent, InputState},
@@ -15,6 +15,12 @@ use crate::{
     states::master::MasterState,
     utils::enums::MediaType,
 };
+
+pub enum MediaListStateEvent {
+    CopyLinkSuccess,
+    SaveCoverSuccess,
+    SaveCoverFailed(anyhow::Error),
+}
 
 pub struct MediaListState {
     master_state: Entity<MasterState>,
@@ -30,6 +36,8 @@ pub struct MediaListState {
     pub selected_list: Option<Vec<Entry>>,
     _subscriptions: Vec<Subscription>,
 }
+
+impl EventEmitter<MediaListStateEvent> for MediaListState {}
 
 impl MediaListState {
     pub fn new(
@@ -150,7 +158,7 @@ impl MediaListState {
                 Ok(_) => {
                     if let Some(state) = this.upgrade() {
                         state.update(cx, |this, cx| {
-                            this.master_state.update(cx, |this, _cx| {
+                            this.master_state.update(cx, |this, cx| {
                                 let _ = this
                                     .anime_list
                                     .as_mut()
@@ -159,14 +167,43 @@ impl MediaListState {
                                     .flat_map(|lists| lists.entries.iter_mut())
                                     .find(|e| e.media_id == media_id)
                                     .map(|entry| entry.progress = progress);
+
+                                cx.notify();
                             });
-                            cx.notify();
                         });
                     }
                 }
                 Err(err) => {
                     error!("error happened while updating list progress: {}", err);
                 }
+            }
+        })
+        .detach();
+    }
+
+    pub fn copy_link(&self, url: String, cx: &mut Context<Self>) {
+        cx.write_to_clipboard(ClipboardItem::new_string(url));
+        cx.emit(MediaListStateEvent::CopyLinkSuccess);
+        cx.notify();
+    }
+
+    pub fn save_cover_image(&self, url: String, cx: &mut Context<Self>) {
+        let al_client = cx.global::<AniList>().clone();
+
+        let fut = Tokio::spawn_result(cx, async move { al_client.save_image(url).await });
+
+        cx.spawn(async move |this, cx| {
+            let response = fut.await;
+            if let Some(this) = this.upgrade() {
+                this.update(cx, |_this, cx| {
+                    if let Err(err) = response {
+                        error!("{err:#}");
+                        cx.emit(MediaListStateEvent::SaveCoverFailed(err));
+                    } else {
+                        cx.emit(MediaListStateEvent::SaveCoverSuccess);
+                    }
+                    cx.notify();
+                })
             }
         })
         .detach();

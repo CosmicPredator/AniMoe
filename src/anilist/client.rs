@@ -1,4 +1,8 @@
-use std::{env, fs::File, io::BufReader, time::Duration};
+use std::{
+    fs::{self, File},
+    io::BufReader,
+    time::Duration,
+};
 
 use anyhow::{Context, anyhow};
 use gpui::Global;
@@ -132,6 +136,27 @@ impl AniList {
 
         let response = request.json::<AccessTokenCallback>().await?;
         Ok(response)
+    }
+
+    pub async fn save_image(&self, url: String) -> anyhow::Result<()> {
+        let image_name_split = url.split("/").last();
+
+        if let Some(pics_dir) = dirs::picture_dir() {
+            let image_file_path = pics_dir.join(image_name_split.unwrap_or("cover.jpg"));
+
+            let bytes = self
+                .client
+                .get(url)
+                .send()
+                .await
+                .with_context(|| "the provided URL is invalid")?
+                .error_for_status()?
+                .bytes()
+                .await?;
+
+            tokio::fs::write(image_file_path, bytes).await?;
+        }
+        Ok(())
     }
 
     pub async fn fetch_viewer(&mut self) -> anyhow::Result<ViewerResponse> {

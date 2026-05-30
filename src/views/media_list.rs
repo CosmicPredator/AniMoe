@@ -2,8 +2,8 @@ use std::{ops::Range, time::Duration};
 
 use gpui::{
     Animation, AnimationExt, App, AppContext, ClipboardItem, Context, Entity, InteractiveElement,
-    IntoElement, ParentElement, Render, SharedString, Styled, StyledImage, TextOverflow, Window,
-    div, img, prelude::FluentBuilder, px, uniform_list,
+    IntoElement, ParentElement, Render, SharedString, Styled, StyledImage, Subscription,
+    TextOverflow, Window, WindowKind::PopUp, div, img, prelude::FluentBuilder, px, uniform_list,
 };
 use gpui_component::{
     Disableable, Icon, Sizable, StyledExt, WindowExt,
@@ -20,7 +20,10 @@ use gpui_component::{
 
 use crate::{
     anilist::media_list::Entry,
-    states::{master::MasterState, media_list::MediaListState},
+    states::{
+        master::MasterState,
+        media_list::{MediaListState, MediaListStateEvent},
+    },
     utils::{
         image_cache::simple_lru_cache,
         network_image::{RemoteImage, RemoteImageLoader},
@@ -32,6 +35,7 @@ const CARD_GAP: f32 = 15.0;
 
 pub struct MediaListPage {
     state: Entity<MediaListState>,
+    _subscriptions: Vec<Subscription>,
 }
 
 impl MediaListPage {
@@ -40,7 +44,41 @@ impl MediaListPage {
             MediaListState::new(cx, window, entity, crate::utils::enums::MediaType::ANIME)
         });
 
-        Self { state: ml_state }
+        let mut subs = Vec::new();
+        subs.push(
+            cx.subscribe_in(&ml_state, window, |_, _, event, window, cx| match event {
+                MediaListStateEvent::SaveCoverFailed(err) => {
+                    let notification = Notification::new()
+                        .message(format!("Failed to save cover image. {err:#}"))
+                        .icon(Icon::empty().path("./assets/wrong.svg"))
+                        .autohide(true)
+                        .title("Error!");
+                    window.push_notification(notification, cx);
+                }
+                MediaListStateEvent::SaveCoverSuccess => {
+                    let notification = Notification::new()
+                        .message("Saved cover image to disk")
+                        .icon(Icon::empty().path("./assets/check.svg"))
+                        .autohide(true)
+                        .title("Success!");
+                    window.push_notification(notification, cx);
+                }
+                MediaListStateEvent::CopyLinkSuccess => {
+                    let notification = Notification::new()
+                        .message("Copied link to clipboard")
+                        .icon(Icon::empty().path("./assets/check.svg"))
+                        .autohide(true)
+                        .title("Success");
+                    window.push_notification(notification, cx);
+                }
+                _ => {}
+            }),
+        );
+
+        Self {
+            state: ml_state,
+            _subscriptions: subs,
+        }
     }
 }
 
@@ -73,19 +111,12 @@ impl MediaListPage {
             .h_flex()
             .justify_between()
             .child(
-                div()
-                    .h_flex()
-                    .gap_2()
-                    .child(
-                        Input::new(&state.search_input_state)
-                            .w(px(250.0))
-                            .cleanable(true),
-                    )
-                    .child(
-                        Button::new("search-btn")
-                            .icon(Icon::empty().path("./assets/search.svg"))
-                            .tooltip("Search"),
-                    ),
+                div().h_flex().gap_2().child(
+                    Input::new(&state.search_input_state)
+                        .w(px(250.0))
+                        .suffix(Icon::empty().path("./assets/search.svg"))
+                        .cleanable(true),
+                ),
             )
             .child(
                 div()
@@ -94,12 +125,15 @@ impl MediaListPage {
                     .child(
                         Select::new(&state.status_select_state)
                             .w(px(200.0))
+                            .icon(Icon::empty().path("./assets/chevron-down.svg"))
+                            .title_prefix("Status: ")
                             .placeholder("Select a status"),
                     )
                     .child(
                         Button::new("filter-btn")
                             .icon(Icon::empty().path("./assets/list-filter.svg"))
-                            .tooltip("Filter"),
+                            .tooltip("Filter - will be implemented soon")
+                            .disabled(true),
                     ),
             )
     }
@@ -121,11 +155,7 @@ impl MediaListPage {
                 .v_flex()
                 .justify_center()
                 .items_center()
-                .child(
-                    Spinner::new()
-                        .icon(Icon::empty().path("./assets/spinner.svg"))
-                        .with_size(px(30.)),
-                );
+                .child(Spinner::new().icon(Icon::empty().path("./assets/spinner.svg")));
         }
 
         let entries = anime_list.unwrap().clone();
@@ -190,6 +220,11 @@ fn media_card(
     let m_id = entry.media_id;
     let progress = entry.progress;
 
+    let state_ctx_save_img = state.clone();
+    let state_ctx_cpy_link = state.clone();
+    let state_btn = state.clone();
+    let img_url = cover_image_url.clone();
+
     div()
         .id(ix)
         .w(px(CARD_WIDTH))
@@ -206,6 +241,19 @@ fn media_card(
                         println!("Edit entry clicked");
                     }),
             )
+            .item(
+                PopupMenuItem::new("Save cover image")
+                    .icon(Icon::empty().path("./assets/save.svg"))
+                    .on_click({
+                        let state_clone = state_ctx_save_img.clone();
+                        let img_url = img_url.clone();
+                        move |_, _, cx| {
+                            state_clone.update(cx, |this, cx| {
+                                this.save_cover_image(img_url.to_string(), cx);
+                            });
+                        }
+                    }),
+            )
             .link_with_icon(
                 "Open in Browser",
                 Icon::empty().path("./assets/open.svg"),
@@ -214,15 +262,14 @@ fn media_card(
             .item(
                 PopupMenuItem::new("Copy Link")
                     .icon(Icon::empty().path("./assets/link.svg"))
-                    .on_click(move |_, win, cx| {
-                        let link = format!("https://anilist.co/anime/{}", m_id);
-                        cx.write_to_clipboard(ClipboardItem::new_string(link));
-                        let notification = Notification::new()
-                            .message("Copied link to clipboard")
-                            .icon(Icon::empty().path("./assets/check.svg"))
-                            .autohide(true)
-                            .title("Success");
-                        win.push_notification(notification, cx);
+                    .on_click({
+                        let state_clone = state_ctx_cpy_link.clone();
+                        move |_, _, cx| {
+                            let url = format!("https://anilist.co/anime/{}", m_id);
+                            state_clone.update(cx, |this, cx| {
+                                this.copy_link(url, cx);
+                            })
+                        }
                     }),
             )
         })
@@ -297,7 +344,7 @@ fn media_card(
                                     entry.media.episodes.unwrap_or(0)
                                 )))
                                 .on_click({
-                                    let state = state.clone();
+                                    let state = state_btn.clone();
                                     move |_, _, cx| {
                                         state.update(cx, |this, cx| {
                                             let prg = progress + 1;
