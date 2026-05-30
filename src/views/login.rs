@@ -1,10 +1,9 @@
 use gpui::{
-    App, AppContext, Bounds, Context, Entity, ParentElement, Render, SharedString, Styled, TitlebarOptions, WindowBounds, WindowOptions, div, img, px, size
+    AppContext, Context, Entity, ParentElement, Render, SharedString, Styled, Window, div, img, px
 };
 use gpui_component::{
-    Icon, Root, StyledExt, button::{Button, ButtonVariants}
+    Icon, StyledExt, button::{Button, ButtonVariants}
 };
-use log::debug;
 
 use crate::{states::login::LoginState, utils::constants::AL_AUTH_URL};
 
@@ -13,10 +12,10 @@ pub struct LoginView {
 }
 
 impl LoginView {
-    pub fn new(cx: &mut Context<Self>) -> Self {
+    pub fn new(cx: &mut Context<Self>, win: &mut Window) -> Self {
         let state = cx.new(|_| LoginState::new());
         state.update(cx, |this, cx| {
-            this.open_server(cx);
+            let _ = this.open_server(cx, win);
         });
         
         Self { state }

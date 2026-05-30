@@ -12,7 +12,7 @@ use serde_json::{Value, json};
 
 use crate::{
     anilist::{
-        access_token_callback::AccessTokenCallback,
+        token_callback::AccessTokenCallback,
         media_list::MediaListResponse,
         queries::{m_update_media_list, q_media_list, q_viewer},
         viewer::ViewerResponse,

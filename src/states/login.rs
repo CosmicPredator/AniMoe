@@ -1,12 +1,12 @@
 use anyhow::anyhow;
 use futures::{StreamExt, channel::mpsc};
-use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, WindowBounds, WindowOptions, px, size} ;
+use gpui::{App, AppContext, Bounds, Context, SharedString, TitlebarOptions, VisualContext, Window, WindowBounds, WindowOptions, px, size} ;
 use gpui_component::Root;
 use gpui_tokio::Tokio;
 use log::{debug, error, info};
 use tiny_http::{Response, Server};
 
-use crate::{anilist::{access_token_callback::AccessTokenCallback, client::AniList}, states::master::open_master_window, utils::constants::REDIRECT_URI, views::{login::LoginView, master::MasterView}};
+use crate::{anilist::{token_callback::AccessTokenCallback, client::AniList}, states::master::open_master_window, utils::constants::REDIRECT_URI, views::{login::LoginView, master::MasterView}};
 
 #[derive(Debug)]
 pub struct AuthCodeCallback {
@@ -23,7 +23,7 @@ impl LoginState {
         Self { auth_rx: None, button_is_loading: false }
     }
     
-    pub fn open_server(&mut self, cx: &mut Context<Self>) -> anyhow::Result<()> {
+    pub fn open_server(&mut self, cx: &mut Context<Self>, win: &mut Window) -> anyhow::Result<()> {
         let server = Server::http("127.0.0.1:2013").map_err(|err| anyhow!(err))?;
 
         let (tx, rx) = mpsc::unbounded();
@@ -47,32 +47,45 @@ impl LoginState {
         .detach();
 
         self.auth_rx = Some(rx);
-        self.handle_oauth_callback(cx);
+        self.handle_oauth_callback(cx, win);
 
         Ok(())
     }
 
-    fn handle_oauth_callback(&mut self, cx: &mut Context<Self>) {
+    fn handle_oauth_callback(&mut self, cx: &mut Context<Self>, win: &mut Window) {
         let Some(mut rx) = self.auth_rx.take() else {
             return;
         };
         let al_client = cx.global::<AniList>().clone();
-
+        let win_handle = win.window_handle();
+        
         cx.spawn(async move |this, cx| {
             if let Some(callback) = rx.next().await {
-                let access_token = al_client
-                    .get_access_token(callback.code)
-                    .await
-                    .expect("error while fetching token");
+                let fut = Tokio::spawn_result(cx, async move {
+                    let access_token = al_client
+                        .get_access_token(callback.code)
+                        .await?;
+                    Ok(access_token)
+                }).await;
 
-                if let Some(this) = this.upgrade() {
-                    this.update(cx, |this, cx| {
-                        this.save_access_token(access_token)
-                            .expect("failed saving access token");
-                        info!("saved access token");
-                        this.open_master_window(cx);
-                    })
-                } 
+                match fut {
+                    Ok(access_token) => {
+                        if let Some(this) = this.upgrade() {
+                            this.update(cx, |this, cx| {
+                                this.save_access_token(access_token)
+                                    .expect("failed saving access token");
+                                info!("saved access token");
+                                this.open_master_window(cx);
+                                let _ = win_handle.update(cx, |_, win, _| {
+                                    win.remove_window();
+                                });
+                            })
+                        }
+                    },
+                    Err(err) => {
+                        error!("{err}")
+                    }
+                }
             }
         }).detach();
     }
@@ -124,7 +137,7 @@ pub fn open_login_window(cx: &mut App) -> anyhow::Result<()> {
 
     cx.open_window(window_options, |window, cx| {
         debug!("opening login view window");
-        let login_view = cx.new(LoginView::new);
+        let login_view = cx.new(|cx| LoginView::new(cx, window));
         cx.new(|cx| Root::new(login_view, window, cx))
     })?;
     
