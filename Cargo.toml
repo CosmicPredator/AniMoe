@@ -3,6 +3,7 @@ name = "animoe"
 version = "0.0.1-alpha1"
 edition = "2024"
 authors = ["cosmicpredator@proton.me"]
+build = "build.rs"
 
 [dependencies]
 anyhow = "1.0.102"
