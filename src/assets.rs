@@ -1,22 +1,27 @@
 use gpui::{AssetSource, SharedString};
+use rust_embed::RustEmbed;
+use std::borrow::Cow;
+use anyhow::anyhow;
 
+#[derive(RustEmbed)]
+#[folder = "assets/"]
+#[include = "*"]
 pub struct Assets;
 
 impl AssetSource for Assets {
-    fn load(&self, path: &str) -> anyhow::Result<Option<std::borrow::Cow<'static, [u8]>>> {
-        std::fs::read(path)
-            .map(Into::into)
-            .map_err(Into::into)
-            .map(Some)
+    fn load(&self, path: &str) -> anyhow::Result<Option<Cow<'static, [u8]>>> {
+        if path.is_empty() {
+            return Ok(None);
+        }
+        
+        Self::get(path)
+            .map(|f| Some(f.data))
+            .ok_or_else(|| anyhow!("could not find asset at path \"{path}\""))
     }
 
     fn list(&self, path: &str) -> anyhow::Result<Vec<SharedString>> {
-        Ok(std::fs::read_dir(path)?
-            .filter_map(|entry| {
-                Some(SharedString::from(
-                    entry.ok()?.path().to_string_lossy().into_owned(),
-                ))
-            })
-            .collect::<Vec<_>>())
+        Ok(Self::iter()
+            .filter_map(|p| p.starts_with(path).then(|| p.into()))
+            .collect())
     }
 }

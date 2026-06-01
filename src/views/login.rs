@@ -40,14 +40,14 @@ impl Render for LoginView {
                     .v_flex()
                     .items_center()
                     .gap_5()
-                    .child(img("./assets/animoe.png").w(px(120.)).h(px(120.)))
+                    .child(img("animoe.png").w(px(120.)).h(px(120.)))
                     .child(div().text_2xl().font_semibold().child("AniMoe for AniList"))
                     .child(
                         Button::new("login-btn")
                             .label("Login with AniList")
                             .loading(state.button_is_loading)
                             .loading_icon(
-                                Icon::empty().path(SharedString::new("./assets/spinner.svg")),
+                                Icon::empty().path(SharedString::new("spinner.svg")),
                             )
                             .primary()
                             .on_click(cx.listener(|this, _, _, cx| {

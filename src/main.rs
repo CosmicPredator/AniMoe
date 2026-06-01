@@ -1,8 +1,7 @@
 #![windows_subsystem = "windows"]
 
-use std::path::PathBuf;
 
-use gpui::{App, SharedString};
+use gpui::App;
 use gpui_component::{Theme, ThemeRegistry};
 use log::{debug, info};
 
@@ -18,16 +17,19 @@ mod states;
 mod utils;
 mod views;
 
+const THEME_NAME: &str = "macOS Classic Dark";
+
 pub fn init_theme(cx: &mut App) {
-    let theme_name = SharedString::from("macOS Classic Dark");
-    // Load and watch themes from ./themes directory
-    if ThemeRegistry::watch_dir(PathBuf::from("./themes"), cx, move |cx| {
-        if let Some(theme) = ThemeRegistry::global(cx).themes().get(&theme_name).cloned() {
+    if let Some(theme_file) = Assets::get("macos.json")
+        && let Ok(json) = std::str::from_utf8(theme_file.data.as_ref())
+    {
+        let registry = ThemeRegistry::global_mut(cx);
+        let _ = registry.load_themes_from_str(json);
+    
+        if let Some(theme) = registry.themes().get(THEME_NAME).cloned() {
             Theme::global_mut(cx).apply_config(&theme);
         }
-    })
-    .is_err()
-    {}
+    }
 }
 
 fn is_token_exists() -> bool {

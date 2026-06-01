@@ -20,7 +20,7 @@ impl MasterView {
                         .child(
                             SidebarMenuItem::new("Home")
                                 .active(current_page == Page::Home)
-                                .icon(Icon::empty().path("./assets/house.svg"))
+                                .icon(Icon::empty().path("house.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Home);
@@ -29,7 +29,7 @@ impl MasterView {
                         )
                         .child(
                             SidebarMenuItem::new("Anime")
-                                .icon(Icon::empty().path("./assets/film.svg"))
+                                .icon(Icon::empty().path("film.svg"))
                                 .active(current_page == Page::Anime)
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
@@ -40,7 +40,7 @@ impl MasterView {
                         .child(
                             SidebarMenuItem::new("Manga")
                                 .active(current_page == Page::Manga)
-                                .icon(Icon::empty().path("./assets/book-copy.svg"))
+                                .icon(Icon::empty().path("book-copy.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Manga);
@@ -50,7 +50,7 @@ impl MasterView {
                         .child(
                             SidebarMenuItem::new("Explore")
                                 .active(current_page == Page::Explore)
-                                .icon(Icon::empty().path("./assets/blocks.svg"))
+                                .icon(Icon::empty().path("blocks.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Explore);
@@ -60,7 +60,7 @@ impl MasterView {
                         .child(
                             SidebarMenuItem::new("Notifications")
                                 .active(current_page == Page::Notifications)
-                                .icon(Icon::empty().path("./assets/bell.svg"))
+                                .icon(Icon::empty().path("bell.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Notifications);
@@ -70,7 +70,7 @@ impl MasterView {
                         .child(if let Some(ref viewer) = viewer.viewer {
                             SidebarMenuItem::new(viewer.name.clone())
                                 .active(current_page == Page::User)
-                                .icon(Icon::empty().path("./assets/user.svg"))
+                                .icon(Icon::empty().path("user.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::User);
@@ -79,7 +79,7 @@ impl MasterView {
                         } else {
                             SidebarMenuItem::new("Loading...")
                                 .active(current_page == Page::User)
-                                .icon(Icon::empty().path("./assets/user.svg"))
+                                .icon(Icon::empty().path("user.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::User);
@@ -89,7 +89,7 @@ impl MasterView {
                         .child(
                             SidebarMenuItem::new("Settings")
                                 .active(current_page == Page::Settings)
-                                .icon(Icon::empty().path("./assets/bolt.svg"))
+                                .icon(Icon::empty().path("bolt.svg"))
                                 .on_click(cx.listener(|this, _, _, cx| {
                                     this.state.update(cx, |this, cx| {
                                         this.change_page(cx, Page::Settings);
