@@ -21,6 +21,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pkg-config libfontconfig1-dev
+
+      - name: Add required secrets to repo
+        run: |
+          echo "${{ secrets.ANIMOE_CREDS }}" | base64 --decode > ${{ github.workspace }}/src/utils/constants.rs
       
       - name: Cargo Build
         run: cargo build --release
@@ -29,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v7.0.1
         with:
           name: animoe-x86_64-unknown-linux-gnu
-          path: target/release/animoe
+          path: ${{ github.workspace }}/target/release/animoe
