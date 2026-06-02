@@ -52,3 +52,33 @@ jobs:
         with:
           name: animoe-x86_64-unknown-linux-gnu
           path: ${{ github.workspace }}/target/release/animoe
+
+  build-windows:
+    name: Build (Windows x86_64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+  
+      - uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-cache-windows
+  
+      - name: Add required secrets to repo
+        run: |
+          [System.Convert]::FromBase64String("${{ secrets.ANIMOE_CREDS }}") | Set-Content -Path "${{ github.workspace }}\src\utils\constants.rs" -AsByteStream
+  
+      - name: Cargo Build
+        run: cargo build --release
+  
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: animoe-x86_64-pc-windows-msvc
+          path: ${{ github.workspace }}\target\release\animoe.exe
